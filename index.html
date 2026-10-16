@@ -18,7 +18,7 @@
   header{background:rgba(10,10,25,.7);backdrop-filter:blur(20px);
     padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;
     border-bottom:1px solid rgba(255,51,102,.3);position:sticky;top:0;z-index:100;
-    box-shadow:0 8px 32px rgba(0,0,0,.5)}
+    box-shadow:0 8px 32px rgba(0,0,0,.5);flex-wrap:wrap;gap:10px}
   header::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:2px;
     background:linear-gradient(90deg,transparent,#ff3366,#ffd700,#00d4ff,#ff3366,transparent);
     background-size:200% 100%;animation:shine 4s linear infinite}
@@ -39,6 +39,16 @@
     letter-spacing:1px;margin-left:10px;box-shadow:0 0 20px rgba(255,215,0,.6);
     animation:pulseGold 2s infinite}
   @keyframes pulseGold{0%,100%{box-shadow:0 0 20px rgba(255,215,0,.6)}50%{box-shadow:0 0 35px rgba(255,215,0,1)}}
+  .user-bar{display:flex;align-items:center;gap:10px;background:rgba(61,220,132,.15);
+    border:1px solid rgba(61,220,132,.3);padding:6px 14px;border-radius:30px;font-size:.8rem}
+  .user-bar i{color:#3ddc84}
+  .user-bar b{color:#3ddc84;font-weight:700;max-width:100px;overflow:hidden;
+    text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align:middle}
+  .logout-btn{background:rgba(255,51,102,.2);color:#ff99aa;border:1px solid rgba(255,51,102,.4);
+    padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;cursor:pointer;
+    transition:.3s;font-family:'Poppins',sans-serif}
+  .logout-btn:hover{background:#ff3366;color:#fff}
+
   main{max-width:1200px;margin:auto;padding:3rem 1.5rem;flex:1;width:100%;position:relative;z-index:1}
   .hero-title{text-align:center;margin-bottom:2.5rem}
   .hero-title h2{font-family:'Orbitron',sans-serif;font-size:2.2rem;font-weight:900;
@@ -51,8 +61,6 @@
     color:#3ddc84;padding:5px 14px;border-radius:20px;font-size:.75rem;font-weight:700;
     margin-top:.8rem;border:1px solid rgba(61,220,132,.3)}
   .sync-tag .dot{width:6px;height:6px;background:#3ddc84;border-radius:50%;box-shadow:0 0 8px #3ddc84;animation:pulse 1.5s infinite}
-  .sync-tag.off{background:rgba(255,51,102,.15);color:#ff99aa;border-color:rgba(255,51,102,.3)}
-  .sync-tag.off .dot{background:#ff3366;box-shadow:0 0 8px #ff3366}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .os-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:800px;margin:auto}
   .os-card{background:rgba(20,20,40,.6);backdrop-filter:blur(20px);
@@ -90,7 +98,6 @@
   .file-thumb{width:70px;height:70px;border-radius:18px;flex-shrink:0;
     overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.5);position:relative;
     display:flex;align-items:center;justify-content:center;transition:.3s}
-  .file:hover .file-thumb{transform:scale(1.05)}
   .file-thumb.ios-bg{background:linear-gradient(135deg,#1a1a2e,#2a2a4a);
     border:1px solid rgba(160,160,255,.3);color:#a0a0ff}
   .file-thumb.adr-bg{background:linear-gradient(135deg,#1a8a52,#3ddc84);
@@ -102,7 +109,9 @@
   .file-info .ver-tag{display:inline-block;background:rgba(255,51,102,.2);color:#ff99aa;
     padding:1px 8px;border-radius:8px;font-size:.7rem;font-weight:700;
     margin-left:6px;vertical-align:middle;border:1px solid rgba(255,51,102,.3)}
-  .file-info small{color:#8a8ab0;font-size:.82rem}
+  .file-info small{color:#8a8ab0;font-size:.82rem;display:block}
+  .file-info .stock{color:#ffd700;font-size:.75rem;font-weight:700;margin-top:3px;display:inline-block}
+  .file-info .stock.out{color:#ff3366}
   .file-size{color:#a0a0c0;font-size:.82rem;font-weight:600;white-space:nowrap;
     padding:4px 10px;background:rgba(255,255,255,.05);border-radius:10px;
     border:1px solid rgba(255,255,255,.08)}
@@ -112,10 +121,9 @@
     display:inline-flex;align-items:center;gap:6px;letter-spacing:.5px;
     box-shadow:0 8px 20px rgba(255,51,102,.4);position:relative;overflow:hidden;
     font-family:'Poppins',sans-serif}
-  .dl-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:.5s}
-  .dl-btn:hover::before{left:100%}
-  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,51,102,.6)}
+  .dl-btn:disabled{background:rgba(255,255,255,.1);color:#666;cursor:not-allowed;
+    box-shadow:none}
+  .dl-btn:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,51,102,.6)}
   .back{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);
     border:1px solid rgba(255,51,102,.3);color:#ff99aa;font-weight:700;cursor:pointer;
     font-size:.9rem;padding:9px 18px;border-radius:30px;margin-bottom:1.8rem;
@@ -150,7 +158,6 @@
   footer .badges span{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;
     color:#a0a0c0;background:rgba(255,255,255,.04);padding:6px 14px;border-radius:20px;
     border:1px solid rgba(255,255,255,.08);transition:.3s}
-  footer .badges span:hover{border-color:#ff3366;color:#fff;transform:translateY(-2px)}
   footer .badges i{color:#ffd700}
   footer .badges .green i{color:#3ddc84}
   footer .badges .blue i{color:#00d4ff}
@@ -159,6 +166,128 @@
   .star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;
     opacity:.6;animation:twinkle 3s infinite}
   @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1;box-shadow:0 0 6px #fff}}
+
+  /* ===== ĐĂNG NHẬP / ĐĂNG KÝ ===== */
+  .auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);
+    backdrop-filter:blur(20px);z-index:6000;display:flex;
+    align-items:center;justify-content:center;padding:1.5rem}
+  .auth-box{background:linear-gradient(145deg,#0a0a1e,#151530);
+    border:2px solid transparent;
+    background-image:linear-gradient(#0a0a1e,#151530),
+      linear-gradient(135deg,#a855f7,#00d4ff,#3ddc84,#ff3366);
+    background-origin:border-box;background-clip:padding-box,border-box;
+    border-radius:28px;padding:2.5rem 2rem;max-width:420px;width:100%;
+    text-align:center;box-shadow:0 30px 80px rgba(168,85,247,.5)}
+  .auth-box h2{font-family:'Orbitron',sans-serif;font-size:1.5rem;margin-bottom:.5rem;
+    background:linear-gradient(135deg,#fff,#ff99aa);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .auth-box p{color:#8a8ab0;font-size:.85rem;margin-bottom:1.5rem}
+  .auth-field{margin-bottom:1rem;text-align:left}
+  .auth-field label{font-size:.72rem;font-weight:700;color:#a0a0c0;
+    text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px}
+  .auth-field input{width:100%;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);border-radius:12px;
+    padding:12px 14px;color:#fff;font-size:.9rem;font-family:'Poppins',sans-serif;
+    transition:.3s;outline:none}
+  .auth-field input:focus{border-color:#ff3366;background:rgba(255,51,102,.08);
+    box-shadow:0 0 20px rgba(255,51,102,.3)}
+  .device-id-box{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.3);
+    border-radius:12px;padding:12px 14px;margin-bottom:1rem;
+    display:flex;align-items:center;gap:8px}
+  .device-id-box i{color:#00d4ff;font-size:1rem}
+  .device-id-box code{flex:1;color:#00d4ff;font-size:.75rem;font-weight:700;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    text-align:left;font-family:'Courier New',monospace}
+  .copy-btn{background:linear-gradient(135deg,#00d4ff,#3ddc84);
+    color:#05050f;border:none;padding:6px 12px;border-radius:20px;
+    font-weight:700;cursor:pointer;font-size:.72rem;transition:.3s;
+    font-family:'Poppins',sans-serif;display:inline-flex;align-items:center;gap:4px}
+  .copy-btn:hover{transform:scale(1.05)}
+  .auth-btn{width:100%;background:linear-gradient(135deg,#ff3366,#ff6b9d);
+    color:#fff;border:none;padding:14px;border-radius:30px;font-weight:800;
+    cursor:pointer;font-size:1rem;font-family:'Poppins',sans-serif;
+    box-shadow:0 10px 30px rgba(255,51,102,.5);transition:.3s;margin-top:.5rem}
+  .auth-btn:hover{transform:translateY(-2px)}
+  .auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .auth-toggle{color:#8a8ab0;font-size:.8rem;margin-top:1rem}
+  .auth-toggle a{color:#ff99aa;font-weight:700;cursor:pointer;text-decoration:underline}
+  .auth-error{color:#ff3366;font-size:.78rem;margin-top:.5rem;min-height:1em}
+
+  /* ===== POPUP TẠO MOD ===== */
+  .mod-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);
+    backdrop-filter:blur(15px);z-index:5000;display:none;
+    align-items:center;justify-content:center;padding:1.5rem}
+  .mod-overlay.show{display:flex}
+  .mod-box{background:linear-gradient(145deg,#0a0a1e,#151530);
+    border:2px solid transparent;
+    background-image:linear-gradient(#0a0a1e,#151530),
+      linear-gradient(135deg,#a855f7,#00d4ff,#3ddc84,#ff3366);
+    background-origin:border-box;background-clip:padding-box,border-box;
+    border-radius:28px;padding:2.5rem 2rem;max-width:420px;width:100%;
+    text-align:center;box-shadow:0 30px 80px rgba(168,85,247,.5);
+    animation:modPop .4s cubic-bezier(.2,.9,.3,1.2)}
+  @keyframes modPop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  .mod-spinner{position:relative;width:120px;height:120px;margin:0 auto 1.5rem}
+  .mod-spinner svg{width:100%;height:100%}
+  .mod-percent{position:absolute;inset:0;display:flex;align-items:center;
+    justify-content:center;font-family:'Orbitron',sans-serif;font-size:1.6rem;
+    font-weight:900;color:#fff;text-shadow:0 0 20px rgba(255,51,102,.8)}
+  .mod-title{font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:800;
+    margin-bottom:1.2rem;letter-spacing:1px;
+    background:linear-gradient(135deg,#fff,#ff99aa);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .mod-bar{width:100%;height:8px;background:rgba(255,255,255,.08);
+    border-radius:10px;overflow:hidden;margin-bottom:1rem}
+  .mod-bar-fill{height:100%;width:0%;
+    background:linear-gradient(90deg,#3ddc84,#00d4ff,#ff3366);
+    background-size:200% 100%;border-radius:10px;transition:width .3s ease;
+    animation:barShine 2s linear infinite}
+  @keyframes barShine{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+  .mod-status{color:#8a8ab0;font-size:.9rem;margin-bottom:1.5rem;
+    min-height:1.4em;font-weight:500}
+  .mod-actions{display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
+  .mod-cancel{background:rgba(255,255,255,.05);color:#a0a0c0;
+    border:1px solid rgba(255,255,255,.15);padding:12px 24px;border-radius:30px;
+    font-weight:700;cursor:pointer;font-size:.9rem;transition:.3s;
+    font-family:'Poppins',sans-serif}
+  .mod-cancel:hover{background:rgba(255,51,102,.2);color:#fff;border-color:#ff3366}
+  .mod-download{background:linear-gradient(135deg,#3ddc84,#00d4ff);color:#05050f;
+    border:none;padding:14px 24px;border-radius:30px;font-weight:800;
+    cursor:pointer;font-size:1rem;text-decoration:none;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    box-shadow:0 10px 30px rgba(61,220,132,.5);
+    animation:downloadPulse 1.5s ease-in-out infinite;
+    font-family:'Poppins',sans-serif}
+  @keyframes downloadPulse{0%,100%{box-shadow:0 10px 30px rgba(61,220,132,.5)}
+    50%{box-shadow:0 10px 40px rgba(61,220,132,.9)}}
+  .mod-promo{background:rgba(255,51,102,.08);
+    border:1px solid rgba(255,51,102,.25);border-radius:14px;padding:1rem}
+  .mod-promo-title{color:#a0a0c0;font-size:.72rem;font-weight:700;letter-spacing:1px}
+  .mod-promo-sub{color:#ff99aa;font-size:.85rem;font-weight:800;margin-top:4px}
+
+  /* ===== THÔNG BÁO ===== */
+  .notice-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);
+    backdrop-filter:blur(15px);z-index:7000;display:none;
+    align-items:center;justify-content:center;padding:1.5rem}
+  .notice-overlay.show{display:flex}
+  .notice-box{background:linear-gradient(145deg,#0a0a1e,#151530);
+    border:2px solid #ff3366;border-radius:24px;padding:2rem;
+    max-width:380px;width:100%;text-align:center;
+    box-shadow:0 30px 80px rgba(255,51,102,.5);
+    animation:modPop .4s cubic-bezier(.2,.9,.3,1.2)}
+  .notice-icon{font-size:3rem;color:#ff3366;margin-bottom:1rem;
+    animation:shake .5s ease-in-out}
+  @keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+  .notice-title{font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:800;
+    color:#fff;margin-bottom:.5rem}
+  .notice-text{color:#8a8ab0;font-size:.9rem;margin-bottom:1.5rem;line-height:1.6}
+  .notice-text b{color:#ff99aa;font-weight:700}
+  .notice-btn{background:linear-gradient(135deg,#ff3366,#ff6b9d);color:#fff;
+    border:none;padding:12px 30px;border-radius:30px;font-weight:700;
+    cursor:pointer;font-size:.9rem;font-family:'Poppins',sans-serif;
+    box-shadow:0 10px 30px rgba(255,51,102,.5);transition:.3s}
+  .notice-btn:hover{transform:translateY(-2px)}
+
   @media(max-width:500px){
     .os-grid{grid-template-columns:1fr;gap:1.2rem}
     header h1{font-size:1.05rem;letter-spacing:2px}
@@ -168,116 +297,22 @@
     .file-size,.dl-btn{font-size:.78rem}
     .file-thumb{width:60px;height:60px}
   }
-
-  /* ===== POPUP TẠO MOD ===== */
-  .mod-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,.88);
-    backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);
-    z-index:5000;display:none;align-items:center;justify-content:center;
-    padding:1.5rem;
-  }
-  .mod-overlay.show{display:flex}
-  .mod-box{
-    background:linear-gradient(145deg,#0a0a1e,#151530);
-    border:2px solid transparent;
-    background-image:linear-gradient(#0a0a1e,#151530),
-      linear-gradient(135deg,#a855f7,#00d4ff,#3ddc84,#ff3366);
-    background-origin:border-box;
-    background-clip:padding-box,border-box;
-    border-radius:28px;padding:2.5rem 2rem;
-    max-width:420px;width:100%;text-align:center;
-    box-shadow:0 30px 80px rgba(168,85,247,.5);
-    animation:modPop .4s cubic-bezier(.2,.9,.3,1.2);
-    position:relative;
-  }
-  @keyframes modPop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-
-  .mod-spinner{position:relative;width:120px;height:120px;margin:0 auto 1.5rem}
-  .mod-spinner svg{width:100%;height:100%}
-  .mod-spinner svg circle#progressRing{
-    transition:stroke-dashoffset .3s ease;
-  }
-  .mod-percent{
-    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    font-family:'Orbitron',sans-serif;font-size:1.6rem;font-weight:900;
-    color:#fff;text-shadow:0 0 20px rgba(255,51,102,.8);
-  }
-
-  .mod-title{
-    font-family:'Orbitron',sans-serif;font-size:1.5rem;font-weight:800;
-    margin-bottom:1.2rem;letter-spacing:1px;
-    background:linear-gradient(135deg,#fff,#ff99aa);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-    background-clip:text;
-  }
-  .mod-bar{
-    width:100%;height:8px;background:rgba(255,255,255,.08);
-    border-radius:10px;overflow:hidden;margin-bottom:1rem;
-  }
-  .mod-bar-fill{
-    height:100%;width:0%;
-    background:linear-gradient(90deg,#3ddc84,#00d4ff,#ff3366);
-    background-size:200% 100%;
-    border-radius:10px;transition:width .3s ease;
-    animation:barShine 2s linear infinite;
-  }
-  @keyframes barShine{0%{background-position:0% 50%}100%{background-position:200% 50%}}
-
-  .mod-status{
-    color:#8a8ab0;font-size:.9rem;margin-bottom:1.5rem;
-    min-height:1.4em;font-weight:500;
-  }
-
-  .mod-actions{display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem}
-  .mod-cancel{
-    background:rgba(255,255,255,.05);color:#a0a0c0;
-    border:1px solid rgba(255,255,255,.15);
-    padding:12px 24px;border-radius:30px;font-weight:700;
-    cursor:pointer;font-size:.9rem;transition:.3s;
-    font-family:'Poppins',sans-serif;
-  }
-  .mod-cancel:hover{background:rgba(255,51,102,.2);color:#fff;border-color:#ff3366}
-  .mod-download{
-    background:linear-gradient(135deg,#3ddc84,#00d4ff);color:#05050f;
-    border:none;padding:14px 24px;border-radius:30px;font-weight:800;
-    cursor:pointer;font-size:1rem;text-decoration:none;
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    box-shadow:0 10px 30px rgba(61,220,132,.5);
-    animation:downloadPulse 1.5s ease-in-out infinite;
-    font-family:'Poppins',sans-serif;
-  }
-  @keyframes downloadPulse{
-    0%,100%{box-shadow:0 10px 30px rgba(61,220,132,.5)}
-    50%{box-shadow:0 10px 40px rgba(61,220,132,.9)}
-  }
-  .mod-download:hover{transform:translateY(-2px)}
-
-  .mod-promo{
-    background:rgba(255,51,102,.08);border:1px solid rgba(255,51,102,.25);
-    border-radius:14px;padding:1rem;
-  }
-  .mod-promo-title{color:#a0a0c0;font-size:.72rem;font-weight:700;letter-spacing:1px}
-  .mod-promo-sub{color:#ff99aa;font-size:.85rem;font-weight:800;margin-top:4px}
-
-  @media(max-width:400px){
-    .mod-box{padding:2rem 1.2rem}
-    .mod-title{font-size:1.2rem}
-    .mod-spinner{width:100px;height:100px}
-    .mod-percent{font-size:1.3rem}
-  }
 </style>
 </head>
 <body>
 
 <div class="stars" id="stars"></div>
 
+<!-- HEADER -->
 <header>
   <div class="logo-wrap">
     <i class="fas fa-crown logo-crown"></i>
     <h1>SAMM <span>X</span> MOD <span class="vip-badge">👑 VIP</span></h1>
   </div>
+  <div id="userArea"></div>
 </header>
 
+<!-- MAIN -->
 <main>
   <section id="homePage">
     <div class="hero-title">
@@ -305,9 +340,7 @@
       <h2>📱 FILE IOS</h2>
       <p>Kho file MOD Free Fire cho iOS</p>
     </div>
-    <div class="file-list" id="iosList">
-      <div class="loading"><i class="fas fa-spinner"></i>Đang tải dữ liệu...</div>
-    </div>
+    <div class="file-list" id="iosList"><div class="loading"><i class="fas fa-spinner"></i>Đang tải...</div></div>
   </section>
 
   <section id="adrPage" class="hidden">
@@ -316,12 +349,11 @@
       <h2>🤖 FILE ANDROID</h2>
       <p>Kho file MOD Free Fire cho Android</p>
     </div>
-    <div class="file-list" id="adrList">
-      <div class="loading"><i class="fas fa-spinner"></i>Đang tải dữ liệu...</div>
-    </div>
+    <div class="file-list" id="adrList"><div class="loading"><i class="fas fa-spinner"></i>Đang tải...</div></div>
   </section>
 </main>
 
+<!-- FOOTER -->
 <footer>
   <div class="vip-line">
     <i class="fas fa-crown"></i>
@@ -340,6 +372,38 @@
   </div>
   <div class="copy">MADE WITH 💎 BY SAMM X MOD TEAM</div>
 </footer>
+
+<!-- ĐĂNG NHẬP / ĐĂNG KÝ -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <h2 id="authTitle">ĐĂNG NHẬP</h2>
+    <p id="authSubtitle">Nhập ID thiết bị để tiếp tục</p>
+
+    <div class="auth-field">
+      <label>Tên đăng nhập</label>
+      <input type="text" id="authUser" placeholder="Nhập tên của bạn..." autocomplete="off">
+    </div>
+
+    <div class="auth-field">
+      <label>Mật khẩu</label>
+      <input type="password" id="authPass" placeholder="Nhập mật khẩu..." autocomplete="off">
+    </div>
+
+    <div class="device-id-box">
+      <i class="fas fa-mobile-alt"></i>
+      <code id="deviceIdText">Đang tạo ID...</code>
+      <button class="copy-btn" id="copyDeviceBtn"><i class="fas fa-copy"></i> Copy</button>
+    </div>
+
+    <button class="auth-btn" id="authSubmit">ĐĂNG NHẬP</button>
+    <div class="auth-error" id="authError"></div>
+
+    <div class="auth-toggle">
+      <span id="authToggleText">Chưa có tài khoản?</span>
+      <a id="authToggleBtn">Đăng ký ngay</a>
+    </div>
+  </div>
+</div>
 
 <!-- POPUP TẠO MOD -->
 <div class="mod-overlay" id="modOverlay">
@@ -360,21 +424,15 @@
       </svg>
       <div class="mod-percent" id="modPercent">0%</div>
     </div>
-
     <h2 class="mod-title">Đang tạo file mod</h2>
-    <div class="mod-bar">
-      <div class="mod-bar-fill" id="modBarFill"></div>
-    </div>
-
+    <div class="mod-bar"><div class="mod-bar-fill" id="modBarFill"></div></div>
     <p class="mod-status" id="modStatus">Đang khởi tạo...</p>
-
     <div class="mod-actions">
       <button class="mod-cancel" id="modCancel">Hủy tạo file</button>
       <a class="mod-download" id="modDownload" href="#" target="_blank" rel="noopener" style="display:none">
         <i class="fas fa-download"></i> Tải xuống ngay
       </a>
     </div>
-
     <div class="mod-promo">
       <div class="mod-promo-title">NẾU BẠN THẤY 3 LƯỢT / NGÀY KHÔNG ĐỦ</div>
       <div class="mod-promo-sub">HÃY MUA NGAY LƯỢT MOD</div>
@@ -382,9 +440,21 @@
   </div>
 </div>
 
+<!-- POPUP THÔNG BÁO "ĐÃ CÓ NGƯỜI MUA" -->
+<div class="notice-overlay" id="noticeOverlay">
+  <div class="notice-box">
+    <div class="notice-icon"><i class="fas fa-exclamation-triangle"></i></div>
+    <div class="notice-title">FILE ĐÃ CÓ NGƯỜI MUA</div>
+    <div class="notice-text" id="noticeText">
+      File này vừa được <b>người dùng khác</b> mua. Vui lòng chọn file khác!
+    </div>
+    <button class="notice-btn" id="noticeClose">Đã hiểu</button>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue }
+import { getDatabase, ref, onValue, set, update, get, runTransaction }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -401,34 +471,201 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const DB_REF = ref(db, 'shopData');
+const USERS_REF = ref(db, 'users');
 
 let data = { ios: [], adr: [] };
+let currentUser = null;
+let deviceId = '';
 
-/* ========== LẮNG NGHE FIREBASE REALTIME ========== */
-onValue(DB_REF, (snapshot) => {
-  const val = snapshot.val();
-  if(val){
-    data = {
-      ios: val.ios || [],
-      adr: val.adr || []
-    };
-  } else {
-    data = { ios: [], adr: [] };
+/* ============================================================
+   TẠO / LẤY ID THIẾT BỊ
+============================================================ */
+function generateDeviceId(){
+  let id = localStorage.getItem('samm_device_id');
+  if(!id){
+    // Tạo ID ngẫu nhiên dạng: SAMM-XXXX-XXXX-XXXX
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let rand = '';
+    for(let i=0; i<12; i++){
+      if(i>0 && i%4===0) rand += '-';
+      rand += chars[Math.floor(Math.random()*chars.length)];
+    }
+    id = 'SAMM-' + rand;
+    localStorage.setItem('samm_device_id', id);
   }
-  
-  const tag = document.getElementById('syncTag');
-  document.getElementById('syncText').textContent = 'Đồng bộ trực tuyến';
-  tag.classList.remove('off');
-  
-  renderFiles();
-}, (error) => {
-  const tag = document.getElementById('syncTag');
-  tag.classList.add('off');
-  document.getElementById('syncText').textContent = 'Mất kết nối';
-  console.error(error);
+  return id;
+}
+
+deviceId = generateDeviceId();
+document.getElementById('deviceIdText').textContent = deviceId;
+
+// Nút copy ID thiết bị
+document.getElementById('copyDeviceBtn').addEventListener('click', function(){
+  const txt = deviceId;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(txt).then(() => {
+      this.innerHTML = '<i class="fas fa-check"></i> Đã copy';
+      setTimeout(() => {
+        this.innerHTML = '<i class="fas fa-copy"></i> Copy';
+      }, 1500);
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    this.innerHTML = '<i class="fas fa-check"></i> Đã copy';
+    setTimeout(() => {
+      this.innerHTML = '<i class="fas fa-copy"></i> Copy';
+    }, 1500);
+  }
 });
 
-/* ========== RENDER ========== */
+/* ============================================================
+   ĐĂNG NHẬP / ĐĂNG KÝ
+============================================================ */
+let isLoginMode = true;
+const authOverlay = document.getElementById('authOverlay');
+const authTitle = document.getElementById('authTitle');
+const authSubtitle = document.getElementById('authSubtitle');
+const authToggleText = document.getElementById('authToggleText');
+const authToggleBtn = document.getElementById('authToggleBtn');
+const authSubmit = document.getElementById('authSubmit');
+const authError = document.getElementById('authError');
+
+authToggleBtn.addEventListener('click', function(){
+  isLoginMode = !isLoginMode;
+  if(isLoginMode){
+    authTitle.textContent = 'ĐĂNG NHẬP';
+    authSubtitle.textContent = 'Nhập ID thiết bị để tiếp tục';
+    authSubmit.textContent = 'ĐĂNG NHẬP';
+    authToggleText.textContent = 'Chưa có tài khoản?';
+    authToggleBtn.textContent = 'Đăng ký ngay';
+  } else {
+    authTitle.textContent = 'ĐĂNG KÝ';
+    authSubtitle.textContent = 'Tạo tài khoản với ID thiết bị của bạn';
+    authSubmit.textContent = 'ĐĂNG KÝ';
+    authToggleText.textContent = 'Đã có tài khoản?';
+    authToggleBtn.textContent = 'Đăng nhập';
+  }
+  authError.textContent = '';
+});
+
+authSubmit.addEventListener('click', async function(){
+  const username = document.getElementById('authUser').value.trim();
+  const password = document.getElementById('authPass').value.trim();
+  
+  if(!username || !password){
+    authError.textContent = 'Vui lòng nhập đầy đủ thông tin!';
+    return;
+  }
+  
+  authSubmit.disabled = true;
+  authSubmit.textContent = 'Đang xử lý...';
+  
+  try {
+    const userRef = ref(db, 'users/' + username);
+    const snapshot = await get(userRef);
+    
+    if(isLoginMode){
+      // ĐĂNG NHẬP
+      if(!snapshot.exists()){
+        authError.textContent = 'Tài khoản không tồn tại!';
+        return;
+      }
+      const userData = snapshot.val();
+      if(userData.password !== password){
+        authError.textContent = 'Sai mật khẩu!';
+        return;
+      }
+      // Lưu thiết bị vào danh sách
+      const devices = userData.devices || {};
+      devices[deviceId] = Date.now();
+      await update(userRef, { devices });
+      
+      currentUser = username;
+      localStorage.setItem('samm_current_user', username);
+      loginSuccess();
+      
+    } else {
+      // ĐĂNG KÝ
+      if(snapshot.exists()){
+        authError.textContent = 'Tên đăng nhập đã tồn tại!';
+        return;
+      }
+      await set(userRef, {
+        password: password,
+        createdAt: Date.now(),
+        devices: { [deviceId]: Date.now() }
+      });
+      currentUser = username;
+      localStorage.setItem('samm_current_user', username);
+      loginSuccess();
+    }
+  } catch(e){
+    authError.textContent = 'Lỗi: ' + e.message;
+  } finally {
+    authSubmit.disabled = false;
+    authSubmit.textContent = isLoginMode ? 'ĐĂNG NHẬP' : 'ĐĂNG KÝ';
+  }
+});
+
+function loginSuccess(){
+  authOverlay.style.display = 'none';
+  renderUserBar();
+  // Đăng ký ID thiết bị vào danh sách online
+  markDeviceOnline();
+  startListening();
+}
+
+function renderUserBar(){
+  const userArea = document.getElementById('userArea');
+  if(currentUser){
+    userArea.innerHTML = `
+      <div class="user-bar">
+        <i class="fas fa-user-check"></i>
+        <b>${currentUser}</b>
+        <button class="logout-btn" id="logoutBtn">Thoát</button>
+      </div>
+    `;
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+  } else {
+    userArea.innerHTML = '';
+  }
+}
+
+function logout(){
+  localStorage.removeItem('samm_current_user');
+  currentUser = null;
+  location.reload();
+}
+
+/* ============================================================
+   LẮNG NGHE FIREBASE
+============================================================ */
+let unsub = null;
+function startListening(){
+  if(unsub) unsub();
+  unsub = onValue(DB_REF, (snapshot) => {
+    const val = snapshot.val();
+    if(val){
+      data = { ios: val.ios || [], adr: val.adr || [] };
+    } else {
+      data = { ios: [], adr: [] };
+    }
+    document.getElementById('syncText').textContent = 'Đồng bộ trực tuyến';
+    renderFiles();
+  }, (error) => {
+    document.getElementById('syncText').textContent = 'Mất kết nối';
+    console.error(error);
+  });
+}
+
+/* ============================================================
+   RENDER FILE + SỐ LƯỢNG
+============================================================ */
 function renderFiles(){
   ['ios','adr'].forEach(os => {
     const box = document.getElementById(os + 'List');
@@ -442,17 +679,22 @@ function renderFiles(){
         ? `<img src="${f.image}" alt="${f.name}">`
         : `<i class="fas ${f.icon||'fa-file'}"></i>`;
       
+      // Số lượng còn lại (mặc định 10 nếu chưa set)
+      const stock = f.stock !== undefined ? f.stock : 10;
+      const stockClass = stock > 0 ? 'stock' : 'stock out';
+      const stockText = stock > 0 ? `📦 Còn lại: ${stock}` : '❌ Hết hàng';
+      const disabled = stock <= 0 ? 'disabled' : '';
+      
       return `
         <div class="file">
-          <div class="file-thumb ${os}-bg">
-            ${thumbContent}
-          </div>
+          <div class="file-thumb ${os}-bg">${thumbContent}</div>
           <div class="file-info">
             <b>${f.name||'(chưa có tên)'}<span class="ver-tag">${f.ver||'v1.0'}</span></b>
             <small>${f.desc||'Không có mô tả'}</small>
+            <span class="${stockClass}">${stockText}</span>
           </div>
           <div class="file-size">${f.size||'0 MB'}</div>
-          <button class="dl-btn" data-link="${f.link||'#'}" data-name="${f.name||'MOD'}">
+          <button class="dl-btn" data-id="${f.id}" data-os="${os}" ${disabled}>
             <i class="fas fa-download"></i> Tải
           </button>
         </div>
@@ -461,7 +703,191 @@ function renderFiles(){
   });
 }
 
-/* ========== ĐIỀU HƯỚNG ========== */
+/* ============================================================
+   TẢI FILE — TRỪ SỐ LƯỢNG + KIỂM TRA NGƯỜI MUA
+============================================================ */
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('.dl-btn');
+  if(!btn || btn.disabled) return;
+  e.preventDefault();
+  
+  const fileId = btn.dataset.id;
+  const os = btn.dataset.os;
+  
+  if(!currentUser){
+    alert('Vui lòng đăng nhập!');
+    return;
+  }
+  
+  const file = (data[os] || []).find(f => f.id === fileId);
+  if(!file){
+    alert('Không tìm thấy file!');
+    return;
+  }
+  
+  const stock = file.stock !== undefined ? file.stock : 10;
+  if(stock <= 0){
+    alert('File đã hết hàng!');
+    return;
+  }
+  
+  // Kiểm tra file đã có người mua chưa
+  checkAndBuyFile(os, fileId, file);
+});
+
+async function checkAndBuyFile(os, fileId, file){
+  // Kiểm tra xem file này đã có ai mua chưa
+  const purchasesRef = ref(db, 'purchases/' + fileId);
+  const snap = await get(purchasesRef);
+  
+  const purchases = snap.exists() ? snap.val() : {};
+  const buyerDevices = Object.keys(purchases);
+  
+  // Nếu đã có người khác mua (không phải thiết bị này)
+  const otherBuyer = buyerDevices.find(d => d !== deviceId);
+  
+  if(otherBuyer){
+    // Hiện thông báo "đã có người mua"
+    document.getElementById('noticeText').innerHTML = 
+      `File này vừa được <b>thiết bị khác</b> mua. Vui lòng chọn file khác!`;
+    document.getElementById('noticeOverlay').classList.add('show');
+    return;
+  }
+  
+  // Nếu đã mua rồi trên chính thiết bị này
+  if(purchases[deviceId]){
+    // Cho phép tải lại (không trừ số lượng nữa)
+    startModGeneration(file.link);
+    return;
+  }
+  
+  // Bắt đầu tải + trừ số lượng
+  startModGeneration(file.link, os, fileId);
+}
+
+/* ============================================================
+   POPUP TẠO MOD
+============================================================ */
+const modOverlay = document.getElementById('modOverlay');
+const modPercent = document.getElementById('modPercent');
+const modBarFill = document.getElementById('modBarFill');
+const modStatus = document.getElementById('modStatus');
+const modDownload = document.getElementById('modDownload');
+const modCancel = document.getElementById('modCancel');
+const progressRing = document.getElementById('progressRing');
+
+let modTimer = null;
+let currentModLink = '';
+let currentOs = '';
+let currentFileId = '';
+
+const statusSteps = [
+  { at: 0,  text: 'Đang khởi tạo...' },
+  { at: 10, text: 'Đang đọc dữ liệu mod...' },
+  { at: 25, text: 'Đang tạo MOD...' },
+  { at: 45, text: 'Đang nén file...' },
+  { at: 65, text: 'Đang kiểm tra bảo mật...' },
+  { at: 82, text: 'Đang tối ưu hóa...' },
+  { at: 95, text: 'Hoàn tất! Đang chuẩn bị link...' },
+  { at: 100,text: 'Xong! Bạn có thể tải ngay.' }
+];
+
+function startModGeneration(link, os, fileId){
+  currentModLink = link || '#';
+  currentOs = os || '';
+  currentFileId = fileId || '';
+  
+  modPercent.textContent = '0%';
+  modBarFill.style.width = '0%';
+  modStatus.textContent = 'Đang khởi tạo...';
+  modDownload.style.display = 'none';
+  modCancel.style.display = 'block';
+  progressRing.style.strokeDashoffset = 251;
+  
+  modOverlay.classList.add('show');
+  
+  // 30-60 giây
+  const totalDuration = 30000 + Math.random() * 30000;
+  const startTime = Date.now();
+  
+  modTimer = setInterval(() => {
+    const elapsed = Date.now() - startTime;
+    let percent = Math.min(100, (elapsed / totalDuration) * 100);
+    
+    // Giật cục
+    if(percent > 38 && percent < 45) percent = 38 + (percent - 38) * 0.3;
+    if(percent > 62 && percent < 70) percent = 62 + (percent - 62) * 0.3;
+    if(percent > 82 && percent < 90) percent = 82 + (percent - 82) * 0.3;
+    
+    const p = Math.floor(percent);
+    modPercent.textContent = p + '%';
+    modBarFill.style.width = p + '%';
+    progressRing.style.strokeDashoffset = 251 - (251 * percent / 100);
+    
+    let txt = statusSteps[0].text;
+    for(const s of statusSteps){ if(p >= s.at) txt = s.text; }
+    modStatus.textContent = txt;
+    
+    if(percent >= 100){
+      clearInterval(modTimer);
+      modTimer = null;
+      finishModGeneration();
+    }
+  }, 150);
+}
+
+async function finishModGeneration(){
+  modPercent.textContent = '100%';
+  modBarFill.style.width = '100%';
+  progressRing.style.strokeDashoffset = 0;
+  modStatus.textContent = '✅ File MOD đã sẵn sàng!';
+  
+  modCancel.style.display = 'none';
+  modDownload.style.display = 'inline-flex';
+  modDownload.href = currentModLink;
+  
+  // TRỪ SỐ LƯỢNG + ĐÁNH DẤU ĐÃ MUA
+  if(currentOs && currentFileId){
+    await reduceStock(currentOs, currentFileId);
+    await markPurchased(currentFileId);
+  }
+}
+
+async function reduceStock(os, fileId){
+  const list = data[os] || [];
+  const item = list.find(f => f.id === fileId);
+  if(!item) return;
+  
+  const currentStock = item.stock !== undefined ? item.stock : 10;
+  if(currentStock <= 0) return;
+  
+  // Cập nhật stock
+  const stockRef = ref(db, `shopData/${os}`);
+  const snap = await get(stockRef);
+  const arr = snap.val() || [];
+  const idx = arr.findIndex(f => f.id === fileId);
+  if(idx >= 0){
+    arr[idx].stock = currentStock - 1;
+    await set(stockRef, arr);
+  }
+}
+
+async function markPurchased(fileId){
+  const purchaseRef = ref(db, `purchases/${fileId}/${deviceId}`);
+  await set(purchaseRef, {
+    user: currentUser,
+    time: Date.now()
+  });
+}
+
+modCancel.addEventListener('click', function(){
+  if(modTimer){ clearInterval(modTimer); modTimer = null; }
+  modOverlay.classList.remove('show');
+});
+
+/* ============================================================
+   ĐIỀU HƯỚNG
+============================================================ */
 function openOS(os){
   document.getElementById('homePage').classList.add('hidden');
   document.getElementById('iosPage').classList.toggle('hidden', os !== 'ios');
@@ -484,114 +910,39 @@ document.querySelectorAll('[data-back]').forEach(b => {
 });
 
 /* ============================================================
-   POPUP TẠO MOD — Đợi 3-5 phút rồi cho tải
+   NÚT ĐÓNG THÔNG BÁO
 ============================================================ */
-const modOverlay = document.getElementById('modOverlay');
-const modPercent = document.getElementById('modPercent');
-const modBarFill = document.getElementById('modBarFill');
-const modStatus = document.getElementById('modStatus');
-const modDownload = document.getElementById('modDownload');
-const modCancel = document.getElementById('modCancel');
-const progressRing = document.getElementById('progressRing');
-
-let modTimer = null;
-let currentModLink = '';
-
-// Các bước trạng thái
-const statusSteps = [
-  { at: 0,  text: 'Đang khởi tạo...' },
-  { at: 10, text: 'Đang đọc dữ liệu mod...' },
-  { at: 25, text: 'Đang tạo MOD...' },
-  { at: 45, text: 'Đang nén file...' },
-  { at: 65, text: 'Đang kiểm tra bảo mật...' },
-  { at: 82, text: 'Đang tối ưu hóa...' },
-  { at: 95, text: 'Hoàn tất! Đang chuẩn bị link...' },
-  { at: 100,text: 'Xong! Bạn có thể tải ngay.' }
-];
-
-// Bắt sự kiện click nút tải
-document.addEventListener('click', function(e){
-  const btn = e.target.closest('.dl-btn');
-  if(!btn) return;
-  e.preventDefault();
-  
-  currentModLink = btn.dataset.link || '#';
-  
-  startModGeneration();
+document.getElementById('noticeClose').addEventListener('click', function(){
+  document.getElementById('noticeOverlay').classList.remove('show');
 });
 
-function startModGeneration(){
-  // Reset UI
-  modPercent.textContent = '0%';
-  modBarFill.style.width = '0%';
-  modStatus.textContent = 'Đang khởi tạo...';
-  modDownload.style.display = 'none';
-  modCancel.style.display = 'block';
-  progressRing.style.strokeDashoffset = 251;
-  
-  // Mở popup
-  modOverlay.classList.add('show');
-  
-  // Thời gian ngẫu nhiên 3-5 phút (180-300 giây)
-  const totalDuration = 180000 + Math.random() * 120000;
-  const startTime = Date.now();
-  
-  // Cập nhật mỗi 200ms
-  modTimer = setInterval(() => {
-    const elapsed = Date.now() - startTime;
-    let percent = Math.min(100, (elapsed / totalDuration) * 100);
-    
-    // Làm % chạy giật cục cho tự nhiên — đứng lâu ở 40%, 65%, 85%
-    if(percent > 38 && percent < 45) percent = 38 + (percent - 38) * 0.3;
-    if(percent > 62 && percent < 70) percent = 62 + (percent - 62) * 0.3;
-    if(percent > 82 && percent < 90) percent = 82 + (percent - 82) * 0.3;
-    
-    const displayPercent = Math.floor(percent);
-    
-    modPercent.textContent = displayPercent + '%';
-    modBarFill.style.width = displayPercent + '%';
-    
-    // Vòng tròn
-    const offset = 251 - (251 * percent / 100);
-    progressRing.style.strokeDashoffset = offset;
-    
-    // Trạng thái
-    let statusText = statusSteps[0].text;
-    for(const step of statusSteps){
-      if(displayPercent >= step.at) statusText = step.text;
-    }
-    modStatus.textContent = statusText;
-    
-    // Hoàn tất
-    if(percent >= 100){
-      clearInterval(modTimer);
-      modTimer = null;
-      finishModGeneration();
-    }
-  }, 200);
+/* ============================================================
+   ĐÁNH DẤU THIẾT BỊ ONLINE + LẮNG NGHE MUA
+============================================================ */
+function markDeviceOnline(){
+  if(!currentUser) return;
+  const onlineRef = ref(db, `online/${deviceId}`);
+  set(onlineRef, { user: currentUser, time: Date.now() });
 }
 
-function finishModGeneration(){
-  modPercent.textContent = '100%';
-  modBarFill.style.width = '100%';
-  progressRing.style.strokeDashoffset = 0;
-  modStatus.textContent = '✅ File MOD đã sẵn sàng!';
-  
-  modCancel.style.display = 'none';
-  modDownload.style.display = 'inline-flex';
-  modDownload.href = currentModLink;
-}
-
-// Nút hủy
-modCancel.addEventListener('click', function(){
-  if(modTimer){
-    clearInterval(modTimer);
-    modTimer = null;
-  }
-  modOverlay.classList.remove('show');
+// Lắng nghe thông báo mua real-time
+const purchasesNotifyRef = ref(db, 'purchases');
+onValue(purchasesNotifyRef, (snapshot) => {
+  // Có thể thêm logic thông báo realtime nếu muốn
 });
 
-/* ========== SAO LẤP LÁNH ========== */
+/* ============================================================
+   KIỂM TRA ĐĂNG NHẬP CŨ
+============================================================ */
+const savedUser = localStorage.getItem('samm_current_user');
+if(savedUser){
+  currentUser = savedUser;
+  loginSuccess();
+} else {
+  authOverlay.style.display = 'flex';
+}
+
+/* ========== SAO ========== */
 (function(){
   const box = document.getElementById('stars');
   for(let i=0;i<60;i++){
