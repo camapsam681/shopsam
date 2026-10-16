@@ -137,6 +137,15 @@
     display:inline-flex;align-items:center;gap:4px;margin-top:3px;
     max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .item-info a:hover{text-decoration:underline}
+  /* BADGE SỐ LƯỢNG */
+  .stock-badge{
+    display:inline-flex;align-items:center;gap:4px;
+    background:rgba(255,215,0,.15);color:#ffd700;
+    padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:800;
+    border:1px solid rgba(255,215,0,.4);margin-top:4px;
+  }
+  .stock-badge.out{background:rgba(255,51,102,.15);color:#ff3366;
+    border-color:rgba(255,51,102,.4)}
   .item-actions{display:flex;gap:8px;flex-shrink:0}
   .icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.1);
     background:rgba(255,255,255,.05);color:#a0a0c0;cursor:pointer;
@@ -147,6 +156,7 @@
   .icon-btn.edit:hover:not(:disabled){background:#00d4ff;color:#05050f;border-color:#00d4ff}
   .icon-btn.delete:hover:not(:disabled){background:#ff3366;color:#fff;border-color:#ff3366}
   .icon-btn.up:hover:not(:disabled),.icon-btn.down:hover:not(:disabled){background:#ffd700;color:#05050f;border-color:#ffd700}
+  .icon-btn.stock:hover:not(:disabled){background:#ffd700;color:#05050f;border-color:#ffd700}
   .empty{text-align:center;padding:3rem 1rem;color:#555;
     background:rgba(20,20,40,.4);border-radius:16px;
     border:1px dashed rgba(255,255,255,.1)}
@@ -161,11 +171,36 @@
     display:flex;align-items:center;gap:10px;max-width:90vw;text-align:center}
   .toast.show{transform:translateX(-50%) translateY(0)}
   .toast.success{background:linear-gradient(135deg,#3ddc84,#00d4ff);color:#05050f}
+  /* MODAL SỐ LƯỢNG NHANH */
+  .stock-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);
+    backdrop-filter:blur(10px);z-index:3000;display:none;
+    align-items:center;justify-content:center;padding:1.5rem}
+  .stock-modal.show{display:flex}
+  .stock-modal-box{background:linear-gradient(145deg,#0a0a1e,#151530);
+    border:2px solid #ffd700;border-radius:24px;padding:2rem;max-width:360px;width:100%;
+    text-align:center;box-shadow:0 30px 80px rgba(255,215,0,.4);
+    animation:modPop .3s cubic-bezier(.2,.9,.3,1.2)}
+  @keyframes modPop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  .stock-modal h3{font-family:'Orbitron',sans-serif;font-size:1.2rem;
+    color:#ffd700;margin-bottom:1.5rem;display:flex;align-items:center;
+    justify-content:center;gap:8px}
+  .stock-input-wrap{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
+  .stock-input-wrap button{width:44px;height:44px;border-radius:50%;border:2px solid #ffd700;
+    background:rgba(255,215,0,.1);color:#ffd700;font-size:1.3rem;font-weight:800;
+    cursor:pointer;transition:.3s}
+  .stock-input-wrap button:hover{background:#ffd700;color:#05050f}
+  .stock-input-wrap input{flex:1;background:rgba(255,255,255,.05);
+    border:2px solid rgba(255,215,0,.3);border-radius:14px;
+    padding:12px;color:#fff;font-size:1.3rem;font-weight:800;
+    text-align:center;font-family:'Orbitron',sans-serif;outline:none}
+  .stock-input-wrap input:focus{border-color:#ffd700}
+  .stock-modal-actions{display:flex;gap:10px;justify-content:center}
   @media(max-width:600px){
     .logo h1{font-size:1rem}.admin-badge{font-size:.6rem;padding:3px 8px}
     header{padding:1rem}.btn-export,.btn-reset{padding:8px 14px;font-size:.75rem}
     main{padding:1.5rem 1rem}.item-row{flex-wrap:wrap}.item-info{width:100%}
     .form-grid{grid-template-columns:1fr}
+    .item-actions{width:100%;justify-content:flex-end}
   }
 </style>
 </head>
@@ -185,7 +220,7 @@
 <main>
   <div class="title-bar">
     <h2>BẢNG ĐIỀU KHIỂN ADMIN</h2>
-    <p>Quản lý file — Mọi thay đổi đồng bộ toàn cầu qua Firebase</p>
+    <p>Quản lý file — Đồng bộ toàn cầu qua Firebase</p>
   </div>
   <div class="sync-info">
     <span class="sync-dot" id="syncDot"></span>
@@ -210,6 +245,8 @@
         <input type="text" id="fVer" placeholder="VD: v1.0"></div>
       <div class="field"><label>Dung lượng</label>
         <input type="text" id="fSize" placeholder="VD: 25 MB"></div>
+      <div class="field"><label>Số lượng 📦</label>
+        <input type="number" id="fStock" placeholder="VD: 10" value="10" min="0"></div>
       <div class="field"><label>Icon dự phòng (FontAwesome)</label>
         <input type="text" id="fIcon" placeholder="VD: fa-file"></div>
       <div class="field full"><label>Mô tả</label>
@@ -250,11 +287,29 @@
   </div>
 </main>
 
+<!-- MODAL SỐ LƯỢNG NHANH -->
+<div class="stock-modal" id="stockModal">
+  <div class="stock-modal-box">
+    <h3><i class="fas fa-boxes"></i> TÙY CHỈNH SỐ LƯỢNG</h3>
+    <div class="stock-input-wrap">
+      <button id="stockMinus">−</button>
+      <input type="number" id="stockInput" value="10" min="0">
+      <button id="stockPlus">+</button>
+    </div>
+    <div class="stock-modal-actions">
+      <button class="btn-secondary" id="stockCancel">Hủy</button>
+      <button class="btn-primary" id="stockSave">
+        <i class="fas fa-check"></i> Lưu
+      </button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastText">Thành công</span></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, set, get, child }
+import { getDatabase, ref, onValue, set }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -276,15 +331,13 @@ let data = { ios: [], adr: [] };
 let currentOS = 'ios';
 let editingId = null;
 let currentImageData = null;
+let editingStockId = null;
 
-/* ========== LẮNG NGHE FIREBASE REALTIME ========== */
+/* ========== LẮNG NGHE FIREBASE ========== */
 onValue(DB_REF, (snapshot) => {
   const val = snapshot.val();
   if(val){
-    data = {
-      ios: val.ios || [],
-      adr: val.adr || []
-    };
+    data = { ios: val.ios || [], adr: val.adr || [] };
   } else {
     data = { ios: [], adr: [] };
   }
@@ -306,18 +359,17 @@ function updateSyncStatus(ok, msg){
   }
 }
 
-/* ========== LƯU LÊN FIREBASE ========== */
 async function pushToFirebase(){
-  try{
+  try {
     await set(DB_REF, data);
     return true;
-  }catch(e){
+  } catch(e){
     toast('Lỗi lưu Firebase: ' + e.message, false);
     return false;
   }
 }
 
-/* ========== RENDER ========== */
+/* ========== TAB ========== */
 function switchTab(os){
   currentOS = os;
   document.getElementById('tab-ios').classList.toggle('active', os==='ios');
@@ -328,6 +380,7 @@ function switchTab(os){
   render();
 }
 
+/* ========== RENDER ========== */
 function render(){
   const list = data[currentOS] || [];
   document.getElementById('count-ios').textContent = (data.ios||[]).length;
@@ -349,6 +402,10 @@ function render(){
       ? `<img src="${f.image}" alt="">`
       : `<i class="fas ${f.icon||'fa-file'}"></i>`;
     
+    const stock = f.stock !== undefined ? f.stock : 10;
+    const stockClass = stock > 0 ? '' : ' out';
+    const stockText = stock > 0 ? `📦 ${stock}` : '❌ Hết';
+    
     row.innerHTML = `
       <div class="item-thumb ${currentOS==='ios'?'ios-bg':'adr-bg'}">
         ${thumbContent}
@@ -356,11 +413,12 @@ function render(){
       <div class="item-info">
         <b>${f.name||'(chưa có tên)'}<span class="ver-tag">${f.ver||'v1.0'}</span></b>
         <small>${f.desc||'Không có mô tả'} • ${f.size||'0 MB'}</small>
-        <a href="${f.link||'#'}" target="_blank" rel="noopener">
-          <i class="fas fa-link"></i> ${f.link||'(chưa có link)'}
-        </a>
+        <span class="stock-badge${stockClass}">${stockText}</span>
       </div>
       <div class="item-actions">
+        <button class="icon-btn stock" data-act="stock" data-id="${f.id}" title="Số lượng nhanh">
+          <i class="fas fa-boxes"></i>
+        </button>
         <button class="icon-btn up" data-act="up" data-idx="${i}" ${i===0?'disabled':''} title="Lên">
           <i class="fas fa-arrow-up"></i>
         </button>
@@ -387,6 +445,7 @@ document.getElementById('itemsList').addEventListener('click', function(e){
   if(act === 'delete') deleteFile(btn.dataset.id);
   if(act === 'up')     moveItem(parseInt(btn.dataset.idx), -1);
   if(act === 'down')   moveItem(parseInt(btn.dataset.idx), 1);
+  if(act === 'stock')  openStockModal(btn.dataset.id);
 });
 
 /* ========== XỬ LÝ ẢNH ========== */
@@ -400,13 +459,11 @@ uploadZone.addEventListener('click', () => fImage.click());
 fImage.addEventListener('change', function(e){
   const file = e.target.files[0];
   if(!file) return;
-
   if(file.size > 2 * 1024 * 1024){
-    toast('Ảnh quá lớn! Vui lòng chọn ảnh dưới 2MB', false);
+    toast('Ảnh quá lớn! Chọn ảnh dưới 2MB', false);
     fImage.value = '';
     return;
   }
-
   const reader = new FileReader();
   reader.onload = function(ev){
     compressImage(ev.target.result, 500, 500, 0.85, function(compressed){
@@ -462,11 +519,13 @@ btnRemoveImg.addEventListener('click', function(e){
   toast('Đã xóa ảnh', false);
 });
 
-/* ========== THÊM / SỬA ========== */
+/* ========== THÊM / SỬA FILE ========== */
 async function saveFile(){
   const name = document.getElementById('fName').value.trim();
   const ver  = document.getElementById('fVer').value.trim() || 'v1.0';
   const size = document.getElementById('fSize').value.trim() || '0 MB';
+  const stock = parseInt(document.getElementById('fStock').value);
+  const stockVal = isNaN(stock) || stock < 0 ? 10 : stock;
   const icon = document.getElementById('fIcon').value.trim() || 'fa-file';
   const desc = document.getElementById('fDesc').value.trim();
   const link = document.getElementById('fLink').value.trim();
@@ -476,23 +535,22 @@ async function saveFile(){
   if(editingId){
     const item = data[currentOS].find(x => x.id === editingId);
     if(item){
-      Object.assign(item, {name, ver, size, icon, desc, link});
+      Object.assign(item, {name, ver, size, icon, desc, link, stock: stockVal});
       if(currentImageData) item.image = currentImageData;
-      else if(item.image === undefined) item.image = null;
     }
     cancelEdit();
   } else {
     const id = currentOS + '_' + Date.now();
     data[currentOS] = data[currentOS] || [];
     data[currentOS].push({ 
-      id, name, ver, size, icon, desc, link, 
+      id, name, ver, size, icon, desc, link, stock: stockVal,
       image: currentImageData || null 
     });
   }
 
   const ok = await pushToFirebase();
   if(ok){
-    toast(editingId ? 'Đã cập nhật!' : 'Đã thêm file — Toàn cầu đồng bộ!', true);
+    toast(editingId ? 'Đã cập nhật!' : 'Đã thêm file!', true);
     clearForm();
   }
 }
@@ -504,6 +562,7 @@ function editFile(id){
   document.getElementById('fName').value = item.name||'';
   document.getElementById('fVer').value = item.ver||'';
   document.getElementById('fSize').value = item.size||'';
+  document.getElementById('fStock').value = item.stock !== undefined ? item.stock : 10;
   document.getElementById('fIcon').value = item.icon||'';
   document.getElementById('fDesc').value = item.desc||'';
   document.getElementById('fLink').value = item.link||'';
@@ -533,17 +592,18 @@ function clearForm(){
   ['fName','fVer','fSize','fIcon','fDesc','fLink'].forEach(id => {
     document.getElementById(id).value = '';
   });
+  document.getElementById('fStock').value = '10';
   clearImage();
 }
 
 async function deleteFile(id){
   const item = data[currentOS].find(x => x.id === id);
   if(!item) return;
-  if(!confirm(`Bạn chắc chắn muốn xóa "${item.name}"?`)) return;
+  if(!confirm(`Xóa "${item.name}"?`)) return;
   data[currentOS] = data[currentOS].filter(x => x.id !== id);
   if(editingId === id) cancelEdit();
   const ok = await pushToFirebase();
-  if(ok) toast('Đã xóa — Toàn cầu đồng bộ!', true);
+  if(ok) toast('Đã xóa!', true);
 }
 
 async function moveItem(index, dir){
@@ -555,16 +615,70 @@ async function moveItem(index, dir){
   if(ok) toast('Đã đổi vị trí!', true);
 }
 
+/* ============================================================
+   MODAL SỐ LƯỢNG NHANH
+============================================================ */
+const stockModal = document.getElementById('stockModal');
+const stockInput = document.getElementById('stockInput');
+
+function openStockModal(id){
+  const item = data[currentOS].find(x => x.id === id);
+  if(!item) return;
+  editingStockId = id;
+  stockInput.value = item.stock !== undefined ? item.stock : 10;
+  stockModal.classList.add('show');
+}
+
+document.getElementById('stockMinus').addEventListener('click', function(){
+  const v = parseInt(stockInput.value) || 0;
+  stockInput.value = Math.max(0, v - 1);
+});
+
+document.getElementById('stockPlus').addEventListener('click', function(){
+  const v = parseInt(stockInput.value) || 0;
+  stockInput.value = v + 1;
+});
+
+document.getElementById('stockCancel').addEventListener('click', function(){
+  stockModal.classList.remove('show');
+  editingStockId = null;
+});
+
+document.getElementById('stockSave').addEventListener('click', async function(){
+  if(!editingStockId) return;
+  const item = data[currentOS].find(x => x.id === editingStockId);
+  if(!item) return;
+  
+  const val = parseInt(stockInput.value);
+  item.stock = isNaN(val) || val < 0 ? 0 : val;
+  
+  const ok = await pushToFirebase();
+  if(ok){
+    toast(`Đã đặt số lượng: ${item.stock}`, true);
+    stockModal.classList.remove('show');
+    editingStockId = null;
+  }
+});
+
+stockModal.addEventListener('click', function(e){
+  if(e.target === stockModal){
+    stockModal.classList.remove('show');
+    editingStockId = null;
+  }
+});
+
+/* ========== RESET ========== */
 async function resetAll(){
-  if(!confirm('Xóa TOÀN BỘ file trên Firebase? Không thể hoàn tác!')) return;
+  if(!confirm('Xóa TOÀN BỘ file? Không thể hoàn tác!')) return;
   data = { ios: [], adr: [] };
   const ok = await pushToFirebase();
   if(ok){
     cancelEdit();
-    toast('Đã xóa hết — Toàn cầu đồng bộ!', true);
+    toast('Đã xóa hết!', true);
   }
 }
 
+/* ========== TOAST ========== */
 let toastTimer;
 function toast(msg, success){
   const t = document.getElementById('toast');
@@ -575,6 +689,7 @@ function toast(msg, success){
   toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+/* ========== SỰ KIỆN ========== */
 document.getElementById('tab-ios').addEventListener('click', () => switchTab('ios'));
 document.getElementById('tab-adr').addEventListener('click', () => switchTab('adr'));
 document.getElementById('btnSave').addEventListener('click', saveFile);
