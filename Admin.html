@@ -53,7 +53,9 @@
     box-shadow:0 0 10px #3ddc84;animation:pulse 1.5s infinite}
   .sync-dot.off{background:#ff3366;box-shadow:0 0 10px #ff3366}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  .tabs{display:flex;justify-content:center;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+
+  /* TABS CẤP 1 - OS */
+  .tabs{display:flex;justify-content:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
   .tab{background:rgba(20,20,40,.6);backdrop-filter:blur(15px);
     border:1px solid rgba(255,255,255,.08);padding:12px 30px;border-radius:30px;
     cursor:pointer;font-weight:700;font-size:.9rem;transition:.3s;
@@ -63,6 +65,17 @@
   .tab:hover:not(.active){border-color:rgba(255,51,102,.5);color:#fff}
   .count-badge{background:rgba(255,255,255,.15);padding:2px 10px;border-radius:20px;
     font-size:.72rem;font-weight:800}
+
+  /* TABS CẤP 2 - DANH MỤC CON */
+  .subtabs{display:flex;justify-content:center;gap:.8rem;margin-bottom:2rem;flex-wrap:wrap}
+  .subtab{background:rgba(20,20,40,.6);backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.08);padding:10px 22px;border-radius:25px;
+    cursor:pointer;font-weight:700;font-size:.82rem;transition:.3s;
+    color:#8a8ab0;display:flex;align-items:center;gap:6px}
+  .subtab.active{background:linear-gradient(135deg,#a855f7,#00d4ff);color:#fff;
+    border-color:transparent;box-shadow:0 8px 20px rgba(168,85,247,.5)}
+  .subtab:hover:not(.active){border-color:rgba(168,85,247,.5);color:#fff}
+
   .form-card{background:rgba(20,20,40,.6);backdrop-filter:blur(20px);
     border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:2rem;
     margin-bottom:2.5rem;box-shadow:0 20px 50px rgba(0,0,0,.4)}
@@ -99,13 +112,13 @@
   .btn-primary{background:linear-gradient(135deg,#ff3366,#ff6b9d);color:#fff;border:none;
     padding:13px 28px;border-radius:30px;font-weight:700;cursor:pointer;
     font-size:.9rem;transition:.3s;display:flex;align-items:center;gap:8px;
-    box-shadow:0 8px 20px rgba(255,51,102,.4)}
+    box-shadow:0 8px 20px rgba(255,51,102,.4);font-family:'Poppins',sans-serif}
   .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,51,102,.6)}
   .btn-primary:disabled{opacity:.5;cursor:not-allowed}
   .btn-secondary{background:rgba(255,255,255,.05);color:#a0a0c0;
     border:1px solid rgba(255,255,255,.1);padding:13px 24px;border-radius:30px;
     font-weight:700;cursor:pointer;font-size:.9rem;transition:.3s;
-    display:flex;align-items:center;gap:8px}
+    display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif}
   .btn-secondary:hover{background:rgba(255,255,255,.1);color:#fff}
   .list-header{display:flex;justify-content:space-between;align-items:center;
     margin-bottom:1.2rem;flex-wrap:wrap;gap:1rem}
@@ -122,9 +135,9 @@
     box-shadow:0 10px 30px rgba(255,51,102,.15)}
   .item-thumb{width:60px;height:60px;border-radius:14px;flex-shrink:0;
     overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.4);position:relative;
-    display:flex;align-items:center;justify-content:center}
-  .item-thumb.ios-bg{background:linear-gradient(135deg,#1a1a2e,#2a2a4a);border:1px solid rgba(160,160,255,.3);color:#a0a0ff}
-  .item-thumb.adr-bg{background:linear-gradient(135deg,#1a8a52,#3ddc84);border:1px solid rgba(61,220,132,.3);color:#fff}
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#1a1a2e,#2a2a4a);
+    border:1px solid rgba(160,160,255,.3);color:#a0a0ff}
   .item-thumb img{width:100%;height:100%;object-fit:cover}
   .item-thumb i{font-size:1.6rem}
   .item-info{flex:1;min-width:0}
@@ -136,14 +149,10 @@
   .item-info a{color:#00d4ff;font-size:.72rem;text-decoration:none;
     display:inline-flex;align-items:center;gap:4px;margin-top:3px;
     max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .item-info a:hover{text-decoration:underline}
-  /* BADGE SỐ LƯỢNG */
-  .stock-badge{
-    display:inline-flex;align-items:center;gap:4px;
+  .stock-badge{display:inline-flex;align-items:center;gap:4px;
     background:rgba(255,215,0,.15);color:#ffd700;
     padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:800;
-    border:1px solid rgba(255,215,0,.4);margin-top:4px;
-  }
+    border:1px solid rgba(255,215,0,.4);margin-top:4px}
   .stock-badge.out{background:rgba(255,51,102,.15);color:#ff3366;
     border-color:rgba(255,51,102,.4)}
   .item-actions{display:flex;gap:8px;flex-shrink:0}
@@ -171,7 +180,6 @@
     display:flex;align-items:center;gap:10px;max-width:90vw;text-align:center}
   .toast.show{transform:translateX(-50%) translateY(0)}
   .toast.success{background:linear-gradient(135deg,#3ddc84,#00d4ff);color:#05050f}
-  /* MODAL SỐ LƯỢNG NHANH */
   .stock-modal{position:fixed;inset:0;background:rgba(0,0,0,.85);
     backdrop-filter:blur(10px);z-index:3000;display:none;
     align-items:center;justify-content:center;padding:1.5rem}
@@ -201,6 +209,7 @@
     main{padding:1.5rem 1rem}.item-row{flex-wrap:wrap}.item-info{width:100%}
     .form-grid{grid-template-columns:1fr}
     .item-actions{width:100%;justify-content:flex-end}
+    .subtab{padding:8px 16px;font-size:.75rem}
   }
 </style>
 </head>
@@ -227,6 +236,7 @@
     <span id="syncText">Đang kết nối Firebase...</span>
   </div>
 
+  <!-- TABS OS -->
   <div class="tabs">
     <div class="tab active" id="tab-ios" data-os="ios">
       <i class="fab fa-apple"></i> iOS <span class="count-badge" id="count-ios">0</span>
@@ -234,6 +244,13 @@
     <div class="tab" id="tab-adr" data-os="adr">
       <i class="fab fa-android"></i> Android <span class="count-badge" id="count-adr">0</span>
     </div>
+  </div>
+
+  <!-- SUBTABS DANH MỤC -->
+  <div class="subtabs">
+    <div class="subtab active" data-cat="hack">🧩 HACK FREE FIRE</div>
+    <div class="subtab" data-cat="mod">🧩 MOD FREE FIRE</div>
+    <div class="subtab" data-cat="aim">🧩 FILE AIM FREE FIRE</div>
   </div>
 
   <div class="form-card">
@@ -280,14 +297,13 @@
   </div>
 
   <div class="list-header">
-    <h3><i class="fas fa-list"></i> Danh sách file <span id="listLabel">iOS</span></h3>
+    <h3><i class="fas fa-list"></i> Danh sách file <span id="listLabel">iOS — HACK FREE FIRE</span></h3>
   </div>
   <div class="items" id="itemsList">
     <div class="loading"><i class="fas fa-spinner"></i>Đang tải dữ liệu...</div>
   </div>
 </main>
 
-<!-- MODAL SỐ LƯỢNG NHANH -->
 <div class="stock-modal" id="stockModal">
   <div class="stock-modal-box">
     <h3><i class="fas fa-boxes"></i> TÙY CHỈNH SỐ LƯỢNG</h3>
@@ -327,19 +343,45 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const DB_REF = ref(db, 'shopData');
 
-let data = { ios: [], adr: [] };
+// Cấu trúc data: { ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } }
+let data = {
+  ios: { hack: [], mod: [], aim: [] },
+  adr: { hack: [], mod: [], aim: [] }
+};
+
 let currentOS = 'ios';
+let currentCat = 'hack';
 let editingId = null;
 let currentImageData = null;
 let editingStockId = null;
+
+const CAT_LABELS = {
+  hack: 'HACK FREE FIRE',
+  mod: 'MOD FREE FIRE',
+  aim: 'FILE AIM FREE FIRE'
+};
 
 /* ========== LẮNG NGHE FIREBASE ========== */
 onValue(DB_REF, (snapshot) => {
   const val = snapshot.val();
   if(val){
-    data = { ios: val.ios || [], adr: val.adr || [] };
+    data = {
+      ios: {
+        hack: (val.ios && val.ios.hack) || [],
+        mod: (val.ios && val.ios.mod) || [],
+        aim: (val.ios && val.ios.aim) || []
+      },
+      adr: {
+        hack: (val.adr && val.adr.hack) || [],
+        mod: (val.adr && val.adr.mod) || [],
+        aim: (val.adr && val.adr.aim) || []
+      }
+    };
   } else {
-    data = { ios: [], adr: [] };
+    data = {
+      ios: { hack: [], mod: [], aim: [] },
+      adr: { hack: [], mod: [], aim: [] }
+    };
   }
   updateSyncStatus(true);
   render();
@@ -374,23 +416,47 @@ function switchTab(os){
   currentOS = os;
   document.getElementById('tab-ios').classList.toggle('active', os==='ios');
   document.getElementById('tab-adr').classList.toggle('active', os==='adr');
-  document.getElementById('listLabel').textContent = os==='ios' ? 'iOS' : 'Android';
-  document.getElementById('formTitle').textContent = `Thêm file mới — ${os==='ios'?'iOS':'Android'}`;
   cancelEdit();
   render();
 }
 
+function switchCat(cat){
+  currentCat = cat;
+  document.querySelectorAll('.subtab').forEach(t => {
+    t.classList.toggle('active', t.dataset.cat === cat);
+  });
+  cancelEdit();
+  render();
+}
+
+function getList(){
+  return data[currentOS][currentCat] || [];
+}
+
+function updateCounts(){
+  let totalIos = 0, totalAdr = 0;
+  ['hack','mod','aim'].forEach(c => {
+    totalIos += (data.ios[c] || []).length;
+    totalAdr += (data.adr[c] || []).length;
+  });
+  document.getElementById('count-ios').textContent = totalIos;
+  document.getElementById('count-adr').textContent = totalAdr;
+}
+
 /* ========== RENDER ========== */
 function render(){
-  const list = data[currentOS] || [];
-  document.getElementById('count-ios').textContent = (data.ios||[]).length;
-  document.getElementById('count-adr').textContent = (data.adr||[]).length;
+  updateCounts();
+  document.getElementById('listLabel').textContent = 
+    `${currentOS==='ios'?'iOS':'Android'} — ${CAT_LABELS[currentCat]}`;
+  document.getElementById('formTitle').textContent = 
+    `Thêm file mới — ${currentOS==='ios'?'iOS':'Android'} / ${CAT_LABELS[currentCat]}`;
 
+  const list = getList();
   const box = document.getElementById('itemsList');
   box.innerHTML = '';
 
   if(list.length === 0){
-    box.innerHTML = `<div class="empty"><i class="fas fa-folder-open"></i>Chưa có file nào. Thêm file mới ở trên!</div>`;
+    box.innerHTML = `<div class="empty"><i class="fas fa-folder-open"></i>Chưa có file nào trong mục này!</div>`;
     return;
   }
 
@@ -407,9 +473,7 @@ function render(){
     const stockText = stock > 0 ? `📦 ${stock}` : '❌ Hết';
     
     row.innerHTML = `
-      <div class="item-thumb ${currentOS==='ios'?'ios-bg':'adr-bg'}">
-        ${thumbContent}
-      </div>
+      <div class="item-thumb">${thumbContent}</div>
       <div class="item-info">
         <b>${f.name||'(chưa có tên)'}<span class="ver-tag">${f.ver||'v1.0'}</span></b>
         <small>${f.desc||'Không có mô tả'} • ${f.size||'0 MB'}</small>
@@ -532,17 +596,18 @@ async function saveFile(){
 
   if(!name){ toast('Vui lòng nhập tên file!', false); return; }
 
+  const list = getList();
+
   if(editingId){
-    const item = data[currentOS].find(x => x.id === editingId);
+    const item = list.find(x => x.id === editingId);
     if(item){
       Object.assign(item, {name, ver, size, icon, desc, link, stock: stockVal});
       if(currentImageData) item.image = currentImageData;
     }
     cancelEdit();
   } else {
-    const id = currentOS + '_' + Date.now();
-    data[currentOS] = data[currentOS] || [];
-    data[currentOS].push({ 
+    const id = currentOS + '_' + currentCat + '_' + Date.now();
+    list.push({ 
       id, name, ver, size, icon, desc, link, stock: stockVal,
       image: currentImageData || null 
     });
@@ -556,7 +621,7 @@ async function saveFile(){
 }
 
 function editFile(id){
-  const item = data[currentOS].find(x => x.id === id);
+  const item = getList().find(x => x.id === id);
   if(!item) return;
   editingId = id;
   document.getElementById('fName').value = item.name||'';
@@ -585,7 +650,8 @@ function cancelEdit(){
   clearForm();
   document.getElementById('saveBtnText').textContent = 'Lưu file';
   document.getElementById('btnCancel').style.display = 'none';
-  document.getElementById('formTitle').textContent = `Thêm file mới — ${currentOS==='ios'?'iOS':'Android'}`;
+  document.getElementById('formTitle').textContent = 
+    `Thêm file mới — ${currentOS==='ios'?'iOS':'Android'} / ${CAT_LABELS[currentCat]}`;
 }
 
 function clearForm(){
@@ -597,17 +663,17 @@ function clearForm(){
 }
 
 async function deleteFile(id){
-  const item = data[currentOS].find(x => x.id === id);
+  const item = getList().find(x => x.id === id);
   if(!item) return;
   if(!confirm(`Xóa "${item.name}"?`)) return;
-  data[currentOS] = data[currentOS].filter(x => x.id !== id);
+  data[currentOS][currentCat] = getList().filter(x => x.id !== id);
   if(editingId === id) cancelEdit();
   const ok = await pushToFirebase();
   if(ok) toast('Đã xóa!', true);
 }
 
 async function moveItem(index, dir){
-  const list = data[currentOS];
+  const list = getList();
   const newIndex = index + dir;
   if(newIndex < 0 || newIndex >= list.length) return;
   [list[index], list[newIndex]] = [list[newIndex], list[index]];
@@ -615,14 +681,12 @@ async function moveItem(index, dir){
   if(ok) toast('Đã đổi vị trí!', true);
 }
 
-/* ============================================================
-   MODAL SỐ LƯỢNG NHANH
-============================================================ */
+/* ========== MODAL SỐ LƯỢNG NHANH ========== */
 const stockModal = document.getElementById('stockModal');
 const stockInput = document.getElementById('stockInput');
 
 function openStockModal(id){
-  const item = data[currentOS].find(x => x.id === id);
+  const item = getList().find(x => x.id === id);
   if(!item) return;
   editingStockId = id;
   stockInput.value = item.stock !== undefined ? item.stock : 10;
@@ -646,7 +710,7 @@ document.getElementById('stockCancel').addEventListener('click', function(){
 
 document.getElementById('stockSave').addEventListener('click', async function(){
   if(!editingStockId) return;
-  const item = data[currentOS].find(x => x.id === editingStockId);
+  const item = getList().find(x => x.id === editingStockId);
   if(!item) return;
   
   const val = parseInt(stockInput.value);
@@ -670,7 +734,10 @@ stockModal.addEventListener('click', function(e){
 /* ========== RESET ========== */
 async function resetAll(){
   if(!confirm('Xóa TOÀN BỘ file? Không thể hoàn tác!')) return;
-  data = { ios: [], adr: [] };
+  data = {
+    ios: { hack: [], mod: [], aim: [] },
+    adr: { hack: [], mod: [], aim: [] }
+  };
   const ok = await pushToFirebase();
   if(ok){
     cancelEdit();
@@ -692,6 +759,9 @@ function toast(msg, success){
 /* ========== SỰ KIỆN ========== */
 document.getElementById('tab-ios').addEventListener('click', () => switchTab('ios'));
 document.getElementById('tab-adr').addEventListener('click', () => switchTab('adr'));
+document.querySelectorAll('.subtab').forEach(t => {
+  t.addEventListener('click', () => switchCat(t.dataset.cat));
+});
 document.getElementById('btnSave').addEventListener('click', saveFile);
 document.getElementById('btnCancel').addEventListener('click', cancelEdit);
 document.getElementById('btnReset').addEventListener('click', resetAll);
