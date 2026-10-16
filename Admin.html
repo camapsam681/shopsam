@@ -16,7 +16,7 @@
   header{background:rgba(10,10,25,.75);backdrop-filter:blur(20px);
     padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;
     border-bottom:1px solid rgba(255,51,102,.3);position:sticky;top:0;z-index:100;
-    box-shadow:0 8px 32px rgba(0,0,0,.5)}
+    box-shadow:0 8px 32px rgba(0,0,0,.5);flex-wrap:wrap;gap:10px}
   header::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:2px;
     background:linear-gradient(90deg,transparent,#ff3366,#ffd700,#00d4ff,#ff3366,transparent);
     background-size:200% 100%;animation:shine 4s linear infinite}
@@ -48,9 +48,10 @@
     margin-bottom:.5rem}
   .title-bar p{color:#8a8ab0;font-size:.9rem}
   .sync-info{text-align:center;color:#3ddc84;font-size:.8rem;margin-bottom:1.5rem;
-    display:flex;align-items:center;justify-content:center;gap:8px}
+    display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
   .sync-dot{width:8px;height:8px;background:#3ddc84;border-radius:50%;
     box-shadow:0 0 10px #3ddc84;animation:pulse 1.5s infinite}
+  .sync-dot.off{background:#ff3366;box-shadow:0 0 10px #ff3366}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .tabs{display:flex;justify-content:center;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
   .tab{background:rgba(20,20,40,.6);backdrop-filter:blur(15px);
@@ -80,7 +81,6 @@
     box-shadow:0 0 20px rgba(255,51,102,.3)}
   .field input::placeholder{color:#555}
   .field.full{grid-column:1/-1}
-  /* UPLOAD ẢNH */
   .upload-zone{background:rgba(255,255,255,.03);border:2px dashed rgba(255,51,102,.4);
     border-radius:16px;padding:1.5rem;text-align:center;cursor:pointer;transition:.3s;
     display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -100,7 +100,8 @@
     padding:13px 28px;border-radius:30px;font-weight:700;cursor:pointer;
     font-size:.9rem;transition:.3s;display:flex;align-items:center;gap:8px;
     box-shadow:0 8px 20px rgba(255,51,102,.4)}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,51,102,.6)}
+  .btn-primary:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,51,102,.6)}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed}
   .btn-secondary{background:rgba(255,255,255,.05);color:#a0a0c0;
     border:1px solid rgba(255,255,255,.1);padding:13px 24px;border-radius:30px;
     font-weight:700;cursor:pointer;font-size:.9rem;transition:.3s;
@@ -150,6 +151,9 @@
     background:rgba(20,20,40,.4);border-radius:16px;
     border:1px dashed rgba(255,255,255,.1)}
   .empty i{font-size:3rem;display:block;margin-bottom:1rem;color:#333}
+  .loading{text-align:center;padding:2rem;color:#8a8ab0}
+  .loading i{font-size:2rem;color:#ff3366;animation:spin 1s linear infinite;display:block;margin-bottom:1rem}
+  @keyframes spin{100%{transform:rotate(360deg)}}
   .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);
     background:linear-gradient(135deg,#ff3366,#ff6b9d);color:#fff;
     padding:14px 28px;border-radius:30px;font-weight:700;font-size:.9rem;
@@ -173,7 +177,7 @@
     <h1>SAMM <span>X</span> MOD <span class="admin-badge">⚙️ ADMIN</span></h1>
   </div>
   <div class="header-actions">
-    <a class="btn-export" href="shop.html" target="_blank"><i class="fas fa-store"></i> Mở Shop</a>
+    <a class="btn-export" href="index.html" target="_blank"><i class="fas fa-store"></i> Mở Shop</a>
     <button class="btn-reset" id="btnReset"><i class="fas fa-undo"></i> Reset</button>
   </div>
 </header>
@@ -181,11 +185,11 @@
 <main>
   <div class="title-bar">
     <h2>BẢNG ĐIỀU KHIỂN ADMIN</h2>
-    <p>Quản lý file — Có thể đổi ảnh đại diện cho từng file</p>
+    <p>Quản lý file — Mọi thay đổi đồng bộ toàn cầu qua Firebase</p>
   </div>
   <div class="sync-info">
-    <span class="sync-dot"></span>
-    Đang đồng bộ trực tiếp với Shop qua localStorage
+    <span class="sync-dot" id="syncDot"></span>
+    <span id="syncText">Đang kết nối Firebase...</span>
   </div>
 
   <div class="tabs">
@@ -219,7 +223,7 @@
           <div id="uploadContent">
             <i class="fas fa-cloud-upload-alt upload-icon"></i>
             <div class="upload-text">Chọn ảnh từ thư viện
-              <small>Hỗ trợ JPG, PNG, GIF — Ảnh sẽ được lưu tự động</small>
+              <small>Hỗ trợ JPG, PNG — Ảnh sẽ lưu lên Firebase</small>
             </div>
           </div>
         </div>
@@ -241,43 +245,79 @@
   <div class="list-header">
     <h3><i class="fas fa-list"></i> Danh sách file <span id="listLabel">iOS</span></h3>
   </div>
-  <div class="items" id="itemsList"></div>
+  <div class="items" id="itemsList">
+    <div class="loading"><i class="fas fa-spinner"></i>Đang tải dữ liệu...</div>
+  </div>
 </main>
 
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastText">Thành công</span></div>
 
-<script>
-const STORAGE_KEY = 'sammxmod_shared_data';
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, set, get, child }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-const DEFAULT_DATA = {
-  ios: [],
-  adr: []
+const firebaseConfig = {
+  apiKey: "AIzaSyAGvwWhk_CquwgTa578QCTgwx7lUM5Z4eM",
+  authDomain: "samm-x-mod.firebaseapp.com",
+  databaseURL: "https://samm-x-mod-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: "samm-x-mod",
+  storageBucket: "samm-x-mod.firebasestorage.app",
+  messagingSenderId: "465846808281",
+  appId: "1:465846808281:web:9b875f20b233693ec9d8c8",
+  measurementId: "G-M5P8EHF5WY"
 };
 
-let data = loadData();
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const DB_REF = ref(db, 'shopData');
+
+let data = { ios: [], adr: [] };
 let currentOS = 'ios';
 let editingId = null;
-let currentImageData = null; // Lưu ảnh base64 khi chọn
+let currentImageData = null;
 
-function loadData(){
-  try{
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(saved) return JSON.parse(saved);
-  }catch(e){}
-  const def = JSON.parse(JSON.stringify(DEFAULT_DATA));
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(def)); }catch(e){}
-  return def;
-}
+/* ========== LẮNG NGHE FIREBASE REALTIME ========== */
+onValue(DB_REF, (snapshot) => {
+  const val = snapshot.val();
+  if(val){
+    data = {
+      ios: val.ios || [],
+      adr: val.adr || []
+    };
+  } else {
+    data = { ios: [], adr: [] };
+  }
+  updateSyncStatus(true);
+  render();
+}, (error) => {
+  updateSyncStatus(false, error.message);
+});
 
-function saveData(){
-  try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    localStorage.setItem(STORAGE_KEY + '_ping', Date.now());
-  }catch(e){
-    toast('Lỗi: Ảnh quá lớn hoặc bộ nhớ đầy!', false);
+function updateSyncStatus(ok, msg){
+  const dot = document.getElementById('syncDot');
+  const txt = document.getElementById('syncText');
+  if(ok){
+    dot.classList.remove('off');
+    txt.textContent = 'Đã kết nối Firebase — Đồng bộ toàn cầu';
+  } else {
+    dot.classList.add('off');
+    txt.textContent = 'Lỗi kết nối: ' + (msg || 'unknown');
   }
 }
 
+/* ========== LƯU LÊN FIREBASE ========== */
+async function pushToFirebase(){
+  try{
+    await set(DB_REF, data);
+    return true;
+  }catch(e){
+    toast('Lỗi lưu Firebase: ' + e.message, false);
+    return false;
+  }
+}
+
+/* ========== RENDER ========== */
 function switchTab(os){
   currentOS = os;
   document.getElementById('tab-ios').classList.toggle('active', os==='ios');
@@ -289,9 +329,9 @@ function switchTab(os){
 }
 
 function render(){
-  const list = data[currentOS];
-  document.getElementById('count-ios').textContent = data.ios.length;
-  document.getElementById('count-adr').textContent = data.adr.length;
+  const list = data[currentOS] || [];
+  document.getElementById('count-ios').textContent = (data.ios||[]).length;
+  document.getElementById('count-adr').textContent = (data.adr||[]).length;
 
   const box = document.getElementById('itemsList');
   box.innerHTML = '';
@@ -305,7 +345,6 @@ function render(){
     const row = document.createElement('div');
     row.className = 'item-row';
     
-    // Hiển thị ảnh nếu có, không thì hiện icon
     const thumbContent = f.image 
       ? `<img src="${f.image}" alt="">`
       : `<i class="fas ${f.icon||'fa-file'}"></i>`;
@@ -350,9 +389,7 @@ document.getElementById('itemsList').addEventListener('click', function(e){
   if(act === 'down')   moveItem(parseInt(btn.dataset.idx), 1);
 });
 
-/* ============================================================
-   XỬ LÝ ẢNH
-============================================================ */
+/* ========== XỬ LÝ ẢNH ========== */
 const uploadZone = document.getElementById('uploadZone');
 const fImage = document.getElementById('fImage');
 const uploadContent = document.getElementById('uploadContent');
@@ -364,7 +401,6 @@ fImage.addEventListener('change', function(e){
   const file = e.target.files[0];
   if(!file) return;
 
-  // Kiểm tra kích thước (giới hạn 2MB)
   if(file.size > 2 * 1024 * 1024){
     toast('Ảnh quá lớn! Vui lòng chọn ảnh dưới 2MB', false);
     fImage.value = '';
@@ -373,8 +409,7 @@ fImage.addEventListener('change', function(e){
 
   const reader = new FileReader();
   reader.onload = function(ev){
-    // Nén ảnh xuống trước khi lưu để tránh tràn localStorage
-    compressImage(ev.target.result, 400, 400, 0.8, function(compressed){
+    compressImage(ev.target.result, 500, 500, 0.85, function(compressed){
       currentImageData = compressed;
       showPreview(compressed);
       toast('Đã chọn ảnh!', true);
@@ -383,7 +418,6 @@ fImage.addEventListener('change', function(e){
   reader.readAsDataURL(file);
 });
 
-// Nén ảnh để tiết kiệm dung lượng
 function compressImage(dataUrl, maxW, maxH, quality, callback){
   const img = new Image();
   img.onload = function(){
@@ -415,7 +449,7 @@ function clearImage(){
   uploadContent.innerHTML = `
     <i class="fas fa-cloud-upload-alt upload-icon"></i>
     <div class="upload-text">Chọn ảnh từ thư viện
-      <small>Hỗ trợ JPG, PNG, GIF — Ảnh sẽ được lưu tự động</small>
+      <small>Hỗ trợ JPG, PNG — Ảnh sẽ lưu lên Firebase</small>
     </div>
   `;
   btnRemoveImg.style.display = 'none';
@@ -428,10 +462,8 @@ btnRemoveImg.addEventListener('click', function(e){
   toast('Đã xóa ảnh', false);
 });
 
-/* ============================================================
-   THÊM / SỬA FILE
-============================================================ */
-function saveFile(){
+/* ========== THÊM / SỬA ========== */
+async function saveFile(){
   const name = document.getElementById('fName').value.trim();
   const ver  = document.getElementById('fVer').value.trim() || 'v1.0';
   const size = document.getElementById('fSize').value.trim() || '0 MB';
@@ -445,24 +477,24 @@ function saveFile(){
     const item = data[currentOS].find(x => x.id === editingId);
     if(item){
       Object.assign(item, {name, ver, size, icon, desc, link});
-      // Cập nhật ảnh nếu có thay đổi
       if(currentImageData) item.image = currentImageData;
-      else if(!currentImageData && item.image === undefined) item.image = null;
-      toast('Đã cập nhật — Shop đã đồng bộ!', true);
+      else if(item.image === undefined) item.image = null;
     }
     cancelEdit();
   } else {
     const id = currentOS + '_' + Date.now();
+    data[currentOS] = data[currentOS] || [];
     data[currentOS].push({ 
       id, name, ver, size, icon, desc, link, 
       image: currentImageData || null 
     });
-    toast('Đã thêm file — Shop đã đồng bộ!', true);
   }
 
-  saveData();
-  clearForm();
-  render();
+  const ok = await pushToFirebase();
+  if(ok){
+    toast(editingId ? 'Đã cập nhật!' : 'Đã thêm file — Toàn cầu đồng bộ!', true);
+    clearForm();
+  }
 }
 
 function editFile(id){
@@ -476,7 +508,6 @@ function editFile(id){
   document.getElementById('fDesc').value = item.desc||'';
   document.getElementById('fLink').value = item.link||'';
   
-  // Hiển thị ảnh hiện tại
   if(item.image){
     currentImageData = item.image;
     showPreview(item.image);
@@ -505,33 +536,33 @@ function clearForm(){
   clearImage();
 }
 
-function deleteFile(id){
+async function deleteFile(id){
   const item = data[currentOS].find(x => x.id === id);
   if(!item) return;
   if(!confirm(`Bạn chắc chắn muốn xóa "${item.name}"?`)) return;
   data[currentOS] = data[currentOS].filter(x => x.id !== id);
-  saveData();
   if(editingId === id) cancelEdit();
-  render();
-  toast('Đã xóa — Shop đã đồng bộ!', true);
+  const ok = await pushToFirebase();
+  if(ok) toast('Đã xóa — Toàn cầu đồng bộ!', true);
 }
 
-function moveItem(index, dir){
+async function moveItem(index, dir){
   const list = data[currentOS];
   const newIndex = index + dir;
   if(newIndex < 0 || newIndex >= list.length) return;
   [list[index], list[newIndex]] = [list[newIndex], list[index]];
-  saveData();
-  render();
+  const ok = await pushToFirebase();
+  if(ok) toast('Đã đổi vị trí!', true);
 }
 
-function resetAll(){
-  if(!confirm('Xóa toàn bộ file hiện có?')) return;
+async function resetAll(){
+  if(!confirm('Xóa TOÀN BỘ file trên Firebase? Không thể hoàn tác!')) return;
   data = { ios: [], adr: [] };
-  saveData();
-  cancelEdit();
-  render();
-  toast('Đã xóa hết — Shop đã đồng bộ!', true);
+  const ok = await pushToFirebase();
+  if(ok){
+    cancelEdit();
+    toast('Đã xóa hết — Toàn cầu đồng bộ!', true);
+  }
 }
 
 let toastTimer;
@@ -549,8 +580,6 @@ document.getElementById('tab-adr').addEventListener('click', () => switchTab('ad
 document.getElementById('btnSave').addEventListener('click', saveFile);
 document.getElementById('btnCancel').addEventListener('click', cancelEdit);
 document.getElementById('btnReset').addEventListener('click', resetAll);
-
-render();
 </script>
 </body>
 </html>
