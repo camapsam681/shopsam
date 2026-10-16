@@ -61,7 +61,8 @@
   .sync-tag .dot{width:6px;height:6px;background:#3ddc84;border-radius:50%;box-shadow:0 0 8px #3ddc84;animation:pulse 1.5s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-  .os-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:800px;margin:auto}
+  .os-layout{display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;
+    max-width:900px;margin:auto;align-items:center}
   .os-card{background:rgba(20,20,40,.6);backdrop-filter:blur(20px);
     border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:2.5rem 1.2rem;
     text-align:center;cursor:pointer;transition:.4s cubic-bezier(.2,.9,.3,1);
@@ -83,6 +84,33 @@
   .os-card:hover i{transform:scale(1.15) rotate(-5deg)}
   .os-card h3{font-family:'Orbitron',sans-serif;font-size:1.4rem;letter-spacing:3px;margin-bottom:.4rem;color:#fff}
   .os-card p{color:#8a8ab0;font-size:.85rem;letter-spacing:1px}
+
+  .support-btn-wrap{display:flex;align-items:center;justify-content:center}
+  .support-btn{background:linear-gradient(135deg,#ffd700,#ff8c00,#ff3366);
+    background-size:200% 200%;
+    color:#fff;border:none;cursor:pointer;
+    padding:1.2rem .9rem;border-radius:24px;font-weight:900;
+    font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:1.5px;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+    box-shadow:0 15px 40px rgba(255,140,0,.5);
+    transition:.3s;animation:gradientMove 3s ease infinite;
+    text-transform:uppercase;writing-mode:vertical-rl;text-orientation:mixed;
+    border:2px solid rgba(255,215,0,.4);position:relative;overflow:hidden}
+  .support-btn::before{content:'';position:absolute;inset:0;
+    background:linear-gradient(45deg,transparent,rgba(255,255,255,.3),transparent);
+    background-size:200% 100%;animation:shine2 2.5s linear infinite;pointer-events:none}
+  @keyframes shine2{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  @keyframes gradientMove{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .support-btn:hover{transform:scale(1.08) rotate(-3deg);
+    box-shadow:0 20px 50px rgba(255,215,0,.7)}
+  .support-btn i{font-size:1.5rem;color:#fff;
+    filter:drop-shadow(0 0 8px rgba(255,255,255,.8));
+    animation:heartBeat 1.5s ease-in-out infinite}
+  @keyframes heartBeat{0%,100%{transform:scale(1)}15%{transform:scale(1.25)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+  .support-btn .sb-text{font-size:.7rem;line-height:1.2;font-weight:900;
+    text-shadow:0 2px 8px rgba(0,0,0,.5)}
+  .support-btn .sb-sub{font-size:.6rem;font-weight:700;opacity:.85;
+    letter-spacing:1px;text-shadow:0 2px 8px rgba(0,0,0,.5)}
 
   .cat-grid{display:grid;grid-template-columns:1fr;gap:1rem;max-width:700px;margin:auto}
   .cat-card{background:rgba(20,20,40,.6);backdrop-filter:blur(20px);
@@ -183,7 +211,6 @@
     opacity:.6;animation:twinkle 3s infinite}
   @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1;box-shadow:0 0 6px #fff}}
 
-  /* WELCOME */
   .welcome-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);
     backdrop-filter:blur(20px);z-index:8000;display:none;
     align-items:center;justify-content:center;padding:1.5rem}
@@ -212,7 +239,6 @@
     display:inline-flex;align-items:center;gap:8px}
   .welcome-btn:hover{transform:translateY(-2px) scale(1.05)}
 
-  /* AUTH */
   .auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);
     backdrop-filter:blur(20px);z-index:6000;display:flex;
     align-items:center;justify-content:center;padding:1.5rem}
@@ -258,7 +284,6 @@
   .auth-toggle a{color:#ff99aa;font-weight:700;cursor:pointer;text-decoration:underline}
   .auth-error{color:#ff3366;font-size:.75rem;margin-top:.5rem;min-height:1em}
 
-  /* POPUP MOD */
   .mod-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);
     backdrop-filter:blur(15px);z-index:5000;display:none;
     align-items:center;justify-content:center;padding:1.5rem}
@@ -319,7 +344,6 @@
     -webkit-text-fill-color:transparent;background-clip:text;
     animation:shine 3s linear infinite}
 
-  /* NOTICE */
   .notice-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);
     backdrop-filter:blur(15px);z-index:7000;display:none;
     align-items:center;justify-content:center;padding:1.5rem}
@@ -348,8 +372,216 @@
     box-shadow:0 10px 30px rgba(255,51,102,.5);transition:.3s}
   .notice-btn:hover{transform:translateY(-2px)}
 
+  /* ===== POPUP ỦNG HỘ ===== */
+  .donate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);
+    backdrop-filter:blur(15px);z-index:9000;display:none;
+    align-items:center;justify-content:center;padding:1.5rem}
+  .donate-overlay.show{display:flex}
+  .donate-box{background:linear-gradient(145deg,#0a0a1e,#151530);
+    border:2px solid transparent;
+    background-image:linear-gradient(#0a0a1e,#151530),
+      linear-gradient(135deg,#ffd700,#ff8c00,#ff3366);
+    background-origin:border-box;background-clip:padding-box,border-box;
+    border-radius:28px;padding:2rem 1.5rem;max-width:440px;width:100%;
+    text-align:center;box-shadow:0 30px 80px rgba(255,140,0,.5);
+    animation:modPop .4s cubic-bezier(.2,.9,.3,1.2);position:relative;
+    max-height:92vh;overflow-y:auto}
+  .donate-close{position:absolute;top:12px;right:12px;width:36px;height:36px;
+    border-radius:50%;border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.05);color:#a0a0c0;font-size:1rem;
+    cursor:pointer;transition:.3s;display:flex;align-items:center;
+    justify-content:center;font-family:'Poppins',sans-serif;z-index:2}
+  .donate-close:hover{background:#ff3366;color:#fff;border-color:#ff3366;transform:rotate(90deg)}
+  .donate-title{font-family:'Orbitron',sans-serif;font-size:1.3rem;font-weight:900;
+    background:linear-gradient(135deg,#ffd700,#ff8c00,#ff3366);
+    background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-clip:text;margin-bottom:.4rem;letter-spacing:2px;
+    animation:shine 3s linear infinite}
+  .donate-sub{color:#a0a0c0;font-size:.78rem;margin-bottom:1.2rem;letter-spacing:.5px}
+  .donate-sub i{color:#ff3366;animation:heartBeat 1.5s ease-in-out infinite;display:inline-block}
+
+  .amount-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin-bottom:1rem}
+  .amount-btn{background:rgba(255,255,255,.05);border:2px solid rgba(255,215,0,.3);
+    color:#ffd700;padding:12px 8px;border-radius:16px;font-weight:900;
+    cursor:pointer;font-size:.95rem;font-family:'Orbitron',sans-serif;
+    transition:.3s;letter-spacing:.5px;position:relative;overflow:hidden}
+  .amount-btn:hover{background:rgba(255,215,0,.15);border-color:#ffd700;
+    transform:translateY(-3px);box-shadow:0 10px 25px rgba(255,215,0,.4)}
+  .amount-btn.active{background:linear-gradient(135deg,#ffd700,#ff8c00);
+    color:#05050f;border-color:#ffd700;box-shadow:0 10px 30px rgba(255,215,0,.7);
+    transform:translateY(-3px)}
+  .amount-btn.custom{grid-column:span 2;
+    background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(0,212,255,.15));
+    border-color:rgba(168,85,247,.5);color:#c084fc}
+  .amount-btn.custom:hover,.amount-btn.custom.active{
+    background:linear-gradient(135deg,#a855f7,#00d4ff);color:#fff;border-color:#a855f7;
+    box-shadow:0 10px 30px rgba(168,85,247,.6)}
+
+  .custom-input-wrap{display:none;margin-bottom:1rem;animation:fadeIn .3s ease}
+  .custom-input-wrap.show{display:block}
+  .custom-input-wrap input{width:100%;background:rgba(255,255,255,.05);
+    border:2px solid rgba(168,85,247,.4);border-radius:14px;
+    padding:12px 16px;color:#fff;font-size:1rem;font-weight:700;
+    font-family:'Orbitron',sans-serif;text-align:center;outline:none;
+    transition:.3s}
+  .custom-input-wrap input:focus{border-color:#a855f7;
+    box-shadow:0 0 25px rgba(168,85,247,.5)}
+
+  .donate-confirm{width:100%;background:linear-gradient(135deg,#ffd700,#ff8c00,#ff3366);
+    background-size:200% 200%;color:#fff;border:none;padding:14px;
+    border-radius:30px;font-weight:900;cursor:pointer;font-size:1rem;
+    font-family:'Orbitron',sans-serif;letter-spacing:2px;
+    box-shadow:0 10px 30px rgba(255,140,0,.6);transition:.3s;
+    animation:gradientMove 3s ease infinite;margin-bottom:.8rem}
+  .donate-confirm:hover{transform:translateY(-2px) scale(1.02);
+    box-shadow:0 15px 40px rgba(255,215,0,.8)}
+  .donate-confirm:disabled{opacity:.4;cursor:not-allowed;transform:none;animation:none}
+
+  .qr-step{display:none;animation:fadeIn .4s ease}
+  .qr-step.show{display:block}
+  .qr-step .qr-amount{font-family:'Orbitron',sans-serif;font-size:1.6rem;
+    font-weight:900;color:#ffd700;margin-bottom:.8rem;letter-spacing:2px;
+    text-shadow:0 0 20px rgba(255,215,0,.6)}
+  .qr-img-wrap{background:rgba(255,255,255,.04);
+    border:2px solid rgba(255,215,0,.4);border-radius:20px;
+    padding:1rem;display:inline-block;margin-bottom:1rem;
+    box-shadow:0 15px 40px rgba(255,215,0,.3)}
+  .qr-img-wrap img{width:220px;height:220px;object-fit:contain;border-radius:12px;
+    display:block;background:#fff}
+  .qr-note{color:#a0a0c0;font-size:.8rem;line-height:1.6;margin-bottom:1rem}
+  .qr-note b{color:#ff99aa;font-weight:800}
+  .qr-back{background:rgba(255,255,255,.05);color:#a0a0c0;border:1px solid rgba(255,255,255,.15);
+    padding:10px 24px;border-radius:30px;font-weight:700;cursor:pointer;
+    font-size:.82rem;font-family:'Poppins',sans-serif;transition:.3s;margin-top:.3rem}
+  .qr-back:hover{background:rgba(255,51,102,.2);color:#fff;border-color:#ff3366}
+
+  /* ===== FORM ỦNG HỘ (bước 3) ===== */
+  .donate-form{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1rem}
+  .donate-form label{font-size:.72rem;font-weight:700;color:#a0a0c0;
+    text-transform:uppercase;letter-spacing:1px;text-align:left;
+    display:block;margin-bottom:3px}
+  .donate-form input{width:100%;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.15);border-radius:12px;
+    padding:11px 14px;color:#fff;font-size:.88rem;font-family:'Poppins',sans-serif;
+    transition:.3s;outline:none}
+  .donate-form input:focus{border-color:#ffd700;background:rgba(255,215,0,.08);
+    box-shadow:0 0 20px rgba(255,215,0,.3)}
+  .donate-form input::placeholder{color:#666}
+
+  /* ===== DANH SÁCH NGƯỜI ĐÃ ỦNG HỘ ===== */
+  .supporters-section{
+    margin-top:1rem;
+    padding-top:1rem;
+    border-top:1px solid rgba(255,215,0,.2);
+    text-align:left;
+  }
+  .supporters-title{
+    font-family:'Orbitron',sans-serif;
+    font-size:.85rem;
+    font-weight:800;
+    color:#ffd700;
+    letter-spacing:1.5px;
+    margin-bottom:.7rem;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    justify-content:center;
+  }
+  .supporters-title i{color:#ffd700;
+    animation:heartBeat 1.5s ease-in-out infinite}
+  .supporters-list{
+    max-height:180px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:.4rem;
+    padding:.5rem;
+    background:rgba(0,0,0,.2);
+    border-radius:14px;
+    border:1px solid rgba(255,215,0,.15);
+  }
+  .supporters-list::-webkit-scrollbar{width:5px}
+  .supporters-list::-webkit-scrollbar-track{background:rgba(255,255,255,.03);border-radius:10px}
+  .supporters-list::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ffd700,#ff8c00);border-radius:10px}
+  .supporter-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 10px;
+    background:rgba(255,255,255,.03);
+    border-radius:10px;
+    border:1px solid rgba(255,215,0,.1);
+    transition:.2s;
+    animation:fadeIn .3s ease;
+  }
+  .supporter-item:hover{
+    background:rgba(255,215,0,.08);
+    border-color:rgba(255,215,0,.3);
+    transform:translateX(3px);
+  }
+  .supporter-avatar{
+    width:30px;height:30px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#ffd700,#ff8c00);
+    color:#05050f;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:.75rem;
+    flex-shrink:0;
+    box-shadow:0 4px 12px rgba(255,215,0,.4);
+  }
+  .supporter-info{flex:1;min-width:0}
+  .supporter-info b{
+    display:block;
+    font-size:.8rem;
+    color:#fff;
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .supporter-info small{
+    color:#8a8ab0;
+    font-size:.65rem;
+  }
+  .supporter-amount{
+    color:#ffd700;
+    font-weight:800;
+    font-size:.78rem;
+    font-family:'Orbitron',sans-serif;
+    flex-shrink:0;
+  }
+  .supporters-empty{
+    text-align:center;
+    color:#666;
+    font-size:.78rem;
+    padding:1.5rem .5rem;
+    font-style:italic;
+  }
+  .supporters-loading{
+    text-align:center;
+    color:#8a8ab0;
+    font-size:.78rem;
+    padding:1rem;
+  }
+  .supporters-loading i{
+    animation:spin 1s linear infinite;
+    display:inline-block;
+    color:#ffd700;
+    margin-right:6px;
+  }
+
+  @media(max-width:700px){
+    .os-layout{grid-template-columns:1fr;gap:1rem}
+    .support-btn-wrap{order:3;padding:.5rem 0}
+    .support-btn{writing-mode:horizontal-tb;text-orientation:initial;
+      flex-direction:row;padding:14px 24px;font-size:.8rem;border-radius:30px;
+      justify-content:center;width:100%;max-width:400px;margin:auto}
+    .support-btn i{font-size:1.3rem}
+    .support-btn .sb-text{font-size:.75rem}
+    .support-btn .sb-sub{font-size:.65rem}
+  }
+
   @media(max-width:500px){
-    .os-grid{grid-template-columns:1fr;gap:1.2rem}
     header h1{font-size:.75rem;letter-spacing:1px}
     .logo-crown{font-size:1.3rem}.vip-badge{font-size:.55rem;padding:3px 7px}
     .hero-title h2{font-size:1.3rem}
@@ -358,12 +590,13 @@
     .file-thumb{width:55px;height:55px}
     .cat-card{padding:1.2rem 1rem}
     .cat-card h3{font-size:.85rem}
+    .amount-btn{font-size:.85rem;padding:10px 6px}
+    .qr-img-wrap img{width:180px;height:180px}
   }
 </style>
 </head>
 <body>
 
-<!-- NHẠC NỀN -->
 <audio id="bgMusic" loop autoplay>
   <source src="https://files.catbox.moe/g65v1o.mp3" type="audio/mpeg">
 </audio>
@@ -385,12 +618,22 @@
       <p>✨ Phiên bản VIP — Siêu mượt, siêu đẹp ✨</p>
       <div class="sync-tag" id="syncTag"><span class="dot"></span> <span id="syncText">Đang kết nối...</span></div>
     </div>
-    <div class="os-grid">
+
+    <div class="os-layout">
       <div class="os-card ios" data-os="ios">
         <i class="fab fa-apple"></i>
         <h3>iOS</h3>
         <p>iPhone / iPad</p>
       </div>
+
+      <div class="support-btn-wrap">
+        <button class="support-btn" id="supportBtn">
+          <i class="fas fa-heart"></i>
+          <span class="sb-text">ỦNG HỘ<br>SHOP</span>
+          <span class="sb-sub">💝</span>
+        </button>
+      </div>
+
       <div class="os-card adr" data-os="adr">
         <i class="fab fa-android"></i>
         <h3>Android</h3>
@@ -455,7 +698,6 @@
   <div class="copy">MADE WITH 💎 BY SAMM X HACK FREE FIRE TEAM</div>
 </footer>
 
-<!-- WELCOME -->
 <div class="welcome-overlay" id="welcomeOverlay">
   <div class="welcome-box">
     <div class="welcome-icon">🎉</div>
@@ -470,7 +712,6 @@
   </div>
 </div>
 
-<!-- AUTH -->
 <div class="auth-overlay" id="authOverlay" style="display:none">
   <div class="auth-box">
     <h2 id="authTitle">ĐĂNG NHẬP</h2>
@@ -502,7 +743,6 @@
   </div>
 </div>
 
-<!-- POPUP TẠO MOD -->
 <div class="mod-overlay" id="modOverlay">
   <div class="mod-box">
     <button class="mod-close" id="modClose" title="Đóng"><i class="fas fa-times"></i></button>
@@ -537,7 +777,6 @@
   </div>
 </div>
 
-<!-- POPUP HẾT HÀNG -->
 <div class="notice-overlay" id="noticeOverlay">
   <div class="notice-box">
     <button class="notice-close" id="noticeCloseX" title="Đóng"><i class="fas fa-times"></i></button>
@@ -550,9 +789,98 @@
   </div>
 </div>
 
+<!-- POPUP ỦNG HỘ SHOP -->
+<div class="donate-overlay" id="donateOverlay">
+  <div class="donate-box">
+    <button class="donate-close" id="donateClose" title="Đóng"><i class="fas fa-times"></i></button>
+
+    <!-- BƯỚC 1: CHỌN SỐ TIỀN -->
+    <div class="qr-step show" id="stepAmount">
+      <h2 class="donate-title">💝 ỦNG HỘ SHOP</h2>
+      <p class="donate-sub">Cảm ơn bạn đã ủng hộ <i class="fas fa-heart"></i> SAMM X HACK FREE FIRE</p>
+
+      <div class="amount-grid" id="amountGrid">
+        <button class="amount-btn" data-amount="20000">20.000đ</button>
+        <button class="amount-btn" data-amount="50000">50.000đ</button>
+        <button class="amount-btn" data-amount="100000">100.000đ</button>
+        <button class="amount-btn" data-amount="200000">200.000đ</button>
+        <button class="amount-btn" data-amount="500000" style="grid-column:span 2">500.000đ</button>
+        <button class="amount-btn custom" data-amount="custom">✏️ TÙY CHỈNH GIÁ</button>
+      </div>
+
+      <div class="custom-input-wrap" id="customInputWrap">
+        <input type="number" id="customAmount" placeholder="Nhập số tiền (VNĐ)" min="1000">
+      </div>
+
+      <button class="donate-confirm" id="donateConfirm" disabled>
+        <i class="fas fa-qrcode"></i> XÁC NHẬN
+      </button>
+    </div>
+
+    <!-- BƯỚC 2: HIỆN MÃ QR + FORM TÊN -->
+    <div class="qr-step" id="stepQR">
+      <h2 class="donate-title">💝 QUÉT MÃ QR</h2>
+      <p class="donate-sub">Cảm ơn bạn rất nhiều! <i class="fas fa-heart"></i></p>
+
+      <div class="qr-amount" id="qrAmount">0đ</div>
+
+      <div class="qr-img-wrap">
+        <img src="https://files.catbox.moe/7lmna0.jpeg" alt="QR Ủng hộ">
+      </div>
+
+      <p class="qr-note">
+        Vui lòng quét mã QR bằng app ngân hàng<br>
+        để ủng hộ shop <b>SAMM X HACK FREE FIRE</b> 💖
+      </p>
+
+      <div class="donate-form">
+        <div>
+          <label>Tên của bạn (hiển thị công khai)</label>
+          <input type="text" id="donorName" placeholder="VD: Nguyễn Văn A" maxlength="30">
+        </div>
+      </div>
+
+      <button class="donate-confirm" id="donorConfirm">
+        <i class="fas fa-check-circle"></i> TÔI ĐÃ CHUYỂN KHOẢN
+      </button>
+
+      <button class="qr-back" id="qrBack">
+        <i class="fas fa-arrow-left"></i> Quay lại
+      </button>
+    </div>
+
+    <!-- BƯỚC 3: CẢM ƠN + DANH SÁCH NGƯỜI ĐÃ ỦNG HỘ -->
+    <div class="qr-step" id="stepThanks">
+      <h2 class="donate-title">🎉 CẢM ƠN BẠN!</h2>
+      <p class="donate-sub">Bạn đã ủng hộ shop thành công <i class="fas fa-heart"></i></p>
+
+      <div style="font-size:3rem;margin:.5rem 0 1rem">💖</div>
+
+      <p class="qr-note" style="margin-bottom:1.2rem">
+        Cảm ơn <b id="thanksName">bạn</b> rất nhiều!<br>
+        Sự ủng hộ của bạn là động lực để shop phát triển! 🚀
+      </p>
+
+      <!-- DANH SÁCH NGƯỜI ĐÃ ỦNG HỘ -->
+      <div class="supporters-section">
+        <div class="supporters-title">
+          <i class="fas fa-heart"></i> NGƯỜI ĐÃ ỦNG HỘ <i class="fas fa-heart"></i>
+        </div>
+        <div class="supporters-list" id="supportersList">
+          <div class="supporters-loading"><i class="fas fa-spinner"></i>Đang tải...</div>
+        </div>
+      </div>
+
+      <button class="qr-back" id="thanksClose" style="margin-top:1rem">
+        <i class="fas fa-check"></i> Đóng
+      </button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, set, update, get }
+import { getDatabase, ref, onValue, set, update, get, push }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -569,11 +897,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const DB_REF = ref(db, 'shopData');
+const DONATE_REF = ref(db, 'donations');
 
 let data = {
   ios: { hack: [], mod: [], aim: [] },
   adr: { hack: [], mod: [], aim: [] }
 };
+let donations = [];
 let currentUser = null;
 let deviceId = '';
 let currentOS = '';
@@ -591,7 +921,6 @@ const CAT_LABELS = {
   const music = document.getElementById('bgMusic');
   if(!music) return;
   music.volume = 0.5;
-  
   const playPromise = music.play();
   if(playPromise !== undefined){
     playPromise.catch(() => {
@@ -610,16 +939,194 @@ const CAT_LABELS = {
 (function initWelcome(){
   const overlay = document.getElementById('welcomeOverlay');
   const btn = document.getElementById('welcomeBtn');
-  
   if(!sessionStorage.getItem('samm_welcomed')){
     setTimeout(() => overlay.classList.add('show'), 600);
     sessionStorage.setItem('samm_welcomed', '1');
   }
-  
-  btn.addEventListener('click', () => {
-    overlay.classList.remove('show');
-  });
+  btn.addEventListener('click', () => overlay.classList.remove('show'));
 })();
+
+/* ========== POPUP ỦNG HỘ ========== */
+const donateOverlay = document.getElementById('donateOverlay');
+const supportBtn = document.getElementById('supportBtn');
+const donateClose = document.getElementById('donateClose');
+const stepAmount = document.getElementById('stepAmount');
+const stepQR = document.getElementById('stepQR');
+const stepThanks = document.getElementById('stepThanks');
+const amountGrid = document.getElementById('amountGrid');
+const customInputWrap = document.getElementById('customInputWrap');
+const customAmount = document.getElementById('customAmount');
+const donateConfirm = document.getElementById('donateConfirm');
+const donorConfirm = document.getElementById('donorConfirm');
+const donorName = document.getElementById('donorName');
+const qrAmount = document.getElementById('qrAmount');
+const qrBack = document.getElementById('qrBack');
+const thanksName = document.getElementById('thanksName');
+const thanksClose = document.getElementById('thanksClose');
+const supportersList = document.getElementById('supportersList');
+
+let selectedAmount = 0;
+
+supportBtn.addEventListener('click', () => {
+  donateOverlay.classList.add('show');
+  resetDonate();
+});
+
+donateClose.addEventListener('click', () => donateOverlay.classList.remove('show'));
+donateOverlay.addEventListener('click', (e) => {
+  if(e.target === donateOverlay) donateOverlay.classList.remove('show');
+});
+
+function resetDonate(){
+  selectedAmount = 0;
+  stepAmount.classList.add('show');
+  stepQR.classList.remove('show');
+  stepThanks.classList.remove('show');
+  customInputWrap.classList.remove('show');
+  customAmount.value = '';
+  donorName.value = '';
+  donateConfirm.disabled = true;
+  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+}
+
+amountGrid.addEventListener('click', (e) => {
+  const btn = e.target.closest('.amount-btn');
+  if(!btn) return;
+  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const val = btn.dataset.amount;
+  if(val === 'custom'){
+    customInputWrap.classList.add('show');
+    customAmount.focus();
+    selectedAmount = 0;
+    donateConfirm.disabled = true;
+  } else {
+    customInputWrap.classList.remove('show');
+    selectedAmount = parseInt(val);
+    donateConfirm.disabled = false;
+  }
+});
+
+customAmount.addEventListener('input', () => {
+  const v = parseInt(customAmount.value);
+  if(!isNaN(v) && v >= 1000){
+    selectedAmount = v;
+    donateConfirm.disabled = false;
+  } else {
+    selectedAmount = 0;
+    donateConfirm.disabled = true;
+  }
+});
+
+donateConfirm.addEventListener('click', () => {
+  if(selectedAmount < 1000) return;
+  qrAmount.textContent = selectedAmount.toLocaleString('vi-VN') + 'đ';
+  stepAmount.classList.remove('show');
+  stepQR.classList.add('show');
+});
+
+qrBack.addEventListener('click', () => {
+  stepQR.classList.remove('show');
+  stepAmount.classList.add('show');
+});
+
+/* XÁC NHẬN ĐÃ CHUYỂN KHOẢN */
+donorConfirm.addEventListener('click', async () => {
+  const name = donorName.value.trim();
+  if(!name){
+    alert('Vui lòng nhập tên của bạn!');
+    donorName.focus();
+    return;
+  }
+  if(name.length < 2){
+    alert('Tên quá ngắn!');
+    return;
+  }
+  
+  donorConfirm.disabled = true;
+  donorConfirm.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG LƯU...';
+  
+  try {
+    await push(DONATE_REF, {
+      name: name,
+      amount: selectedAmount,
+      device: deviceId,
+      user: currentUser || 'Ẩn danh',
+      time: Date.now()
+    });
+    
+    thanksName.textContent = name;
+    stepQR.classList.remove('show');
+    stepThanks.classList.add('show');
+    
+    // Reset button
+    donorConfirm.disabled = false;
+    donorConfirm.innerHTML = '<i class="fas fa-check-circle"></i> TÔI ĐÃ CHUYỂN KHOẢN';
+    
+    // Reset form
+    donorName.value = '';
+    
+  } catch(e){
+    alert('Lỗi: ' + e.message);
+    donorConfirm.disabled = false;
+    donorConfirm.innerHTML = '<i class="fas fa-check-circle"></i> TÔI ĐÃ CHUYỂN KHOẢN';
+  }
+});
+
+thanksClose.addEventListener('click', () => {
+  donateOverlay.classList.remove('show');
+});
+
+/* ========== LẮNG NGHE DANH SÁCH ỦNG HỘ ========== */
+onValue(DONATE_REF, (snapshot) => {
+  const val = snapshot.val() || {};
+  donations = Object.entries(val).map(([id, d]) => ({ id, ...d }));
+  // Sắp xếp mới nhất lên đầu
+  donations.sort((a, b) => (b.time || 0) - (a.time || 0));
+  renderSupporters();
+});
+
+function renderSupporters(){
+  if(donations.length === 0){
+    supportersList.innerHTML = '<div class="supporters-empty">Chưa có ai ủng hộ. Hãy là người đầu tiên! 💝</div>';
+    return;
+  }
+  
+  supportersList.innerHTML = donations.map(d => {
+    const initial = (d.name || '?').charAt(0).toUpperCase();
+    const amountStr = (d.amount || 0).toLocaleString('vi-VN') + 'đ';
+    const timeAgo = getTimeAgo(d.time);
+    return `
+      <div class="supporter-item">
+        <div class="supporter-avatar">${initial}</div>
+        <div class="supporter-info">
+          <b>${escapeHtml(d.name)}</b>
+          <small>${timeAgo}</small>
+        </div>
+        <div class="supporter-amount">${amountStr}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getTimeAgo(time){
+  if(!time) return '';
+  const diff = Date.now() - time;
+  const min = Math.floor(diff / 60000);
+  if(min < 1) return 'Vừa xong';
+  if(min < 60) return min + ' phút trước';
+  const hour = Math.floor(min / 60);
+  if(hour < 24) return hour + ' giờ trước';
+  const day = Math.floor(hour / 24);
+  if(day < 30) return day + ' ngày trước';
+  return new Date(time).toLocaleDateString('vi-VN');
+}
+
+function escapeHtml(text){
+  const div = document.createElement('div');
+  div.textContent = text || '';
+  return div.innerHTML;
+}
 
 /* ========== TẠO ID THIẾT BỊ ========== */
 function generateDeviceId(){
@@ -692,7 +1199,6 @@ authSubmit.addEventListener('click', async function(){
     return;
   }
   
-  // Kiểm tra ban trước
   try {
     const bannedSnap = await get(ref(db, 'banned/' + deviceId));
     if(bannedSnap.exists()){
@@ -769,7 +1275,7 @@ function renderUserBar(){
   }
 }
 
-/* ========== LẮNG NGHE ========== */
+/* ========== LẮNG NGHE SHOP ========== */
 let unsub = null;
 function startListening(){
   if(unsub) unsub();
@@ -944,14 +1450,12 @@ const statusSteps = [
 
 function startModGeneration(link){
   currentModLink = link || '#';
-  
   modPercent.textContent = '0%';
   modBarFill.style.width = '0%';
   modStatus.textContent = 'Đang khởi tạo...';
   modDownload.style.display = 'none';
   modCancel.style.display = 'block';
   progressRing.style.strokeDashoffset = 251;
-  
   modOverlay.classList.add('show');
   
   const totalDuration = 30000 + Math.random() * 30000;
@@ -960,7 +1464,6 @@ function startModGeneration(link){
   modTimer = setInterval(() => {
     const elapsed = Date.now() - startTime;
     let percent = Math.min(100, (elapsed / totalDuration) * 100);
-    
     if(percent > 38 && percent < 45) percent = 38 + (percent - 38) * 0.3;
     if(percent > 62 && percent < 70) percent = 62 + (percent - 62) * 0.3;
     if(percent > 82 && percent < 90) percent = 82 + (percent - 82) * 0.3;
@@ -987,11 +1490,9 @@ async function finishModGeneration(){
   modBarFill.style.width = '100%';
   progressRing.style.strokeDashoffset = 0;
   modStatus.textContent = '✅ File MOD đã sẵn sàng!';
-  
   modCancel.style.display = 'none';
   modDownload.style.display = 'inline-flex';
   modDownload.href = currentModLink;
-  
   if(currentFileId && currentOS && currentCat){
     await reduceStock();
   }
@@ -1003,7 +1504,6 @@ async function reduceStock(){
   if(!item) return;
   const currentStock = item.stock !== undefined ? item.stock : 10;
   if(currentStock <= 0) return;
-  
   const stockRef = ref(db, `shopData/${currentOS}/${currentCat}`);
   const snap = await get(stockRef);
   const arr = snap.val() || [];
@@ -1022,7 +1522,6 @@ function closeModPopup(){
 modCancel.addEventListener('click', closeModPopup);
 document.getElementById('modClose').addEventListener('click', closeModPopup);
 
-/* ========== ĐÓNG NOTICE ========== */
 document.getElementById('noticeClose').addEventListener('click', () => {
   document.getElementById('noticeOverlay').classList.remove('show');
 });
@@ -1030,7 +1529,6 @@ document.getElementById('noticeCloseX').addEventListener('click', () => {
   document.getElementById('noticeOverlay').classList.remove('show');
 });
 
-/* ========== ONLINE ========== */
 function markDeviceOnline(){
   if(!currentUser) return;
   const onlineRef = ref(db, `online/${deviceId}`);
