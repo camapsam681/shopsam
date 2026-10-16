@@ -62,6 +62,8 @@
     margin-top:.8rem;border:1px solid rgba(61,220,132,.3)}
   .sync-tag .dot{width:6px;height:6px;background:#3ddc84;border-radius:50%;box-shadow:0 0 8px #3ddc84;animation:pulse 1.5s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  /* OS GRID */
   .os-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:800px;margin:auto}
   .os-card{background:rgba(20,20,40,.6);backdrop-filter:blur(20px);
     border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:3.5rem 1.5rem;
@@ -84,6 +86,31 @@
   .os-card:hover i{transform:scale(1.15) rotate(-5deg)}
   .os-card h3{font-family:'Orbitron',sans-serif;font-size:1.6rem;letter-spacing:3px;margin-bottom:.5rem;color:#fff}
   .os-card p{color:#8a8ab0;font-size:.9rem;letter-spacing:1px}
+
+  /* CATEGORY GRID */
+  .cat-grid{display:grid;grid-template-columns:1fr;gap:1.2rem;max-width:700px;margin:auto}
+  .cat-card{background:rgba(20,20,40,.6);backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.08);border-radius:22px;
+    padding:1.8rem 1.5rem;text-align:center;cursor:pointer;
+    transition:.4s cubic-bezier(.2,.9,.3,1);position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;gap:14px}
+  .cat-card::before{content:'';position:absolute;inset:-2px;
+    background:linear-gradient(135deg,#ff3366,#ffd700,#a855f7,#00d4ff,#ff3366);
+    background-size:300% 300%;border-radius:22px;z-index:-1;opacity:0;
+    transition:.4s;animation:borderMove 4s linear infinite}
+  .cat-card:hover::before{opacity:1}
+  .cat-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 25px 50px rgba(255,51,102,.3)}
+  .cat-card .cat-emoji{font-size:2.2rem}
+  .cat-card h3{font-family:'Orbitron',sans-serif;font-size:1.1rem;letter-spacing:2px;color:#fff}
+  .cat-card .cat-count{margin-left:auto;background:rgba(255,255,255,.1);
+    padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:800;color:#ffd700;
+    border:1px solid rgba(255,215,0,.3)}
+  .cat-back{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);
+    border:1px solid rgba(255,51,102,.3);color:#ff99aa;font-weight:700;cursor:pointer;
+    font-size:.9rem;padding:9px 18px;border-radius:30px;margin-bottom:1.8rem;
+    transition:.3s;display:inline-flex;align-items:center;gap:8px;letter-spacing:.5px}
+  .cat-back:hover{background:rgba(255,51,102,.2);border-color:#ff3366;color:#fff;transform:translateX(-4px)}
+
   .file-list{display:flex;flex-direction:column;gap:1rem;max-width:850px;margin:auto}
   .file{background:rgba(20,20,40,.6);backdrop-filter:blur(15px);
     border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:1.2rem 1.4rem;
@@ -97,11 +124,9 @@
     box-shadow:0 15px 40px rgba(255,51,102,.2);background:rgba(30,30,55,.7)}
   .file-thumb{width:70px;height:70px;border-radius:18px;flex-shrink:0;
     overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.5);position:relative;
-    display:flex;align-items:center;justify-content:center;transition:.3s}
-  .file-thumb.ios-bg{background:linear-gradient(135deg,#1a1a2e,#2a2a4a);
+    display:flex;align-items:center;justify-content:center;transition:.3s;
+    background:linear-gradient(135deg,#1a1a2e,#2a2a4a);
     border:1px solid rgba(160,160,255,.3);color:#a0a0ff}
-  .file-thumb.adr-bg{background:linear-gradient(135deg,#1a8a52,#3ddc84);
-    border:1px solid rgba(61,220,132,.3);color:#fff}
   .file-thumb img{width:100%;height:100%;object-fit:cover}
   .file-thumb i{font-size:1.8rem}
   .file-info{flex:1;min-width:0}
@@ -166,7 +191,7 @@
     opacity:.6;animation:twinkle 3s infinite}
   @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1;box-shadow:0 0 6px #fff}}
 
-  /* ĐĂNG NHẬP / ĐĂNG KÝ */
+  /* ĐĂNG NHẬP */
   .auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);
     backdrop-filter:blur(20px);z-index:6000;display:flex;
     align-items:center;justify-content:center;padding:1.5rem}
@@ -311,6 +336,8 @@
     .file{flex-wrap:wrap;gap:.8rem}.file-info{width:100%}
     .file-size,.dl-btn{font-size:.78rem}
     .file-thumb{width:60px;height:60px}
+    .cat-card{padding:1.4rem 1rem}
+    .cat-card h3{font-size:.9rem}
   }
 </style>
 </head>
@@ -327,6 +354,7 @@
 </header>
 
 <main>
+  <!-- TRANG 1: CHỌN OS -->
   <section id="homePage">
     <div class="hero-title">
       <h2>CHỌN HỆ ĐIỀU HÀNH</h2>
@@ -347,22 +375,42 @@
     </div>
   </section>
 
-  <section id="iosPage" class="hidden">
-    <button class="back" data-back><i class="fas fa-arrow-left"></i> Quay lại</button>
+  <!-- TRANG 2: CHỌN DANH MỤC CON -->
+  <section id="catPage" class="hidden">
+    <button class="cat-back" data-back-home><i class="fas fa-arrow-left"></i> Quay lại</button>
     <div class="hero-title">
-      <h2>📱 FILE IOS</h2>
-      <p>Kho file MOD Free Fire cho iOS</p>
+      <h2 id="catPageTitle">📱 iOS</h2>
+      <p>Chọn danh mục file bạn muốn xem</p>
     </div>
-    <div class="file-list" id="iosList"><div class="loading"><i class="fas fa-spinner"></i>Đang tải...</div></div>
+    <div class="cat-grid">
+      <div class="cat-card" data-cat="hack">
+        <span class="cat-emoji">🧩</span>
+        <h3>HACK FREE FIRE</h3>
+        <span class="cat-count" id="cat-count-hack">0</span>
+      </div>
+      <div class="cat-card" data-cat="mod">
+        <span class="cat-emoji">🧩</span>
+        <h3>MOD FREE FIRE</h3>
+        <span class="cat-count" id="cat-count-mod">0</span>
+      </div>
+      <div class="cat-card" data-cat="aim">
+        <span class="cat-emoji">🧩</span>
+        <h3>FILE AIM FREE FIRE</h3>
+        <span class="cat-count" id="cat-count-aim">0</span>
+      </div>
+    </div>
   </section>
 
-  <section id="adrPage" class="hidden">
-    <button class="back" data-back><i class="fas fa-arrow-left"></i> Quay lại</button>
+  <!-- TRANG 3: DANH SÁCH FILE -->
+  <section id="filePage" class="hidden">
+    <button class="back" data-back-cat><i class="fas fa-arrow-left"></i> Quay lại</button>
     <div class="hero-title">
-      <h2>🤖 FILE ANDROID</h2>
-      <p>Kho file MOD Free Fire cho Android</p>
+      <h2 id="filePageTitle">🧩 HACK FREE FIRE</h2>
+      <p id="filePageSub">Kho file cho iOS</p>
     </div>
-    <div class="file-list" id="adrList"><div class="loading"><i class="fas fa-spinner"></i>Đang tải...</div></div>
+    <div class="file-list" id="fileList">
+      <div class="loading"><i class="fas fa-spinner"></i>Đang tải...</div>
+    </div>
   </section>
 </main>
 
@@ -385,7 +433,7 @@
   <div class="copy">MADE WITH 💎 BY SAMM X MOD TEAM</div>
 </footer>
 
-<!-- ĐĂNG NHẬP / ĐĂNG KÝ -->
+<!-- ĐĂNG NHẬP -->
 <div class="auth-overlay" id="authOverlay">
   <div class="auth-box">
     <h2 id="authTitle">ĐĂNG NHẬP</h2>
@@ -485,9 +533,21 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const DB_REF = ref(db, 'shopData');
 
-let data = { ios: [], adr: [] };
+// data: { ios: { hack, mod, aim }, adr: { hack, mod, aim } }
+let data = {
+  ios: { hack: [], mod: [], aim: [] },
+  adr: { hack: [], mod: [], aim: [] }
+};
 let currentUser = null;
 let deviceId = '';
+let currentOS = '';
+let currentCat = '';
+
+const CAT_LABELS = {
+  hack: '🧩 HACK FREE FIRE',
+  mod: '🧩 MOD FREE FIRE',
+  aim: '🧩 FILE AIM FREE FIRE'
+};
 
 /* ========== TẠO ID THIẾT BỊ ========== */
 function generateDeviceId(){
@@ -634,50 +694,121 @@ function startListening(){
   if(unsub) unsub();
   unsub = onValue(DB_REF, (snapshot) => {
     const val = snapshot.val();
-    data = val ? { ios: val.ios || [], adr: val.adr || [] } : { ios: [], adr: [] };
+    if(val){
+      data = {
+        ios: {
+          hack: (val.ios && val.ios.hack) || [],
+          mod: (val.ios && val.ios.mod) || [],
+          aim: (val.ios && val.ios.aim) || []
+        },
+        adr: {
+          hack: (val.adr && val.adr.hack) || [],
+          mod: (val.adr && val.adr.mod) || [],
+          aim: (val.adr && val.adr.aim) || []
+        }
+      };
+    } else {
+      data = {
+        ios: { hack: [], mod: [], aim: [] },
+        adr: { hack: [], mod: [], aim: [] }
+      };
+    }
     document.getElementById('syncText').textContent = 'Đồng bộ trực tuyến';
-    renderFiles();
+    updateCatCounts();
+    if(currentOS && currentCat) renderFiles();
   }, (error) => {
     document.getElementById('syncText').textContent = 'Mất kết nối';
   });
 }
 
-/* ========== RENDER ========== */
-function renderFiles(){
-  ['ios','adr'].forEach(os => {
-    const box = document.getElementById(os + 'List');
-    const list = data[os] || [];
-    if(list.length === 0){
-      box.innerHTML = `<div class="empty"><i class="fas fa-folder-open"></i>Chưa có file nào</div>`;
-      return;
-    }
-    box.innerHTML = list.map(f => {
-      const thumbContent = f.image 
-        ? `<img src="${f.image}" alt="${f.name}">`
-        : `<i class="fas ${f.icon||'fa-file'}"></i>`;
-      
-      const stock = f.stock !== undefined ? f.stock : 10;
-      const stockClass = stock > 0 ? 'stock' : 'stock out';
-      const stockText = stock > 0 ? `📦 Còn lại: ${stock}` : '❌ Hết hàng';
-      const disabled = stock <= 0 ? 'disabled' : '';
-      
-      return `
-        <div class="file">
-          <div class="file-thumb ${os}-bg">${thumbContent}</div>
-          <div class="file-info">
-            <b>${f.name||'(chưa có tên)'}<span class="ver-tag">${f.ver||'v1.0'}</span></b>
-            <small>${f.desc||'Không có mô tả'}</small>
-            <span class="${stockClass}">${stockText}</span>
-          </div>
-          <div class="file-size">${f.size||'0 MB'}</div>
-          <button class="dl-btn" data-id="${f.id}" data-os="${os}" ${disabled}>
-            <i class="fas fa-download"></i> Tải
-          </button>
-        </div>
-      `;
-    }).join('');
-  });
+function updateCatCounts(){
+  const os = currentOS || 'ios';
+  document.getElementById('cat-count-hack').textContent = (data[os].hack || []).length;
+  document.getElementById('cat-count-mod').textContent = (data[os].mod || []).length;
+  document.getElementById('cat-count-aim').textContent = (data[os].aim || []).length;
 }
+
+/* ========== RENDER FILE ========== */
+function renderFiles(){
+  const box = document.getElementById('fileList');
+  const list = data[currentOS][currentCat] || [];
+  
+  if(list.length === 0){
+    box.innerHTML = `<div class="empty"><i class="fas fa-folder-open"></i>Chưa có file nào trong mục này</div>`;
+    return;
+  }
+  
+  box.innerHTML = list.map(f => {
+    const thumbContent = f.image 
+      ? `<img src="${f.image}" alt="${f.name}">`
+      : `<i class="fas ${f.icon||'fa-file'}"></i>`;
+    
+    const stock = f.stock !== undefined ? f.stock : 10;
+    const stockClass = stock > 0 ? 'stock' : 'stock out';
+    const stockText = stock > 0 ? `📦 Còn lại: ${stock}` : '❌ Hết hàng';
+    const disabled = stock <= 0 ? 'disabled' : '';
+    
+    return `
+      <div class="file">
+        <div class="file-thumb">${thumbContent}</div>
+        <div class="file-info">
+          <b>${f.name||'(chưa có tên)'}<span class="ver-tag">${f.ver||'v1.0'}</span></b>
+          <small>${f.desc||'Không có mô tả'}</small>
+          <span class="${stockClass}">${stockText}</span>
+        </div>
+        <div class="file-size">${f.size||'0 MB'}</div>
+        <button class="dl-btn" data-id="${f.id}" ${disabled}>
+          <i class="fas fa-download"></i> Tải
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ========== ĐIỀU HƯỚNG ========== */
+function showPage(id){
+  ['homePage','catPage','filePage'].forEach(p => {
+    document.getElementById(p).classList.toggle('hidden', p !== id);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.querySelectorAll('.os-card').forEach(c => {
+  c.addEventListener('click', () => {
+    currentOS = c.dataset.os;
+    document.getElementById('catPageTitle').textContent = 
+      currentOS === 'ios' ? '📱 iOS' : '🤖 Android';
+    updateCatCounts();
+    showPage('catPage');
+  });
+});
+
+document.querySelectorAll('.cat-card').forEach(c => {
+  c.addEventListener('click', () => {
+    currentCat = c.dataset.cat;
+    document.getElementById('filePageTitle').textContent = CAT_LABELS[currentCat];
+    document.getElementById('filePageSub').textContent = 
+      currentOS === 'ios' ? 'Kho file cho iOS' : 'Kho file cho Android';
+    renderFiles();
+    showPage('filePage');
+  });
+});
+
+document.querySelectorAll('[data-back-home]').forEach(b => {
+  b.addEventListener('click', () => {
+    currentOS = '';
+    currentCat = '';
+    showPage('homePage');
+  });
+});
+
+document.querySelectorAll('[data-back-cat]').forEach(b => {
+  b.addEventListener('click', () => {
+    currentCat = '';
+    updateCatCounts();
+    showPage('catPage');
+  });
+});
 
 /* ========== TẢI FILE ========== */
 document.addEventListener('click', function(e){
@@ -685,20 +816,17 @@ document.addEventListener('click', function(e){
   if(!btn || btn.disabled) return;
   e.preventDefault();
   
-  const fileId = btn.dataset.id;
-  const os = btn.dataset.os;
-  
   if(!currentUser){
     alert('Vui lòng đăng nhập!');
     return;
   }
   
-  const file = (data[os] || []).find(f => f.id === fileId);
+  const fileId = btn.dataset.id;
+  const file = (data[currentOS][currentCat] || []).find(f => f.id === fileId);
   if(!file) return;
   
   const stock = file.stock !== undefined ? file.stock : 10;
   
-  // CHỈ CHẶN KHI HẾT HÀNG
   if(stock <= 0){
     document.getElementById('noticeText').innerHTML = 
       `File này đã <b>hết hàng</b>. Vui lòng chọn file khác!`;
@@ -706,8 +834,7 @@ document.addEventListener('click', function(e){
     return;
   }
   
-  // Bắt đầu tải bình thường
-  startModGeneration(file.link, os, fileId);
+  startModGeneration(file.link);
 });
 
 /* ========== POPUP TẠO MOD ========== */
@@ -721,9 +848,7 @@ const progressRing = document.getElementById('progressRing');
 
 let modTimer = null;
 let currentModLink = '';
-let currentOs = '';
 let currentFileId = '';
-let modCompleted = false;
 
 const statusSteps = [
   { at: 0,  text: 'Đang khởi tạo...' },
@@ -736,11 +861,14 @@ const statusSteps = [
   { at: 100,text: 'Xong! Bạn có thể tải ngay.' }
 ];
 
-function startModGeneration(link, os, fileId){
+function startModGeneration(link){
   currentModLink = link || '#';
-  currentOs = os || '';
-  currentFileId = fileId || '';
-  modCompleted = false;
+  currentFileId = '';
+  
+  // tìm fileId
+  const btn = document.querySelector(`.dl-btn[data-id]`);
+  // Lấy fileId từ button đã click - cần lưu lại
+  // Sửa: dùng biến toàn cục
   
   modPercent.textContent = '0%';
   modBarFill.style.width = '0%';
@@ -788,25 +916,23 @@ async function finishModGeneration(){
   modCancel.style.display = 'none';
   modDownload.style.display = 'inline-flex';
   modDownload.href = currentModLink;
-  modCompleted = true;
   
-  // Trừ số lượng
-  if(currentOs && currentFileId){
-    await reduceStock(currentOs, currentFileId);
+  if(currentFileId && currentOS && currentCat){
+    await reduceStock();
   }
 }
 
-async function reduceStock(os, fileId){
-  const list = data[os] || [];
-  const item = list.find(f => f.id === fileId);
+async function reduceStock(){
+  const list = data[currentOS][currentCat] || [];
+  const item = list.find(f => f.id === currentFileId);
   if(!item) return;
   const currentStock = item.stock !== undefined ? item.stock : 10;
   if(currentStock <= 0) return;
   
-  const stockRef = ref(db, `shopData/${os}`);
+  const stockRef = ref(db, `shopData/${currentOS}/${currentCat}`);
   const snap = await get(stockRef);
   const arr = snap.val() || [];
-  const idx = arr.findIndex(f => f.id === fileId);
+  const idx = arr.findIndex(f => f.id === currentFileId);
   if(idx >= 0){
     arr[idx].stock = currentStock - 1;
     await set(stockRef, arr);
@@ -816,35 +942,12 @@ async function reduceStock(os, fileId){
 function closeModPopup(){
   if(modTimer){ clearInterval(modTimer); modTimer = null; }
   modOverlay.classList.remove('show');
-  modCompleted = false;
 }
 
 modCancel.addEventListener('click', closeModPopup);
 document.getElementById('modClose').addEventListener('click', closeModPopup);
 
-/* ========== ĐIỀU HƯỚNG ========== */
-function openOS(os){
-  document.getElementById('homePage').classList.add('hidden');
-  document.getElementById('iosPage').classList.toggle('hidden', os !== 'ios');
-  document.getElementById('adrPage').classList.toggle('hidden', os !== 'adr');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function goHome(){
-  document.getElementById('homePage').classList.remove('hidden');
-  document.getElementById('iosPage').classList.add('hidden');
-  document.getElementById('adrPage').classList.add('hidden');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-document.querySelectorAll('.os-card').forEach(c => {
-  c.addEventListener('click', () => openOS(c.dataset.os));
-});
-document.querySelectorAll('[data-back]').forEach(b => {
-  b.addEventListener('click', goHome);
-});
-
-/* ========== NÚT ĐÓNG THÔNG BÁO ========== */
+/* ========== ĐÓNG THÔNG BÁO ========== */
 document.getElementById('noticeClose').addEventListener('click', () => {
   document.getElementById('noticeOverlay').classList.remove('show');
 });
@@ -852,7 +955,7 @@ document.getElementById('noticeCloseX').addEventListener('click', () => {
   document.getElementById('noticeOverlay').classList.remove('show');
 });
 
-/* ========== ĐÁNH DẤU ONLINE ========== */
+/* ========== ONLINE ========== */
 function markDeviceOnline(){
   if(!currentUser) return;
   const onlineRef = ref(db, `online/${deviceId}`);
