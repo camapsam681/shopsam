@@ -51,6 +51,8 @@
     color:#3ddc84;padding:5px 14px;border-radius:20px;font-size:.75rem;font-weight:700;
     margin-top:.8rem;border:1px solid rgba(61,220,132,.3)}
   .sync-tag .dot{width:6px;height:6px;background:#3ddc84;border-radius:50%;box-shadow:0 0 8px #3ddc84;animation:pulse 1.5s infinite}
+  .sync-tag.off{background:rgba(255,51,102,.15);color:#ff99aa;border-color:rgba(255,51,102,.3)}
+  .sync-tag.off .dot{background:#ff3366;box-shadow:0 0 8px #ff3366}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
   .os-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:800px;margin:auto}
   .os-card{background:rgba(20,20,40,.6);backdrop-filter:blur(20px);
@@ -85,11 +87,9 @@
   .file:hover::before{opacity:1}
   .file:hover{transform:translateX(6px);border-color:rgba(255,51,102,.5);
     box-shadow:0 15px 40px rgba(255,51,102,.2);background:rgba(30,30,55,.7)}
-  /* ẢNH FILE */
   .file-thumb{width:70px;height:70px;border-radius:18px;flex-shrink:0;
     overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.5);position:relative;
-    display:flex;align-items:center;justify-content:center;
-    transition:.3s}
+    display:flex;align-items:center;justify-content:center;transition:.3s}
   .file:hover .file-thumb{transform:scale(1.05)}
   .file-thumb.ios-bg{background:linear-gradient(135deg,#1a1a2e,#2a2a4a);
     border:1px solid rgba(160,160,255,.3);color:#a0a0ff}
@@ -124,6 +124,9 @@
   .empty{text-align:center;padding:3rem 1rem;color:#666;
     background:rgba(20,20,40,.4);border-radius:16px;border:1px dashed rgba(255,255,255,.1)}
   .empty i{font-size:3rem;display:block;margin-bottom:1rem;color:#444}
+  .loading{text-align:center;padding:3rem;color:#8a8ab0}
+  .loading i{font-size:2.5rem;color:#ff3366;animation:spin 1s linear infinite;display:block;margin-bottom:1rem}
+  @keyframes spin{100%{transform:rotate(360deg)}}
   footer{background:linear-gradient(135deg,rgba(10,10,25,.95),rgba(20,10,40,.95));
     backdrop-filter:blur(20px);padding:2.5rem 1.5rem 2rem;margin-top:4rem;
     text-align:center;position:relative;border-top:1px solid rgba(255,51,102,.3)}
@@ -182,7 +185,7 @@
     <div class="hero-title">
       <h2>CHỌN HỆ ĐIỀU HÀNH</h2>
       <p>✨ Phiên bản VIP — Siêu mượt, siêu đẹp ✨</p>
-      <div class="sync-tag"><span class="dot"></span> Đồng bộ realtime với Admin</div>
+      <div class="sync-tag" id="syncTag"><span class="dot"></span> <span id="syncText">Đang kết nối...</span></div>
     </div>
     <div class="os-grid">
       <div class="os-card ios" data-os="ios">
@@ -204,7 +207,9 @@
       <h2>📱 FILE IOS</h2>
       <p>Kho file MOD Free Fire cho iOS</p>
     </div>
-    <div class="file-list" id="iosList"></div>
+    <div class="file-list" id="iosList">
+      <div class="loading"><i class="fas fa-spinner"></i>Đang tải dữ liệu...</div>
+    </div>
   </section>
 
   <section id="adrPage" class="hidden">
@@ -213,7 +218,9 @@
       <h2>🤖 FILE ANDROID</h2>
       <p>Kho file MOD Free Fire cho Android</p>
     </div>
-    <div class="file-list" id="adrList"></div>
+    <div class="file-list" id="adrList">
+      <div class="loading"><i class="fas fa-spinner"></i>Đang tải dữ liệu...</div>
+    </div>
   </section>
 </main>
 
@@ -236,36 +243,63 @@
   <div class="copy">MADE WITH 💎 BY SAMM X MOD TEAM</div>
 </footer>
 
-<script>
-const STORAGE_KEY = 'sammxmod_shared_data';
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-const DEFAULT_DATA = {
-  ios: [],
-  adr: []
+const firebaseConfig = {
+  apiKey: "AIzaSyAGvwWhk_CquwgTa578QCTgwx7lUM5Z4eM",
+  authDomain: "samm-x-mod.firebaseapp.com",
+  databaseURL: "https://samm-x-mod-default-rtdb.asia-southeast1.firebasedatabase.app/",
+  projectId: "samm-x-mod",
+  storageBucket: "samm-x-mod.firebasestorage.app",
+  messagingSenderId: "465846808281",
+  appId: "1:465846808281:web:9b875f20b233693ec9d8c8",
+  measurementId: "G-M5P8EHF5WY"
 };
 
-function loadData(){
-  try{
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(saved) return JSON.parse(saved);
-  }catch(e){}
-  const def = JSON.parse(JSON.stringify(DEFAULT_DATA));
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(def)); }catch(e){}
-  return def;
-}
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const DB_REF = ref(db, 'shopData');
 
-let data = loadData();
+let data = { ios: [], adr: [] };
 
+/* ========== LẮNG NGHE FIREBASE REALTIME ========== */
+onValue(DB_REF, (snapshot) => {
+  const val = snapshot.val();
+  if(val){
+    data = {
+      ios: val.ios || [],
+      adr: val.adr || []
+    };
+  } else {
+    data = { ios: [], adr: [] };
+  }
+  
+  // Cập nhật trạng thái
+  const tag = document.getElementById('syncTag');
+  document.getElementById('syncText').textContent = 'Đồng bộ trực tuyến';
+  tag.classList.remove('off');
+  
+  renderFiles();
+}, (error) => {
+  const tag = document.getElementById('syncTag');
+  tag.classList.add('off');
+  document.getElementById('syncText').textContent = 'Mất kết nối';
+  console.error(error);
+});
+
+/* ========== RENDER ========== */
 function renderFiles(){
   ['ios','adr'].forEach(os => {
     const box = document.getElementById(os + 'List');
     const list = data[os] || [];
     if(list.length === 0){
-      box.innerHTML = `<div class="empty"><i class="fas fa-folder-open"></i>Chưa có file nào. Vào Admin để thêm!</div>`;
+      box.innerHTML = `<div class="empty"><i class="fas fa-folder-open"></i>Chưa có file nào</div>`;
       return;
     }
     box.innerHTML = list.map(f => {
-      // Nếu có ảnh → hiện ảnh, không thì hiện icon
       const thumbContent = f.image 
         ? `<img src="${f.image}" alt="${f.name}">`
         : `<i class="fas ${f.icon||'fa-file'}"></i>`;
@@ -289,6 +323,7 @@ function renderFiles(){
   });
 }
 
+/* ========== ĐIỀU HƯỚNG ========== */
 function openOS(os){
   document.getElementById('homePage').classList.add('hidden');
   document.getElementById('iosPage').classList.toggle('hidden', os !== 'ios');
@@ -310,15 +345,7 @@ document.querySelectorAll('[data-back]').forEach(b => {
   b.addEventListener('click', goHome);
 });
 
-window.addEventListener('storage', function(e){
-  if(e.key === STORAGE_KEY){
-    try{
-      data = JSON.parse(e.newValue) || data;
-      renderFiles();
-    }catch(err){}
-  }
-});
-
+/* ========== SAO LẤP LÁNH ========== */
 (function(){
   const box = document.getElementById('stars');
   for(let i=0;i<60;i++){
@@ -331,8 +358,6 @@ window.addEventListener('storage', function(e){
     box.appendChild(s);
   }
 })();
-
-renderFiles();
 </script>
 </body>
 </html>
