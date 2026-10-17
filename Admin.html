@@ -225,9 +225,7 @@
   .stock-modal.show{display:flex}
   .stock-modal-box{background:linear-gradient(145deg,#0a0a1e,#151530);
     border:2px solid #ffd700;border-radius:24px;padding:2rem;max-width:360px;width:100%;
-    text-align:center;box-shadow:0 30px 80px rgba(255,215,0,.4);
-    animation:modPop .3s cubic-bezier(.2,.9,.3,1.2)}
-  @keyframes modPop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+    text-align:center;box-shadow:0 30px 80px rgba(255,215,0,.4)}
   .stock-modal h3{font-family:'Orbitron',sans-serif;font-size:1.1rem;
     color:#ffd700;margin-bottom:1.3rem;display:flex;align-items:center;
     justify-content:center;gap:8px}
@@ -279,7 +277,7 @@
 <main>
   <div class="title-bar">
     <h2>BẢNG ĐIỀU KHIỂN ADMIN</h2>
-    <p>Quản lý file · Thiết bị</p>
+    <p>Quản lý file · Thiết bị · Duyệt ủng hộ</p>
   </div>
   <div class="sync-info">
     <span class="sync-dot" id="syncDot"></span>
@@ -293,8 +291,12 @@
     <div class="main-tab" data-main="devices">
       <i class="fas fa-mobile-alt"></i> THIẾT BỊ <span class="badge" id="deviceCount">0</span>
     </div>
+    <div class="main-tab" data-main="donations">
+      <i class="fas fa-heart" style="color:#ff3366"></i> DUYỆT ỦNG HỘ <span class="badge" id="donateCount">0</span>
+    </div>
   </div>
 
+  <!-- TAB FILE -->
   <div class="tab-content active" id="tab-files">
     <div class="tabs">
       <div class="tab active" id="tab-ios" data-os="ios">
@@ -314,62 +316,53 @@
     <div class="form-card">
       <h3><i class="fas fa-plus-circle"></i> <span id="formTitle">Thêm file mới</span></h3>
       <div class="form-grid">
-        <div class="field"><label>Tên file</label>
-          <input type="text" id="fName" placeholder="VD: FF TH MOD MENU"></div>
-        <div class="field"><label>Phiên bản</label>
-          <input type="text" id="fVer" placeholder="VD: v1.0"></div>
-        <div class="field"><label>Dung lượng</label>
-          <input type="text" id="fSize" placeholder="VD: 25 MB"></div>
-        <div class="field"><label>Số lượng 📦</label>
-          <input type="number" id="fStock" placeholder="VD: 10" value="10" min="0"></div>
-        <div class="field"><label>Icon dự phòng</label>
-          <input type="text" id="fIcon" placeholder="VD: fa-file"></div>
-        <div class="field full"><label>Mô tả</label>
-          <input type="text" id="fDesc" placeholder="VD: MOD Free Fire TH an toàn"></div>
-        <div class="field full"><label>Link tải file</label>
-          <input type="text" id="fLink" placeholder="https://drive.google.com/..."></div>
+        <div class="field"><label>Tên file</label><input type="text" id="fName" placeholder="VD: FF TH MOD MENU"></div>
+        <div class="field"><label>Phiên bản</label><input type="text" id="fVer" placeholder="VD: v1.0"></div>
+        <div class="field"><label>Dung lượng</label><input type="text" id="fSize" placeholder="VD: 25 MB"></div>
+        <div class="field"><label>Số lượng 📦</label><input type="number" id="fStock" placeholder="VD: 10" value="10" min="0"></div>
+        <div class="field"><label>Icon dự phòng</label><input type="text" id="fIcon" placeholder="VD: fa-file"></div>
+        <div class="field full"><label>Mô tả</label><input type="text" id="fDesc" placeholder="VD: MOD Free Fire TH an toàn"></div>
+        <div class="field full"><label>Link tải file</label><input type="text" id="fLink" placeholder="https://drive.google.com/..."></div>
         <div class="field full">
           <label>Ảnh đại diện</label>
           <div class="upload-zone" id="uploadZone">
             <input type="file" id="fImage" accept="image/*" style="display:none">
             <div id="uploadContent">
               <i class="fas fa-cloud-upload-alt upload-icon"></i>
-              <div class="upload-text">Chọn ảnh từ thư viện
-                <small>Hỗ trợ JPG, PNG — Ảnh sẽ lưu lên Firebase</small>
-              </div>
+              <div class="upload-text">Chọn ảnh từ thư viện<small>Hỗ trợ JPG, PNG — Ảnh sẽ lưu lên Firebase</small></div>
             </div>
           </div>
-          <button class="btn-remove-img" id="btnRemoveImg" style="display:none">
-            <i class="fas fa-trash"></i> Xóa ảnh
-          </button>
+          <button class="btn-remove-img" id="btnRemoveImg" style="display:none"><i class="fas fa-trash"></i> Xóa ảnh</button>
         </div>
       </div>
       <div class="form-actions">
-        <button class="btn-primary" id="btnSave">
-          <i class="fas fa-save"></i> <span id="saveBtnText">Lưu file</span>
-        </button>
-        <button class="btn-secondary" id="btnCancel" style="display:none">
-          <i class="fas fa-times"></i> Hủy sửa
-        </button>
+        <button class="btn-primary" id="btnSave"><i class="fas fa-save"></i> <span id="saveBtnText">Lưu file</span></button>
+        <button class="btn-secondary" id="btnCancel" style="display:none"><i class="fas fa-times"></i> Hủy sửa</button>
       </div>
     </div>
 
     <div class="list-header">
       <h3><i class="fas fa-list"></i> Danh sách file <span id="listLabel">iOS — HACK FREE FIRE</span></h3>
     </div>
-    <div class="items" id="itemsList">
-      <div class="loading"><i class="fas fa-spinner"></i>Đang tải dữ liệu...</div>
-    </div>
+    <div class="items" id="itemsList"><div class="loading"><i class="fas fa-spinner"></i>Đang tải...</div></div>
   </div>
 
+  <!-- TAB DEVICES -->
   <div class="tab-content" id="tab-devices">
     <div class="list-header">
       <h3><i class="fas fa-users"></i> Tất cả thiết bị đã truy cập</h3>
     </div>
-    <div class="items" id="devicesList">
-      <div class="loading"><i class="fas fa-spinner"></i>Đang tải...</div>
-    </div>
+    <div class="items" id="devicesList"><div class="loading"><i class="fas fa-spinner"></i>Đang tải...</div></div>
   </div>
+
+  <!-- TAB DONATIONS -->
+  <div class="tab-content" id="tab-donations">
+    <div class="list-header">
+      <h3><i class="fas fa-clock" style="color:#ffd700"></i> Yêu cầu chờ duyệt</h3>
+    </div>
+    <div class="items" id="pendingList"><div class="loading"><i class="fas fa-spinner"></i>Đang tải...</div></div>
+  </div>
+
 </main>
 
 <div class="stock-modal" id="stockModal">
@@ -382,9 +375,7 @@
     </div>
     <div class="stock-modal-actions">
       <button class="btn-secondary" id="stockCancel">Hủy</button>
-      <button class="btn-primary" id="stockSave">
-        <i class="fas fa-check"></i> Lưu
-      </button>
+      <button class="btn-primary" id="stockSave"><i class="fas fa-check"></i> Lưu</button>
     </div>
   </div>
 </div>
@@ -393,8 +384,7 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, set, remove }
-  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, onValue, set, remove, push, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAGvwWhk_CquwgTa578QCTgwx7lUM5Z4eM",
@@ -409,15 +399,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+
 const DB_REF = ref(db, 'shopData');
 const ONLINE_REF = ref(db, 'online');
 const USERS_REF = ref(db, 'users');
 const BANNED_REF = ref(db, 'banned');
+const PENDING_REF = ref(db, 'donations_pending');
+const APPROVED_REF = ref(db, 'donations_approved');
 
-let data = {
-  ios: { hack: [], mod: [], aim: [] },
-  adr: { hack: [], mod: [], aim: [] }
-};
+let data = { ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } };
 let onlineDevices = {};
 let usersData = {};
 let bannedData = {};
@@ -428,12 +418,9 @@ let editingId = null;
 let currentImageData = null;
 let editingStockId = null;
 
-const CAT_LABELS = {
-  hack: 'HACK FREE FIRE',
-  mod: 'MOD FREE FIRE',
-  aim: 'FILE AIM FREE FIRE'
-};
+const CAT_LABELS = { hack: 'HACK FREE FIRE', mod: 'MOD FREE FIRE', aim: 'FILE AIM FREE FIRE' };
 
+/* TAB CHÍNH */
 document.querySelectorAll('.main-tab').forEach(t => {
   t.addEventListener('click', () => {
     document.querySelectorAll('.main-tab').forEach(x => x.classList.remove('active'));
@@ -443,68 +430,39 @@ document.querySelectorAll('.main-tab').forEach(t => {
   });
 });
 
+/* LẮNG NGHE FIREBASE */
 onValue(DB_REF, (snapshot) => {
   const val = snapshot.val();
   if(val){
     data = {
-      ios: {
-        hack: (val.ios && val.ios.hack) || [],
-        mod: (val.ios && val.ios.mod) || [],
-        aim: (val.ios && val.ios.aim) || []
-      },
-      adr: {
-        hack: (val.adr && val.adr.hack) || [],
-        mod: (val.adr && val.adr.mod) || [],
-        aim: (val.adr && val.adr.aim) || []
-      }
+      ios: { hack: val.ios?.hack||[], mod: val.ios?.mod||[], aim: val.ios?.aim||[] },
+      adr: { hack: val.adr?.hack||[], mod: val.adr?.mod||[], aim: val.adr?.aim||[] }
     };
   } else {
-    data = {
-      ios: { hack: [], mod: [], aim: [] },
-      adr: { hack: [], mod: [], aim: [] }
-    };
+    data = { ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } };
   }
   updateSyncStatus(true);
   render();
 });
 
-onValue(ONLINE_REF, (snapshot) => {
-  onlineDevices = snapshot.val() || {};
-  renderDevices();
-});
-
-onValue(USERS_REF, (snapshot) => {
-  usersData = snapshot.val() || {};
-  renderDevices();
-});
-
-onValue(BANNED_REF, (snapshot) => {
-  bannedData = snapshot.val() || {};
-  renderDevices();
-});
+onValue(ONLINE_REF, (snap) => { onlineDevices = snap.val() || {}; renderDevices(); });
+onValue(USERS_REF, (snap) => { usersData = snap.val() || {}; renderDevices(); });
+onValue(BANNED_REF, (snap) => { bannedData = snap.val() || {}; renderDevices(); });
+onValue(PENDING_REF, (snap) => { renderDonations(snap.val() || {}); });
 
 function updateSyncStatus(ok, msg){
   const dot = document.getElementById('syncDot');
   const txt = document.getElementById('syncText');
-  if(ok){
-    dot.classList.remove('off');
-    txt.textContent = 'Đã kết nối Firebase — Đồng bộ toàn cầu';
-  } else {
-    dot.classList.add('off');
-    txt.textContent = 'Lỗi kết nối: ' + (msg || 'unknown');
-  }
+  if(ok){ dot.classList.remove('off'); txt.textContent = 'Đã kết nối Firebase'; }
+  else { dot.classList.add('off'); txt.textContent = 'Lỗi kết nối: ' + (msg || 'unknown'); }
 }
 
 async function pushToFirebase(){
-  try {
-    await set(DB_REF, data);
-    return true;
-  } catch(e){
-    toast('Lỗi lưu Firebase: ' + e.message, false);
-    return false;
-  }
+  try { await set(DB_REF, data); return true; }
+  catch(e){ toast('Lỗi lưu Firebase: ' + e.message, false); return false; }
 }
 
+/* TAB OS & CATEGORY */
 function switchTab(os){
   currentOS = os;
   document.getElementById('tab-ios').classList.toggle('active', os==='ios');
@@ -512,19 +470,13 @@ function switchTab(os){
   cancelEdit();
   render();
 }
-
 function switchCat(cat){
   currentCat = cat;
-  document.querySelectorAll('.subtab').forEach(t => {
-    t.classList.toggle('active', t.dataset.cat === cat);
-  });
+  document.querySelectorAll('.subtab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
   cancelEdit();
   render();
 }
-
-function getList(){
-  return data[currentOS][currentCat] || [];
-}
+function getList(){ return data[currentOS][currentCat] || []; }
 
 function updateCounts(){
   let totalIos = 0, totalAdr = 0;
@@ -536,12 +488,11 @@ function updateCounts(){
   document.getElementById('count-adr').textContent = totalAdr;
 }
 
+/* RENDER FILE */
 function render(){
   updateCounts();
-  document.getElementById('listLabel').textContent = 
-    `${currentOS==='ios'?'iOS':'Android'} — ${CAT_LABELS[currentCat]}`;
-  document.getElementById('formTitle').textContent = 
-    `Thêm file mới — ${currentOS==='ios'?'iOS':'Android'} / ${CAT_LABELS[currentCat]}`;
+  document.getElementById('listLabel').textContent = `${currentOS==='ios'?'iOS':'Android'} — ${CAT_LABELS[currentCat]}`;
+  document.getElementById('formTitle').textContent = `Thêm file mới — ${currentOS==='ios'?'iOS':'Android'} / ${CAT_LABELS[currentCat]}`;
 
   const list = getList();
   const box = document.getElementById('itemsList');
@@ -555,11 +506,7 @@ function render(){
   list.forEach((f, i) => {
     const row = document.createElement('div');
     row.className = 'item-row';
-    
-    const thumbContent = f.image 
-      ? `<img src="${f.image}" alt="">`
-      : `<i class="fas ${f.icon||'fa-file'}"></i>`;
-    
+    const thumbContent = f.image ? `<img src="${f.image}" alt="">` : `<i class="fas ${f.icon||'fa-file'}"></i>`;
     const stock = f.stock !== undefined ? f.stock : 10;
     const stockClass = stock > 0 ? '' : ' out';
     const stockText = stock > 0 ? `📦 ${stock}` : '❌ Hết';
@@ -572,21 +519,11 @@ function render(){
         <span class="stock-badge${stockClass}">${stockText}</span>
       </div>
       <div class="item-actions">
-        <button class="icon-btn stock" data-act="stock" data-id="${f.id}" title="Số lượng">
-          <i class="fas fa-boxes"></i>
-        </button>
-        <button class="icon-btn up" data-act="up" data-idx="${i}" ${i===0?'disabled':''} title="Lên">
-          <i class="fas fa-arrow-up"></i>
-        </button>
-        <button class="icon-btn down" data-act="down" data-idx="${i}" ${i===list.length-1?'disabled':''} title="Xuống">
-          <i class="fas fa-arrow-down"></i>
-        </button>
-        <button class="icon-btn edit" data-act="edit" data-id="${f.id}" title="Sửa">
-          <i class="fas fa-pen"></i>
-        </button>
-        <button class="icon-btn delete" data-act="delete" data-id="${f.id}" title="Xóa">
-          <i class="fas fa-trash"></i>
-        </button>
+        <button class="icon-btn stock" data-act="stock" data-id="${f.id}" title="Số lượng"><i class="fas fa-boxes"></i></button>
+        <button class="icon-btn up" data-act="up" data-idx="${i}" ${i===0?'disabled':''}><i class="fas fa-arrow-up"></i></button>
+        <button class="icon-btn down" data-act="down" data-idx="${i}" ${i===list.length-1?'disabled':''}><i class="fas fa-arrow-down"></i></button>
+        <button class="icon-btn edit" data-act="edit" data-id="${f.id}"><i class="fas fa-pen"></i></button>
+        <button class="icon-btn delete" data-act="delete" data-id="${f.id}"><i class="fas fa-trash"></i></button>
       </div>
     `;
     box.appendChild(row);
@@ -604,21 +541,17 @@ document.getElementById('itemsList').addEventListener('click', function(e){
   if(act === 'stock')  openStockModal(btn.dataset.id);
 });
 
+/* XỬ LÝ ẢNH */
 const uploadZone = document.getElementById('uploadZone');
 const fImage = document.getElementById('fImage');
 const uploadContent = document.getElementById('uploadContent');
 const btnRemoveImg = document.getElementById('btnRemoveImg');
 
 uploadZone.addEventListener('click', () => fImage.click());
-
 fImage.addEventListener('change', function(e){
   const file = e.target.files[0];
   if(!file) return;
-  if(file.size > 2 * 1024 * 1024){
-    toast('Ảnh quá lớn! Chọn ảnh dưới 2MB', false);
-    fImage.value = '';
-    return;
-  }
+  if(file.size > 2 * 1024 * 1024){ toast('Ảnh quá lớn! Dưới 2MB', false); fImage.value = ''; return; }
   const reader = new FileReader();
   reader.onload = function(ev){
     compressImage(ev.target.result, 500, 500, 0.85, function(compressed){
@@ -634,14 +567,9 @@ function compressImage(dataUrl, maxW, maxH, quality, callback){
   const img = new Image();
   img.onload = function(){
     let w = img.width, h = img.height;
-    if(w > maxW || h > maxH){
-      const ratio = Math.min(maxW/w, maxH/h);
-      w = Math.round(w * ratio);
-      h = Math.round(h * ratio);
-    }
+    if(w > maxW || h > maxH){ const ratio = Math.min(maxW/w, maxH/h); w = Math.round(w * ratio); h = Math.round(h * ratio); }
     const canvas = document.createElement('canvas');
-    canvas.width = w;
-    canvas.height = h;
+    canvas.width = w; canvas.height = h;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, w, h);
     callback(canvas.toDataURL('image/jpeg', quality));
@@ -654,26 +582,16 @@ function showPreview(dataUrl){
   uploadContent.innerHTML = `<img src="${dataUrl}" class="preview-img" alt="preview">`;
   btnRemoveImg.style.display = 'inline-flex';
 }
-
 function clearImage(){
   currentImageData = null;
   uploadZone.classList.remove('has-image');
-  uploadContent.innerHTML = `
-    <i class="fas fa-cloud-upload-alt upload-icon"></i>
-    <div class="upload-text">Chọn ảnh từ thư viện
-      <small>Hỗ trợ JPG, PNG — Ảnh sẽ lưu lên Firebase</small>
-    </div>
-  `;
+  uploadContent.innerHTML = `<i class="fas fa-cloud-upload-alt upload-icon"></i><div class="upload-text">Chọn ảnh từ thư viện<small>Hỗ trợ JPG, PNG</small></div>`;
   btnRemoveImg.style.display = 'none';
   fImage.value = '';
 }
+btnRemoveImg.addEventListener('click', function(e){ e.stopPropagation(); clearImage(); });
 
-btnRemoveImg.addEventListener('click', function(e){
-  e.stopPropagation();
-  clearImage();
-  toast('Đã xóa ảnh', false);
-});
-
+/* THÊM / SỬA / XÓA FILE */
 async function saveFile(){
   const name = document.getElementById('fName').value.trim();
   const ver  = document.getElementById('fVer').value.trim() || 'v1.0';
@@ -685,7 +603,6 @@ async function saveFile(){
   const link = document.getElementById('fLink').value.trim();
 
   if(!name){ toast('Vui lòng nhập tên file!', false); return; }
-
   const list = getList();
 
   if(editingId){
@@ -697,17 +614,11 @@ async function saveFile(){
     cancelEdit();
   } else {
     const id = currentOS + '_' + currentCat + '_' + Date.now();
-    list.push({ 
-      id, name, ver, size, icon, desc, link, stock: stockVal,
-      image: currentImageData || null 
-    });
+    list.push({ id, name, ver, size, icon, desc, link, stock: stockVal, image: currentImageData || null });
   }
 
   const ok = await pushToFirebase();
-  if(ok){
-    toast(editingId ? 'Đã cập nhật!' : 'Đã thêm file!', true);
-    clearForm();
-  }
+  if(ok){ toast(editingId ? 'Đã cập nhật!' : 'Đã thêm file!', true); clearForm(); }
 }
 
 function editFile(id){
@@ -721,14 +632,8 @@ function editFile(id){
   document.getElementById('fIcon').value = item.icon||'';
   document.getElementById('fDesc').value = item.desc||'';
   document.getElementById('fLink').value = item.link||'';
-  
-  if(item.image){
-    currentImageData = item.image;
-    showPreview(item.image);
-  } else {
-    clearImage();
-  }
-  
+  if(item.image){ currentImageData = item.image; showPreview(item.image); }
+  else { clearImage(); }
   document.getElementById('saveBtnText').textContent = 'Cập nhật';
   document.getElementById('btnCancel').style.display = 'flex';
   document.getElementById('formTitle').textContent = 'Đang sửa file';
@@ -740,14 +645,11 @@ function cancelEdit(){
   clearForm();
   document.getElementById('saveBtnText').textContent = 'Lưu file';
   document.getElementById('btnCancel').style.display = 'none';
-  document.getElementById('formTitle').textContent = 
-    `Thêm file mới — ${currentOS==='ios'?'iOS':'Android'} / ${CAT_LABELS[currentCat]}`;
+  document.getElementById('formTitle').textContent = `Thêm file mới — ${currentOS==='ios'?'iOS':'Android'} / ${CAT_LABELS[currentCat]}`;
 }
 
 function clearForm(){
-  ['fName','fVer','fSize','fIcon','fDesc','fLink'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
+  ['fName','fVer','fSize','fIcon','fDesc','fLink'].forEach(id => { document.getElementById(id).value = ''; });
   document.getElementById('fStock').value = '10';
   clearImage();
 }
@@ -771,6 +673,7 @@ async function moveItem(index, dir){
   if(ok) toast('Đã đổi vị trí!', true);
 }
 
+/* MODAL SỐ LƯỢNG */
 const stockModal = document.getElementById('stockModal');
 const stockInput = document.getElementById('stockInput');
 
@@ -782,47 +685,25 @@ function openStockModal(id){
   stockModal.classList.add('show');
 }
 
-document.getElementById('stockMinus').addEventListener('click', function(){
-  const v = parseInt(stockInput.value) || 0;
-  stockInput.value = Math.max(0, v - 1);
-});
-
-document.getElementById('stockPlus').addEventListener('click', function(){
-  const v = parseInt(stockInput.value) || 0;
-  stockInput.value = v + 1;
-});
-
-document.getElementById('stockCancel').addEventListener('click', function(){
-  stockModal.classList.remove('show');
-  editingStockId = null;
-});
-
-document.getElementById('stockSave').addEventListener('click', async function(){
+document.getElementById('stockMinus').onclick = () => { const v = parseInt(stockInput.value) || 0; stockInput.value = Math.max(0, v - 1); };
+document.getElementById('stockPlus').onclick = () => { const v = parseInt(stockInput.value) || 0; stockInput.value = v + 1; };
+document.getElementById('stockCancel').onclick = () => { stockModal.classList.remove('show'); editingStockId = null; };
+document.getElementById('stockSave').onclick = async () => {
   if(!editingStockId) return;
   const item = getList().find(x => x.id === editingStockId);
   if(!item) return;
   const val = parseInt(stockInput.value);
   item.stock = isNaN(val) || val < 0 ? 0 : val;
   const ok = await pushToFirebase();
-  if(ok){
-    toast(`Đã đặt số lượng: ${item.stock}`, true);
-    stockModal.classList.remove('show');
-    editingStockId = null;
-  }
-});
+  if(ok){ toast(`Đã đặt SL: ${item.stock}`, true); stockModal.classList.remove('show'); editingStockId = null; }
+};
+stockModal.onclick = (e) => { if(e.target === stockModal){ stockModal.classList.remove('show'); editingStockId = null; } };
 
-stockModal.addEventListener('click', function(e){
-  if(e.target === stockModal){
-    stockModal.classList.remove('show');
-    editingStockId = null;
-  }
-});
-
-/* ========== RENDER DEVICES ========== */
+/* RENDER DEVICES */
 function renderDevices(){
   const box = document.getElementById('devicesList');
-  
   const allDevices = {};
+
   Object.entries(usersData).forEach(([username, u]) => {
     const devices = u.devices || {};
     Object.keys(devices).forEach(did => {
@@ -830,38 +711,36 @@ function renderDevices(){
       allDevices[did].users.push(username);
     });
   });
-  
   Object.entries(onlineDevices).forEach(([did, info]) => {
     if(!allDevices[did]) allDevices[did] = { device: did, users: [] };
     allDevices[did].online = info;
   });
-  
+
   const arr = Object.values(allDevices);
   document.getElementById('deviceCount').textContent = arr.length;
-  
+
   if(arr.length === 0){
-    box.innerHTML = `<div class="empty"><i class="fas fa-mobile-alt"></i>Chưa có thiết bị nào truy cập</div>`;
+    box.innerHTML = `<div class="empty"><i class="fas fa-mobile-alt"></i>Chưa có thiết bị nào</div>`;
     return;
   }
-  
+
   box.innerHTML = arr.map(d => {
     const isBanned = bannedData[d.device];
     const isOnline = d.online && (Date.now() - d.online.time < 5 * 60 * 1000);
     const username = d.users[0] || (d.online && d.online.user) || 'Không rõ';
     const initial = username.charAt(0).toUpperCase();
     const timeStr = d.online ? new Date(d.online.time).toLocaleString('vi-VN') : '—';
-    
+
     let statusBadge = '';
     if(isBanned) statusBadge = '<span class="device-status banned"><i class="fas fa-ban"></i> BỊ BAN</span>';
     else if(isOnline) statusBadge = '<span class="device-status online"><i class="fas fa-circle"></i> ONLINE</span>';
     else statusBadge = '<span class="device-status offline"><i class="fas fa-circle"></i> OFFLINE</span>';
-    
+
     return `
       <div class="device-row ${isBanned?'banned':''}">
         <div class="device-avatar">${initial}</div>
         <div class="device-info">
-          <b>${username}</b>
-          <code>${d.device}</code>
+          <b>${username}</b><code>${d.device}</code>
           <small>Lần cuối: ${timeStr} · ${d.users.length} tài khoản</small>
         </div>
         ${statusBadge}
@@ -874,43 +753,78 @@ function renderDevices(){
       </div>
     `;
   }).join('');
-  
-  box.querySelectorAll('.btn-ban').forEach(b => {
-    b.addEventListener('click', () => banDevice(b.dataset.device, b.dataset.user));
-  });
-  box.querySelectorAll('.btn-unban').forEach(b => {
-    b.addEventListener('click', () => unbanDevice(b.dataset.device));
-  });
+
+  box.querySelectorAll('.btn-ban').forEach(b => b.onclick = () => banDevice(b.dataset.device, b.dataset.user));
+  box.querySelectorAll('.btn-unban').forEach(b => b.onclick = () => unbanDevice(b.dataset.device));
 }
 
 async function banDevice(device, user){
-  if(!confirm(`Ban thiết bị ${device}?\nTài khoản: ${user}\n\nThiết bị này sẽ KHÔNG thể đăng nhập vào shop!`)) return;
-  await set(ref(db, 'banned/' + device), {
-    device: device,
-    user: user || 'unknown',
-    time: Date.now(),
-    by: 'admin'
-  });
-  toast('Đã ban thiết bị!', true);
+  if(!confirm(`Ban thiết bị ${device}?`)) return;
+  await set(ref(db, 'banned/' + device), { device, user: user || 'unknown', time: Date.now(), by: 'admin' });
+  toast('Đã ban!', true);
 }
-
 async function unbanDevice(device){
-  if(!confirm(`Bỏ ban thiết bị ${device}?`)) return;
+  if(!confirm(`Bỏ ban ${device}?`)) return;
   await remove(ref(db, 'banned/' + device));
   toast('Đã bỏ ban!', true);
 }
 
+/* RENDER DONATIONS */
+function renderDonations(pendingList){
+  const box = document.getElementById('pendingList');
+  const list = Object.entries(pendingList).map(([id, d]) => ({ id, ...d }));
+  list.sort((a, b) => (b.time || 0) - (a.time || 0));
+  
+  document.getElementById('donateCount').textContent = list.length;
+
+  if(list.length === 0){
+    box.innerHTML = `<div class="empty"><i class="fas fa-heart-broken"></i>Không có yêu cầu nào đang chờ duyệt</div>`;
+    return;
+  }
+
+  box.innerHTML = list.map(d => `
+    <div class="item-row" style="flex-wrap:wrap; border-color:rgba(255,215,0,.3)">
+      <div class="item-info">
+        <b style="color:#ffd700">${d.name}</b>
+        <small>Số tiền: <span style="color:#3ddc84;font-weight:bold">${(d.amount||0).toLocaleString('vi-VN')}đ</span></small>
+        <small>Thiết bị: <code>${d.device}</code></small>
+        <small>Lúc: ${new Date(d.time).toLocaleString('vi-VN')}</small>
+      </div>
+      <div class="item-actions" style="width:100%;justify-content:flex-end;margin-top:0.5rem">
+        <button class="btn-primary" onclick="window.approveDonate('${d.id}', '${d.name}', ${d.amount}, ${d.time}, '${d.device}')">
+          <i class="fas fa-check"></i> Duyệt
+        </button>
+        <button class="btn-secondary" onclick="window.rejectDonate('${d.id}')" style="background:rgba(255,51,102,.2);color:#ff99aa;border-color:rgba(255,51,102,.4)">
+          <i class="fas fa-times"></i> Hủy
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.approveDonate = async (id, name, amount, time, device) => {
+  if(!confirm(`Xác nhận đã nhận ${amount.toLocaleString('vi-VN')}đ từ "${name}"?`)) return;
+  try {
+    await push(APPROVED_REF, { name, amount, time, device });
+    await remove(ref(db, 'donations_pending/' + id));
+    toast('Đã duyệt thành công!', true);
+  } catch(e) { toast('Lỗi: ' + e.message, false); }
+};
+
+window.rejectDonate = async (id) => {
+  if(!confirm('Bạn chắc chắn muốn hủy yêu cầu này?')) return;
+  try {
+    await remove(ref(db, 'donations_pending/' + id));
+    toast('Đã hủy yêu cầu', false);
+  } catch(e) { toast('Lỗi: ' + e.message, false); }
+};
+
+/* RESET & TOAST */
 async function resetAll(){
   if(!confirm('Xóa TOÀN BỘ file? Không thể hoàn tác!')) return;
-  data = {
-    ios: { hack: [], mod: [], aim: [] },
-    adr: { hack: [], mod: [], aim: [] }
-  };
+  data = { ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } };
   const ok = await pushToFirebase();
-  if(ok){
-    cancelEdit();
-    toast('Đã xóa hết!', true);
-  }
+  if(ok){ cancelEdit(); toast('Đã xóa hết file!', true); }
 }
 
 let toastTimer;
@@ -923,14 +837,13 @@ function toast(msg, success){
   toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-document.getElementById('tab-ios').addEventListener('click', () => switchTab('ios'));
-document.getElementById('tab-adr').addEventListener('click', () => switchTab('adr'));
-document.querySelectorAll('.subtab').forEach(t => {
-  t.addEventListener('click', () => switchCat(t.dataset.cat));
-});
-document.getElementById('btnSave').addEventListener('click', saveFile);
-document.getElementById('btnCancel').addEventListener('click', cancelEdit);
-document.getElementById('btnReset').addEventListener('click', resetAll);
+/* SỰ KIỆN */
+document.getElementById('tab-ios').onclick = () => switchTab('ios');
+document.getElementById('tab-adr').onclick = () => switchTab('adr');
+document.querySelectorAll('.subtab').forEach(t => t.onclick = () => switchCat(t.dataset.cat));
+document.getElementById('btnSave').onclick = saveFile;
+document.getElementById('btnCancel').onclick = cancelEdit;
+document.getElementById('btnReset').onclick = resetAll;
 </script>
 </body>
 </html>
