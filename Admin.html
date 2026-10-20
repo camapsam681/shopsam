@@ -11,103 +11,116 @@
   body{background:#05050f;color:#fff;min-height:100vh;padding-bottom:2rem}
   body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 15%,rgba(255,51,102,.12),transparent 40%),radial-gradient(circle at 85% 85%,rgba(120,80,255,.12),transparent 40%);z-index:-1}
   
-  header{background:rgba(10,10,25,.75);backdrop-filter:blur(20px);padding:1.2rem 2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,51,102,.3);position:sticky;top:0;z-index:100;box-shadow:0 8px 32px rgba(0,0,0,.5);flex-wrap:wrap;gap:10px}
+  /* SỬA LẠI HEADER CHO ĐIỆN THOẠI */
+  header{background:rgba(10,10,25,.75);backdrop-filter:blur(20px);padding:1rem 1.2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,51,102,.3);position:sticky;top:0;z-index:100;box-shadow:0 8px 32px rgba(0,0,0,.5);flex-wrap:wrap;gap:15px}
   header::after{content:'';position:absolute;bottom:-1px;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,#ff3366,#ffd700,#00d4ff,#ff3366,transparent);background-size:200% 100%;animation:shine 4s linear infinite}
   @keyframes shine{0%{background-position:200% 0}100%{background-position:-200% 0}}
   
-  .logo{display:flex;align-items:center;gap:10px}
-  .logo i{font-size:1.6rem;color:#ffd700;filter:drop-shadow(0 0 12px #ffd700)}
-  .logo h1{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:1px;background:linear-gradient(135deg,#fff,#ff99aa,#ff3366);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .logo{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .logo i{font-size:1.4rem;color:#ffd700;filter:drop-shadow(0 0 12px #ffd700)}
+  .logo h1{font-family:'Orbitron',sans-serif;font-size:0.95rem;letter-spacing:1px;background:linear-gradient(135deg,#fff,#ff99aa,#ff3366);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
   .logo h1 span{color:#ff3366;-webkit-text-fill-color:#ff3366}
-  .admin-badge{background:linear-gradient(135deg,#ff3366,#a855f7);padding:4px 10px;border-radius:20px;font-size:.65rem;font-weight:800;letter-spacing:1px;margin-left:6px}
+  .admin-badge{background:linear-gradient(135deg,#ff3366,#a855f7);padding:3px 8px;border-radius:20px;font-size:.6rem;font-weight:800;letter-spacing:1px;margin-left:4px}
   
-  .header-actions{display:flex;gap:8px;flex-wrap:wrap}
-  .btn-export{background:linear-gradient(135deg,#00d4ff,#3ddc84);color:#05050f;border:none;padding:9px 16px;border-radius:30px;font-weight:800;cursor:pointer;font-size:.78rem;display:flex;align-items:center;gap:6px;transition:.3s;text-decoration:none}
-  .btn-reset{background:rgba(255,255,255,.06);color:#ff99aa;border:1px solid rgba(255,51,102,.3);padding:9px 14px;border-radius:30px;font-weight:700;cursor:pointer;font-size:.78rem;transition:.3s;font-family:'Poppins',sans-serif}
+  .header-actions{display:flex;gap:8px;flex-wrap:wrap;width: 100%; justify-content: space-between;}
+  .btn-export{background:linear-gradient(135deg,#00d4ff,#3ddc84);color:#05050f;border:none;padding:8px 14px;border-radius:30px;font-weight:800;cursor:pointer;font-size:.75rem;display:flex;align-items:center;gap:6px;transition:.3s;text-decoration:none; flex: 1; justify-content: center;}
+  .btn-reset{background:rgba(255,255,255,.06);color:#ff99aa;border:1px solid rgba(255,51,102,.3);padding:8px 14px;border-radius:30px;font-weight:700;cursor:pointer;font-size:.75rem;transition:.3s;font-family:'Poppins',sans-serif; flex: 1;}
   
-  main{max-width:1200px;margin:auto;padding:2rem 1.5rem}
+  main{max-width:1200px;margin:auto;padding:1.5rem 1rem}
   .title-bar{text-align:center;margin-bottom:1.5rem}
-  .title-bar h2{font-family:'Orbitron',sans-serif;font-size:1.5rem;letter-spacing:2px;background:linear-gradient(135deg,#fff,#ffd700,#ff3366);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.4rem}
-  .title-bar p{color:#8a8ab0;font-size:.82rem}
+  .title-bar h2{font-family:'Orbitron',sans-serif;font-size:1.3rem;letter-spacing:1px;background:linear-gradient(135deg,#fff,#ffd700,#ff3366);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.4rem}
+  .title-bar p{color:#8a8ab0;font-size:.75rem}
   
-  .sync-info{text-align:center;color:#3ddc84;font-size:.78rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+  .sync-info{text-align:center;color:#3ddc84;font-size:.75rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
   .sync-dot{width:8px;height:8px;background:#3ddc84;border-radius:50%;box-shadow:0 0 10px #3ddc84;animation:pulse 1.5s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-  .main-tabs{display:flex;justify-content:center;gap:.7rem;margin-bottom:1.8rem;flex-wrap:wrap}
-  .main-tab{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);padding:11px 22px;border-radius:30px;cursor:pointer;font-weight:700;font-size:.82rem;transition:.3s;color:#8a8ab0;display:flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif}
+  .main-tabs{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .main-tab{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);padding:9px 16px;border-radius:30px;cursor:pointer;font-weight:700;font-size:.75rem;transition:.3s;color:#8a8ab0;display:flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif}
   .main-tab.active{background:linear-gradient(135deg,#ff3366,#ff6b9d);color:#fff;border-color:transparent;box-shadow:0 10px 30px rgba(255,51,102,.5);transform:translateY(-2px)}
   .main-tab:hover:not(.active){border-color:rgba(255,51,102,.5);color:#fff}
-  .badge{background:rgba(255,255,255,.2);padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:800}
+  .badge{background:rgba(255,255,255,.2);padding:2px 6px;border-radius:20px;font-size:.65rem;font-weight:800}
 
   .tab-content{display:none}
   .tab-content.active{display:block}
 
-  .tabs{display:flex;justify-content:center;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap}
-  .tab{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);padding:11px 24px;border-radius:30px;cursor:pointer;font-weight:700;font-size:.85rem;transition:.3s;color:#8a8ab0;display:flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif}
+  .tabs{display:flex;justify-content:center;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+  .tab{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);padding:9px 18px;border-radius:30px;cursor:pointer;font-weight:700;font-size:.8rem;transition:.3s;color:#8a8ab0;display:flex;align-items:center;gap:6px;font-family:'Poppins',sans-serif}
   .tab.active{background:linear-gradient(135deg,#ff3366,#ff6b9d);color:#fff;border-color:transparent;box-shadow:0 10px 30px rgba(255,51,102,.5);transform:translateY(-2px)}
   
-  .subtabs{display:flex;justify-content:center;gap:.6rem;margin-bottom:1.8rem;flex-wrap:wrap}
-  .subtab{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);padding:9px 18px;border-radius:25px;cursor:pointer;font-weight:700;font-size:.78rem;transition:.3s;color:#8a8ab0;display:flex;align-items:center;gap:5px;font-family:'Poppins',sans-serif}
+  .subtabs{display:flex;justify-content:center;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .subtab{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);padding:8px 14px;border-radius:25px;cursor:pointer;font-weight:700;font-size:.72rem;transition:.3s;color:#8a8ab0;display:flex;align-items:center;gap:5px;font-family:'Poppins',sans-serif}
   .subtab.active{background:linear-gradient(135deg,#a855f7,#00d4ff);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(168,85,247,.5)}
 
-  .form-card{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:1.8rem;margin-bottom:2rem}
-  .form-card h3{font-size:1rem;margin-bottom:1.3rem;color:#fff;display:flex;align-items:center;gap:8px}
+  .form-card{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:1.2rem;margin-bottom:1.5rem}
+  .form-card h3{font-size:.95rem;margin-bottom:1rem;color:#fff;display:flex;align-items:center;gap:8px}
   .form-card h3 i{color:#ffd700}
-  .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin-bottom:1.3rem}
+  .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:1rem}
   .field{display:flex;flex-direction:column;gap:5px}
-  .field label{font-size:.7rem;font-weight:700;color:#a0a0c0;text-transform:uppercase}
-  .field input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 13px;color:#fff;font-size:.88rem;font-family:'Poppins',sans-serif;outline:none}
-  .field input:focus{border-color:#ff3366}
+  .field label{font-size:.68rem;font-weight:700;color:#a0a0c0;text-transform:uppercase}
+  .field input, .field select{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px;color:#fff;font-size:.85rem;font-family:'Poppins',sans-serif;outline:none;}
+  .field input:focus, .field select:focus{border-color:#ff3366}
   .field.full{grid-column:1/-1}
+  .field select option { background: #1a1a2e; color: #fff; }
   
-  .upload-zone{background:rgba(255,255,255,.03);border:2px dashed rgba(255,51,102,.4);border-radius:16px;padding:1.3rem;text-align:center;cursor:pointer;transition:.3s;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .upload-zone{background:rgba(255,255,255,.03);border:2px dashed rgba(255,51,102,.4);border-radius:14px;padding:1rem;text-align:center;cursor:pointer;transition:.3s;display:flex;flex-direction:column;align-items:center;gap:8px}
   .upload-zone:hover{background:rgba(255,51,102,.08);border-color:#ff3366}
-  .upload-zone.has-image{padding:1rem;border-style:solid;border-color:#3ddc84}
-  .upload-icon{font-size:1.8rem;color:#ff3366}
-  .upload-text{font-size:.82rem;color:#a0a0c0;font-weight:600}
-  .preview-img{width:80px;height:80px;border-radius:16px;object-fit:cover;box-shadow:0 8px 25px rgba(0,0,0,.5)}
-  .btn-remove-img{background:rgba(255,51,102,.2);color:#ff99aa;border:1px solid rgba(255,51,102,.4);padding:5px 12px;border-radius:20px;font-size:.7rem;font-weight:700;cursor:pointer;margin-top:6px;font-family:'Poppins',sans-serif}
+  .upload-zone.has-image{padding:.8rem;border-style:solid;border-color:#3ddc84}
+  .upload-icon{font-size:1.5rem;color:#ff3366}
+  .upload-text{font-size:.75rem;color:#a0a0c0;font-weight:600}
+  .preview-img{width:70px;height:70px;border-radius:12px;object-fit:cover;box-shadow:0 8px 25px rgba(0,0,0,.5)}
+  .btn-remove-img{background:rgba(255,51,102,.2);color:#ff99aa;border:1px solid rgba(255,51,102,.4);padding:5px 12px;border-radius:20px;font-size:.68rem;font-weight:700;cursor:pointer;margin-top:6px;font-family:'Poppins',sans-serif}
   
   .form-actions{display:flex;gap:10px;flex-wrap:wrap}
-  .btn-primary{background:linear-gradient(135deg,#ff3366,#ff6b9d);color:#fff;border:none;padding:12px 24px;border-radius:30px;font-weight:700;cursor:pointer;font-size:.85rem;display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif}
-  .btn-secondary{background:rgba(255,255,255,.05);color:#a0a0c0;border:1px solid rgba(255,255,255,.1);padding:12px 22px;border-radius:30px;font-weight:700;cursor:pointer;font-size:.85rem;display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif}
+  .btn-primary{background:linear-gradient(135deg,#ff3366,#ff6b9d);color:#fff;border:none;padding:12px 20px;border-radius:30px;font-weight:700;cursor:pointer;font-size:.8rem;display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif}
+  .btn-secondary{background:rgba(255,255,255,.05);color:#a0a0c0;border:1px solid rgba(255,255,255,.1);padding:12px 20px;border-radius:30px;font-weight:700;cursor:pointer;font-size:.8rem;display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif}
 
   .list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.8rem}
-  .list-header h3{font-size:1rem;color:#fff;display:flex;align-items:center;gap:8px}
+  .list-header h3{font-size:.95rem;color:#fff;display:flex;align-items:center;gap:8px}
   .list-header h3 i{color:#ffd700}
   .items{display:flex;flex-direction:column;gap:.7rem}
   
-  .item-row{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
-  .item-thumb{width:55px;height:55px;border-radius:14px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#a0a0ff;overflow:hidden;flex-shrink:0}
+  .item-row{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:.8rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+  .item-thumb{width:50px;height:50px;border-radius:12px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#a0a0ff;overflow:hidden;flex-shrink:0}
   .item-thumb img{width:100%;height:100%;object-fit:cover}
-  .item-info{flex:1;min-width:150px}
-  .item-info b{display:block;font-size:.92rem;color:#fff}
-  .ver-tag{background:rgba(255,51,102,.2);color:#ff99aa;padding:1px 7px;border-radius:6px;font-size:.65rem;font-weight:700;margin-left:6px}
-  .item-info small{color:#8a8ab0;font-size:.75rem;display:block;margin-top:2px}
-  .stock-badge{background:rgba(255,215,0,.15);color:#ffd700;padding:2px 10px;border-radius:20px;font-size:.7rem;font-weight:800;border:1px solid rgba(255,215,0,.4);margin-top:4px;display:inline-block}
+  .item-info{flex:1;min-width:130px}
+  .item-info b{display:block;font-size:.85rem;color:#fff}
+  .ver-tag{background:rgba(255,51,102,.2);color:#ff99aa;padding:1px 6px;border-radius:5px;font-size:.6rem;font-weight:700;margin-left:4px}
+  .item-info small{color:#8a8ab0;font-size:.7rem;display:block;margin-top:2px}
+  .stock-badge{background:rgba(255,215,0,.15);color:#ffd700;padding:2px 8px;border-radius:20px;font-size:.65rem;font-weight:800;border:1px solid rgba(255,215,0,.4);margin-top:4px;display:inline-block}
   .stock-badge.out{background:rgba(255,51,102,.15);color:#ff3366;border-color:rgba(255,51,102,.4)}
   .item-actions{display:flex;gap:6px}
-  .icon-btn{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#a0a0c0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+  .icon-btn{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#a0a0c0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem}
 
-  .device-row{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
-  .device-avatar{width:45px;height:45px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:800;color:#05050f;flex-shrink:0}
-  .device-info{flex:1;min-width:150px}
-  .device-info b{display:block;font-size:.95rem;color:#fff}
-  .device-info code{color:#00d4ff;font-size:.7rem;font-weight:700}
-  .device-info small{color:#8a8ab0;font-size:.75rem;display:block}
+  /* CSS CHO MÃ CODE - THÊM NÚT COPY */
+  .code-row{background:rgba(20,20,40,.6);border:1px solid rgba(0,255,136,.3);border-radius:14px;padding:1rem;display:flex;flex-direction:column;gap:10px;}
+  .code-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;border-bottom:1px dashed rgba(255,255,255,0.1); padding-bottom:10px;}
+  .code-text{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:#00ff88;font-weight:900;letter-spacing:1px;}
   
-  .empty{text-align:center;padding:2.5rem 1rem;color:#555;background:rgba(20,20,40,.4);border-radius:16px;border:1px dashed rgba(255,255,255,.1)}
-  .empty i{font-size:2.5rem;display:block;margin-bottom:.8rem;color:#333}
+  .btn-copy-code {background:rgba(0,212,255,.15); color:#00d4ff; border:1px solid rgba(0,212,255,.4); padding:5px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:5px; transition:0.2s;}
+  .btn-copy-code:active {transform: scale(0.95); background:rgba(0,212,255,.3);}
+  
+  .code-info{display:grid; grid-template-columns: 1fr 1fr; gap:8px; font-size:0.75rem; color:#aaa;}
+  .code-info span { display: flex; align-items: center; gap: 6px; }
+  .code-info i { color: #00d4ff; font-size: 0.8rem;}
+  .btn-del-code{background:rgba(255,51,102,.2);color:#ff99aa;border:1px solid rgba(255,51,102,.4);padding:6px 12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.7rem; margin-top: 5px; align-self: flex-start;}
+
+  .empty{text-align:center;padding:2rem 1rem;color:#555;background:rgba(20,20,40,.4);border-radius:14px;border:1px dashed rgba(255,255,255,.1)}
+  .empty i{font-size:2rem;display:block;margin-bottom:.8rem;color:#333}
   .loading{text-align:center;padding:2rem;color:#8a8ab0}
 
-  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:linear-gradient(135deg,#ff3366,#ff6b9d);color:#fff;padding:13px 26px;border-radius:30px;font-weight:700;font-size:.85rem;z-index:2000;transition:.4s;display:flex;align-items:center;gap:10px}
+  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:linear-gradient(135deg,#ff3366,#ff6b9d);color:#fff;padding:12px 24px;border-radius:30px;font-weight:700;font-size:.8rem;z-index:2000;transition:.4s;display:flex;align-items:center;gap:10px}
   .toast.show{transform:translateX(-50%) translateY(0)}
   .toast.success{background:linear-gradient(135deg,#3ddc84,#00d4ff);color:#05050f}
 
-  @media(max-width:600px){
-    .form-grid{grid-template-columns:1fr}
-    .item-actions{width:100%;justify-content:flex-end;margin-top:10px}
+  @media(min-width:600px){
+    .header-actions{width: auto;}
+    .btn-export, .btn-reset {flex: none;}
+    .code-row {flex-direction: row; align-items: center;}
+    .code-header {border: none; padding-bottom: 0; flex: 1;}
+    .code-info {grid-template-columns: 1fr; flex: 1; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 15px;}
+    .btn-del-code {margin-top: 0;}
+    .form-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
   }
 </style>
 </head>
@@ -120,14 +133,14 @@
   </div>
   <div class="header-actions">
     <a class="btn-export" href="index.html" target="_blank"><i class="fas fa-store"></i> Mở Shop</a>
-    <button class="btn-reset" id="btnReset"><i class="fas fa-undo"></i> Reset</button>
+    <button class="btn-reset" id="btnReset"><i class="fas fa-undo"></i> Reset All</button>
   </div>
 </header>
 
 <main>
   <div class="title-bar">
     <h2>BẢNG ĐIỀU KHIỂN ADMIN</h2>
-    <p>Quản lý file · Thiết bị</p>
+    <p>Quản lý file · Thiết bị · Tạo mã tải</p>
   </div>
   <div class="sync-info">
     <span class="sync-dot" id="syncDot"></span>
@@ -137,6 +150,7 @@
   <div class="main-tabs">
     <div class="main-tab active" data-main="files"><i class="fas fa-folder"></i> QUẢN LÝ FILE</div>
     <div class="main-tab" data-main="devices"><i class="fas fa-mobile-alt"></i> THIẾT BỊ <span class="badge" id="deviceCount">0</span></div>
+    <div class="main-tab" data-main="codes"><i class="fas fa-key" style="color:#00ff88"></i> MÃ CODE <span class="badge" id="codeCount">0</span></div>
   </div>
 
   <!-- TAB FILE -->
@@ -159,7 +173,7 @@
         <div class="field"><label>Số lượng 📦</label><input type="number" id="fStock" value="10" min="0"></div>
         <div class="field"><label>Icon dự phòng</label><input type="text" id="fIcon" placeholder="VD: fa-file"></div>
         <div class="field full"><label>Mô tả</label><input type="text" id="fDesc" placeholder="VD: MOD Free Fire TH an toàn"></div>
-        <div class="field full"><label>Link tải file</label><input type="text" id="fLink" placeholder="https://drive.google.com/..."></div>
+        <div class="field full"><label>Link tải file (Link rút gọn)</label><input type="text" id="fLink" placeholder="https://link4m.co/..."></div>
         <div class="field full">
           <label>Ảnh đại diện (Chọn từ thư viện)</label>
           <div class="upload-zone" id="uploadZone">
@@ -186,6 +200,31 @@
     <div class="list-header"><h3><i class="fas fa-users"></i> Tất cả thiết bị</h3></div>
     <div class="items" id="devicesList"><div class="loading">Đang tải...</div></div>
   </div>
+
+  <!-- TAB CODES -->
+  <div class="tab-content" id="tab-codes">
+    <div class="form-card">
+      <h3><i class="fas fa-key" style="color:#00ff88"></i> Tạo mã tải file mới</h3>
+      
+      <div class="form-grid" style="margin-bottom: 15px;">
+        <!-- TÙY CHỈNH THỦ CÔNG -->
+        <div class="field">
+          <label>Thời hạn (Số ngày)</label>
+          <input type="number" id="keyDays" placeholder="Nhập số ngày (Bỏ trống = Vĩnh viễn)" min="1">
+        </div>
+        <div class="field">
+          <label>Số lượt tải được dùng</label>
+          <input type="number" id="keyUses" placeholder="VD: 1, 3, 5..." min="1" value="1">
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btnGenCode" style="background:linear-gradient(135deg,#00ff88,#00d4ff); color:#05050f; font-weight:800; font-size:0.9rem; padding:14px 20px; width:100%; justify-content:center; border-radius:15px;">
+        <i class="fas fa-plus"></i> TẠO MÃ CODE MỚI
+      </button>
+    </div>
+    <div class="list-header"><h3><i class="fas fa-list"></i> Danh sách mã Code</h3></div>
+    <div class="items" id="codesList"><div class="loading">Đang tải...</div></div>
+  </div>
 </main>
 
 <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastText">Thành công</span></div>
@@ -211,7 +250,7 @@
   // BIẾN TOÀN CỤC
   let currentOS = 'ios';
   let currentCat = 'hack';
-  let editingId = null;
+  let editingId = null; 
   let currentImageData = null;
   let allData = { ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } };
 
@@ -223,7 +262,7 @@
     setTimeout(() => t.className = 'toast', 2500);
   }
 
-  // CHUYỂN TAB
+  // CHUYỂN TAB CHÍNH
   document.querySelectorAll('.main-tab').forEach(tab => {
     tab.onclick = () => {
       document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
@@ -233,7 +272,7 @@
     };
   });
 
-  // LẤY DỮ LIỆU TỪ FIREBASE
+  // LẤY DỮ LIỆU FILE
   db.ref('shopData').on('value', (snapshot) => {
     const val = snapshot.val();
     if(val) {
@@ -259,28 +298,16 @@
   fImage.onchange = (e) => {
     const file = e.target.files[0];
     if(!file) return;
-    if(file.size > 2 * 1024 * 1024) {
-      showToast('Ảnh quá lớn (Tối đa 2MB)', false);
-      fImage.value = '';
-      return;
-    }
+    if(file.size > 2 * 1024 * 1024) { showToast('Ảnh quá lớn (Tối đa 2MB)', false); fImage.value = ''; return; }
     const reader = new FileReader();
     reader.onload = (ev) => {
-      // Nén ảnh để tiết kiệm dung lượng
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let w = img.width, h = img.height;
-        if(w > 500 || h > 500) {
-          const ratio = Math.min(500/w, 500/h);
-          w = Math.round(w * ratio);
-          h = Math.round(h * ratio);
-        }
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, w, h);
-        
+        if(w > 500 || h > 500) { const ratio = Math.min(500/w, 500/h); w = Math.round(w * ratio); h = Math.round(h * ratio); }
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h);
         currentImageData = canvas.toDataURL('image/jpeg', 0.85);
         uploadZone.classList.add('has-image');
         uploadContent.innerHTML = `<img src="${currentImageData}" class="preview-img">`;
@@ -293,12 +320,10 @@
   };
 
   btnRemoveImg.onclick = (e) => {
-    e.stopPropagation();
-    currentImageData = null;
+    e.stopPropagation(); currentImageData = null;
     uploadZone.classList.remove('has-image');
     uploadContent.innerHTML = `<i class="fas fa-cloud-upload-alt upload-icon"></i><div class="upload-text">Bấm vào đây để chọn ảnh<small>Hỗ trợ JPG, PNG</small></div>`;
-    btnRemoveImg.style.display = 'none';
-    fImage.value = '';
+    btnRemoveImg.style.display = 'none'; fImage.value = '';
   };
 
   // RENDER FILE
@@ -307,16 +332,11 @@
     const box = document.getElementById('itemsList');
     document.getElementById('listLabel').innerText = (currentOS === 'ios' ? 'iOS' : 'Android') + ' — ' + (currentCat === 'hack' ? 'HACK' : currentCat === 'mod' ? 'MOD' : 'AIM');
     
-    if(list.length === 0) {
-      box.innerHTML = '<div class="empty"><i class="fas fa-folder-open"></i>Chưa có file nào</div>';
-      return;
-    }
+    if(list.length === 0) { box.innerHTML = '<div class="empty"><i class="fas fa-folder-open"></i>Chưa có file nào</div>'; return; }
 
     box.innerHTML = list.map((f, i) => `
       <div class="item-row">
-        <div class="item-thumb">
-          ${f.image ? `<img src="${f.image}">` : `<i class="fas ${f.icon || 'fa-file'}"></i>`}
-        </div>
+        <div class="item-thumb">${f.image ? `<img src="${f.image}">` : `<i class="fas ${f.icon || 'fa-file'}"></i>`}</div>
         <div class="item-info">
           <b>${f.name} <span class="ver-tag">${f.ver}</span></b>
           <small>${f.desc || 'Không mô tả'} • ${f.size || '0 MB'}</small>
@@ -339,7 +359,7 @@
       name: name,
       ver: document.getElementById('fVer').value.trim() || 'v1.0',
       size: document.getElementById('fSize').value.trim() || '0 MB',
-      stock: parseInt(document.getElementById('fStock').value) || 10,
+      stock: parseInt(document.getElementById('fStock').value) || 0,
       icon: document.getElementById('fIcon').value.trim() || 'fa-file',
       desc: document.getElementById('fDesc').value.trim(),
       link: document.getElementById('fLink').value.trim(),
@@ -347,9 +367,9 @@
     };
 
     let list = allData[currentOS][currentCat] || [];
-
     if(editingId !== null) {
-      list[editingId] = { ...list[editingId], ...fileData };
+      fileData.id = list[editingId].id;
+      list[editingId] = fileData;
     } else {
       fileData.id = currentOS + '_' + currentCat + '_' + Date.now();
       list.push(fileData);
@@ -361,14 +381,13 @@
     });
   };
 
-  // SỬA FILE
   window.editFile = (index) => {
     const f = allData[currentOS][currentCat][index];
     editingId = index;
     document.getElementById('fName').value = f.name || '';
     document.getElementById('fVer').value = f.ver || '';
     document.getElementById('fSize').value = f.size || '';
-    document.getElementById('fStock').value = f.stock || 10;
+    document.getElementById('fStock').value = f.stock || 0;
     document.getElementById('fIcon').value = f.icon || '';
     document.getElementById('fDesc').value = f.desc || '';
     document.getElementById('fLink').value = f.link || '';
@@ -386,66 +405,167 @@
     }
     
     document.getElementById('btnCancel').style.display = 'flex';
-    showToast('Đang sửa file...', false);
+    document.getElementById('formTitle').innerText = 'Sửa file: ' + f.name;
+    document.getElementById('saveBtnText').innerText = 'Cập nhật';
     window.scrollTo({top:0,behavior:'smooth'});
   };
 
-  // XÓA FILE
   window.deleteFile = (index) => {
     if(!confirm('Bạn chắc chắn muốn xóa file này?')) return;
     let list = allData[currentOS][currentCat];
     list.splice(index, 1);
-    db.ref('shopData/' + currentOS + '/' + currentCat).set(list).then(() => {
-      showToast('Đã xóa file!', true);
-    });
+    db.ref('shopData/' + currentOS + '/' + currentCat).set(list).then(() => showToast('Đã xóa file!', true));
   };
 
-  // HỦY SỬA
   function cancelEdit() {
-    editingId = null;
-    currentImageData = null;
-    document.getElementById('fName').value = '';
-    document.getElementById('fVer').value = '';
-    document.getElementById('fSize').value = '';
-    document.getElementById('fIcon').value = '';
-    document.getElementById('fDesc').value = '';
+    editingId = null; currentImageData = null;
+    document.getElementById('fName').value = ''; document.getElementById('fVer').value = '';
+    document.getElementById('fSize').value = ''; document.getElementById('fStock').value = '10';
+    document.getElementById('fIcon').value = ''; document.getElementById('fDesc').value = '';
     document.getElementById('fLink').value = '';
     document.getElementById('btnCancel').style.display = 'none';
+    document.getElementById('formTitle').innerText = 'Thêm file mới';
+    document.getElementById('saveBtnText').innerText = 'Lưu file';
     uploadZone.classList.remove('has-image');
     uploadContent.innerHTML = `<i class="fas fa-cloud-upload-alt upload-icon"></i><div class="upload-text">Bấm vào đây để chọn ảnh<small>Hỗ trợ JPG, PNG</small></div>`;
-    btnRemoveImg.style.display = 'none';
-    fImage.value = '';
+    btnRemoveImg.style.display = 'none'; fImage.value = '';
   }
   document.getElementById('btnCancel').onclick = cancelEdit;
 
   // CHUYỂN TAB FILE
   document.getElementById('tab-ios').onclick = () => { 
-    document.getElementById('tab-ios').classList.add('active');
-    document.getElementById('tab-adr').classList.remove('active');
-    currentOS = 'ios'; 
-    renderFiles(); 
+    document.getElementById('tab-ios').classList.add('active'); document.getElementById('tab-adr').classList.remove('active');
+    currentOS = 'ios'; renderFiles(); 
   };
   document.getElementById('tab-adr').onclick = () => { 
-    document.getElementById('tab-adr').classList.add('active');
-    document.getElementById('tab-ios').classList.remove('active');
-    currentOS = 'adr'; 
-    renderFiles(); 
+    document.getElementById('tab-adr').classList.add('active'); document.getElementById('tab-ios').classList.remove('active');
+    currentOS = 'adr'; renderFiles(); 
   };
   document.querySelectorAll('.subtab').forEach(t => {
     t.onclick = () => {
       document.querySelectorAll('.subtab').forEach(x => x.classList.remove('active'));
-      t.classList.add('active');
-      currentCat = t.dataset.cat;
-      renderFiles();
+      t.classList.add('active'); currentCat = t.dataset.cat; renderFiles();
     };
   });
 
-  // RESET ALL
+  // ==========================================
+  // PHẦN MÃ CODE (TÙY CHỈNH THỦ CÔNG)
+  // ==========================================
+  
+  function generateCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = 'SAMM';
+    for(let i=0; i<3; i++) {
+      code += '-';
+      for(let j=0; j<4; j++) { code += chars.charAt(Math.floor(Math.random() * chars.length)); }
+    }
+    return code;
+  }
+
+  document.getElementById('btnGenCode').onclick = () => {
+    const newCode = generateCode();
+    
+    // Lấy giá trị thủ công
+    const daysInput = document.getElementById('keyDays').value;
+    const usesInput = document.getElementById('keyUses').value;
+    
+    const uses = parseInt(usesInput) || 1; // Mặc định 1 nếu không nhập
+    let expiresAt = 0; // 0 = Vĩnh viễn
+    
+    // Nếu có nhập số ngày thì tính thời gian hết hạn
+    if (daysInput && parseInt(daysInput) > 0) {
+      expiresAt = Date.now() + (parseInt(daysInput) * 24 * 60 * 60 * 1000);
+    }
+
+    db.ref('codes/' + newCode).set({ 
+      status: 'active', 
+      createdAt: Date.now(),
+      expiresAt: expiresAt, 
+      maxUses: uses,
+      usedCount: 0
+    }).then(() => {
+      showToast('Đã tạo mã: ' + newCode, true);
+      document.getElementById('keyDays').value = ''; // Reset ô nhập
+      document.getElementById('keyUses').value = '1';
+    });
+  };
+
+  // HÀM SAO CHÉP MÃ (COPY)
+  window.copyCode = (code) => {
+    navigator.clipboard.writeText(code).then(() => {
+      showToast('Đã sao chép: ' + code, true);
+    }).catch(() => {
+      // Cách dự phòng cho trình duyệt cũ
+      const textArea = document.createElement("textarea");
+      textArea.value = code;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      showToast('Đã sao chép: ' + code, true);
+    });
+  };
+
+  db.ref('codes').on('value', (snapshot) => {
+    const val = snapshot.val();
+    const box = document.getElementById('codesList');
+    if(!val) {
+      box.innerHTML = '<div class="empty"><i class="fas fa-key"></i>Chưa có mã code nào</div>';
+      document.getElementById('codeCount').innerText = 0;
+      return;
+    }
+    const entries = Object.entries(val);
+    document.getElementById('codeCount').innerText = entries.length;
+    
+    // Sắp xếp mã mới nhất lên đầu
+    entries.sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0));
+
+    box.innerHTML = entries.map(([code, data]) => {
+      let timeText = 'Vĩnh viễn';
+      if (data.expiresAt && data.expiresAt > 0) {
+        const date = new Date(data.expiresAt);
+        timeText = date.toLocaleString('vi-VN');
+      }
+      
+      let useText = `${data.usedCount || 0} / ${data.maxUses || 1} lượt`;
+      if (data.maxUses >= 999999) useText = `${data.usedCount || 0} / Vô hạn`;
+      
+      const isExpired = data.expiresAt > 0 && Date.now() > data.expiresAt;
+      const isOutOfUses = (data.usedCount || 0) >= data.maxUses;
+      
+      let statusText = '<span style="color:#00ff88">Hoạt động</span>';
+      if (isExpired) statusText = '<span style="color:#ff3366">Hết hạn</span>';
+      else if (isOutOfUses) statusText = '<span style="color:#ff3366">Hết lượt</span>';
+
+      return `
+        <div class="code-row" style="border-color: ${isExpired || isOutOfUses ? 'rgba(255,51,102,.3)' : 'rgba(0,255,136,.3)'}">
+          
+          <div class="code-header">
+            <div class="code-text" style="color: ${isExpired || isOutOfUses ? '#ff3366' : '#00ff88'}">${code}</div>
+            <button class="btn-copy-code" onclick="copyCode('${code}')"><i class="far fa-copy"></i> Copy</button>
+          </div>
+          
+          <div class="code-info">
+            <span><i class="far fa-clock"></i> HSD: ${timeText}</span>
+            <span><i class="fas fa-download"></i> Đã dùng: ${useText}</span>
+            <span style="grid-column: 1/-1;"><i class="fas fa-info-circle"></i> Trạng thái: ${statusText}</span>
+          </div>
+
+          <button class="btn-del-code" onclick="deleteCode('${code}')"><i class="fas fa-trash"></i> Xóa</button>
+        </div>
+      `;
+    }).join('');
+  });
+
+  window.deleteCode = (code) => {
+    if(!confirm('Xóa mã ' + code + '?')) return;
+    db.ref('codes/' + code).remove().then(() => showToast('Đã xóa mã!', true));
+  };
+
   document.getElementById('btnReset').onclick = () => {
-    if(confirm('Xóa toàn bộ file?')) {
-      db.ref('shopData').set({ ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } }).then(() => {
-        showToast('Đã xóa toàn bộ file!', true);
-      });
+    if(confirm('XÓA TOÀN BỘ FILE VÀ MÃ CODE? Không thể hoàn tác!')) {
+      db.ref('shopData').set({ ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } });
+      db.ref('codes').remove().then(() => showToast('Đã xóa toàn bộ!', true));
     }
   };
 </script>
