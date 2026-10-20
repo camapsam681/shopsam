@@ -91,6 +91,14 @@
   .item-actions{display:flex;gap:6px}
   .icon-btn{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#a0a0c0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem}
 
+  /* CSS CHO THIẾT BỊ */
+  .device-row{background:rgba(20,20,40,.6);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+  .device-avatar{width:45px;height:45px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:800;color:#05050f;flex-shrink:0; background:linear-gradient(135deg,#00ff88,#00d4ff);}
+  .device-info{flex:1;min-width:150px}
+  .device-info b{display:block;font-size:.95rem;color:#fff}
+  .device-info code{color:#00d4ff;font-size:.75rem;font-weight:700; background:rgba(0,212,255,0.1); padding:2px 6px; border-radius:4px;}
+  .device-info small{color:#8a8ab0;font-size:.75rem;display:block; margin-top:4px;}
+
   /* CSS CHO MÃ CODE */
   .code-row{background:rgba(20,20,40,.6);border:1px solid rgba(0,255,136,.3);border-radius:14px;padding:1rem;display:flex;flex-direction:column;gap:10px;}
   .code-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;border-bottom:1px dashed rgba(255,255,255,0.1); padding-bottom:10px;}
@@ -289,6 +297,40 @@
     renderFiles();
   });
 
+  // LẤY DỮ LIỆU THIẾT BỊ (MỚI THÊM)
+  db.ref('online').on('value', (snapshot) => {
+    const val = snapshot.val();
+    const box = document.getElementById('devicesList');
+    if(!val) {
+      box.innerHTML = '<div class="empty"><i class="fas fa-mobile-alt"></i>Chưa có thiết bị nào truy cập</div>';
+      document.getElementById('deviceCount').innerText = 0;
+      return;
+    }
+    
+    const entries = Object.entries(val);
+    document.getElementById('deviceCount').innerText = entries.length;
+    
+    // Sắp xếp thiết bị mới truy cập lên đầu
+    entries.sort((a, b) => (b[1].time || 0) - (a[1].time || 0));
+
+    box.innerHTML = entries.map(([id, data]) => {
+      const timeStr = data.time ? new Date(data.time).toLocaleString('vi-VN') : 'Không rõ';
+      // Lấy chữ cái đầu tiên của tên user làm avatar
+      const firstLetter = data.user ? data.user.charAt(0).toUpperCase() : '?';
+      
+      return `
+        <div class="device-row">
+          <div class="device-avatar">${firstLetter}</div>
+          <div class="device-info">
+            <b>Tài khoản: ${data.user || 'Khách'}</b>
+            <code>ID: ${id}</code>
+            <small><i class="far fa-clock"></i> Truy cập cuối: ${timeStr}</small>
+          </div>
+        </div>
+      `;
+    }).join('');
+  });
+
   // XỬ LÝ ẢNH
   const uploadZone = document.getElementById('uploadZone');
   const fImage = document.getElementById('fImage');
@@ -469,7 +511,7 @@
   });
 
   // ==========================================
-  // PHẦN MÃ CODE (ĐÃ THÊM SỐ THIẾT BỊ)
+  // PHẦN MÃ CODE
   // ==========================================
   
   function generateCode() {
