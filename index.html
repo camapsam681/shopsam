@@ -7,11 +7,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  /* RESET & BASE */
   *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;-webkit-tap-highlight-color:transparent}
   body{background:#000;color:#fff;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;position:relative}
   
-  /* BACKGROUND */
   .bg-anime{position:fixed;inset:0;z-index:-3;background-image:url('https://i.pinimg.com/originals/2c/4e/33/2c4e3349b3c4c1d1b84c9d9c8d8d7e6a.jpg');background-size:cover;background-position:center;opacity:0.6;animation:zoomBg 25s infinite alternate linear}
   @keyframes zoomBg {0%{transform:scale(1)}100%{transform:scale(1.2)}}
   .bg-overlay{position:fixed;inset:0;z-index:-2;background:radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.95) 100%);pointer-events:none}
@@ -85,13 +83,11 @@
   footer .badges span{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;color:#aaa;background:rgba(255,255,255,.04);padding:5px 12px;border-radius:20px}
   footer .copy{margin-top:1.2rem;font-size:.7rem;color:#555}
 
-  /* CSS HƯỚNG DẪN & BOT */
   .guide-box{background:rgba(255,255,255,0.05);border:1px solid rgba(0,212,255,0.3);border-radius:15px;padding:15px;margin-bottom:15px;text-align:left}
   .guide-box h4{color:#00d4ff;font-size:0.95rem;margin-bottom:10px;display:flex;align-items:center;gap:8px}
   .guide-box p{color:#ccc;font-size:0.85rem;line-height:1.6;margin-bottom:8px}
   .guide-box b{color:#ffd700}
 
-  /* CSS CHO BOT CHAT */
   .bot-chat-container { background: rgba(15,15,25,0.8); border: 1px solid rgba(0,212,255,0.3); border-radius: 15px; padding: 15px; margin-top: 15px; text-align: left; }
   .bot-msg { display: flex; gap: 10px; margin-bottom: 15px; }
   .bot-msg i { font-size: 1.5rem; color: #00d4ff; }
@@ -99,6 +95,9 @@
   .user-msg { display: flex; gap: 10px; margin-bottom: 15px; justify-content: flex-end; }
   .user-msg div { background: rgba(255, 51, 102, 0.2); padding: 10px 15px; border-radius: 15px; border-top-right-radius: 2px; font-size: 0.85rem; color: #fff; }
   .bot-typing { font-size: 0.8rem; color: #aaa; font-style: italic; display: none; margin-bottom: 10px;}
+
+  .btn-zalo { display: inline-block; background: rgba(0, 104, 255, 0.15); border: 1px solid #0068ff; color: #00a3ff; padding: 10px 15px; border-radius: 10px; text-decoration: none; font-weight: 700; margin-top: 10px; font-size: 0.9rem; transition: 0.3s; text-align: center; width: 100%; box-sizing: border-box;}
+  .btn-zalo:hover { background: #0068ff; color: #fff; }
 
   .code-input-wrap {display:flex; gap:8px; margin-bottom:10px;}
   .code-input-wrap input {
@@ -124,10 +123,8 @@
 </header>
 
 <main>
-  <!-- TRANG CHỦ -->
   <section id="homePage">
     <div class="title-box"><h2>HỆ THỐNG SHOP</h2><p>TRẢI NGHIỆM ĐỈNH CAO</p></div>
-
     <div class="grid-2">
       <a href="https://zalo.me/0355757211" target="_blank" class="cyber-card card-contact"><i class="fas fa-headset"></i><span>LIÊN HỆ</span></a>
       <a href="https://zalo.me/g/wqnmgz1abybxpub2p9w9" target="_blank" class="cyber-card card-community"><i class="fas fa-users"></i><span>CỘNG ĐỒNG</span></a>
@@ -138,7 +135,6 @@
     </div>
   </section>
 
-  <!-- TRANG CHỌN DANH MỤC -->
   <section id="catPage" class="hidden">
     <button class="btn-back" data-back-home><i class="fas fa-arrow-left"></i> Quay lại</button>
     <div class="title-box"><h2 id="catPageTitle">📱 iOS</h2><p>Chọn loại tài nguyên bạn muốn tải</p></div>
@@ -149,14 +145,12 @@
     </div>
   </section>
 
-  <!-- TRANG DANH SÁCH FILE -->
   <section id="filePage" class="hidden">
     <button class="btn-back" data-back-cat><i class="fas fa-arrow-left"></i> Quay lại</button>
     <div class="title-box"><h2 id="filePageTitle">HACK</h2><p id="filePageSub">Danh sách file iOS</p></div>
     <div class="file-list" id="fileList"></div>
   </section>
 
-  <!-- TRANG ĐĂNG NHẬP -->
   <section id="authPage" class="hidden">
     <div class="auth-card">
       <h2 id="authTitle" style="text-align:center;margin-bottom:20px;color:#ff3366">ĐĂNG NHẬP</h2>
@@ -177,7 +171,6 @@
   <div class="copy">MADE WITH 💎 BY SAMM X VIP TEAM</div>
 </footer>
 
-<!-- POPUP XỬ LÝ -->
 <div class="popup-overlay" id="modOverlay">
   <div class="popup-box">
     <button class="btn-close-pop" id="modClose"><i class="fas fa-times"></i></button>
@@ -188,7 +181,6 @@
   </div>
 </div>
 
-<!-- POPUP HƯỚNG DẪN & NHẬP KEY & BOT HỖ TRỢ -->
 <div class="popup-overlay" id="guideOverlay">
   <div class="popup-box" style="border-color:#00d4ff">
     <button class="btn-close-pop" id="guideClose"><i class="fas fa-times"></i></button>
@@ -197,7 +189,6 @@
     
     <div class="guide-box" id="guideContent"></div>
     
-    <!-- KHU VỰC NHẬP KEY -->
     <div id="unlockDownloadArea" style="margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.2); padding-top: 15px;">
       <p style="color:#fff; font-size:0.9rem; font-weight:bold; margin-bottom:10px;">Nhập Key hoặc Lệnh /key</p>
       <div class="code-input-wrap">
@@ -207,13 +198,11 @@
       <button class="btn-submit" id="btnUnlockLink" style="background:linear-gradient(135deg,#00ff88,#00d4ff); color:#05050f;">XÁC NHẬN</button>
     </div>
 
-    <!-- KHU VỰC CHAT CỦA BOT (ẨN LÚC ĐẦU) -->
     <div id="botChatArea" class="bot-chat-container hidden">
       <div id="botMessages"></div>
       <div class="bot-typing" id="botTyping">Bot đang nhập...</div>
     </div>
 
-    <!-- NÚT TẢI XUỐNG -->
     <a class="btn-submit hidden" id="finalDownloadBtn" href="#" target="_blank" style="background:linear-gradient(135deg,#ff3366,#a855f7); margin-top:10px;">
       <i class="fas fa-download"></i> TẢI XUỐNG NGAY
     </a>
@@ -253,9 +242,23 @@
     }
   })();
 
-  /* LOGIC ĐĂNG NHẬP */
-  function generateDeviceId() { let id = localStorage.getItem('samm_device_id'); if(!id){ const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let r=''; for(let i=0;i<12;i++){ if(i>0&&i%4===0) r+='-'; r+=c[Math.floor(Math.random()*c.length)]; } id='SAMM-'+r; localStorage.setItem('samm_device_id',id); } return id; }
-  deviceId = generateDeviceId(); document.getElementById('deviceIdText').textContent = deviceId;
+  function generateDeviceId() { 
+    let id = localStorage.getItem('samm_device_id'); 
+    if(!id){ 
+      const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; 
+      let r=''; 
+      for(let i=0;i<12;i++){ 
+        if(i>0&&i%4===0) r+='-'; 
+        r+=c[Math.floor(Math.random()*c.length)]; 
+      } 
+      id='SAMM-'+r; 
+      localStorage.setItem('samm_device_id',id); 
+    } 
+    return id; 
+  }
+  
+  deviceId = generateDeviceId(); 
+  document.getElementById('deviceIdText').textContent = deviceId;
   document.getElementById('copyDeviceBtn').onclick = function() { navigator.clipboard.writeText(deviceId); this.textContent = 'Đã Copy'; setTimeout(()=>this.textContent='Copy',1500); };
 
   let isLoginMode = true;
@@ -356,7 +359,6 @@
     document.getElementById(id).classList.remove('hidden'); window.scrollTo({top:0,behavior:'smooth'});
   }
 
-  /* CHUYỂN TRANG */
   document.querySelectorAll('.cyber-card[data-os]').forEach(c => c.onclick = () => {
     currentOS = c.dataset.os; document.getElementById('catPageTitle').textContent = currentOS === 'ios' ? '📱 iOS' : '🤖 Android';
     updateCatCounts(); showPage('catPage');
@@ -369,7 +371,6 @@
   document.querySelectorAll('[data-back-home]').forEach(b => b.onclick = () => { currentOS = ''; currentCat = ''; showPage('homePage'); });
   document.querySelectorAll('[data-back-cat]').forEach(b => b.onclick = () => { currentCat = ''; updateCatCounts(); showPage('catPage'); });
 
-  /* XỬ LÝ TẢI FILE VÀ HIỆN POPUP NHẬP KEY */
   const modOverlay = document.getElementById('modOverlay'), modTitle = document.getElementById('modTitle'), modStatus = document.getElementById('modStatus'), modCancel = document.getElementById('modCancel');
   const guideOverlay = document.getElementById('guideOverlay'), guideClose = document.getElementById('guideClose'), guideContent = document.getElementById('guideContent');
   const unlockDownloadArea = document.getElementById('unlockDownloadArea');
@@ -385,7 +386,6 @@
     
     pendingDownloadLink = btn.dataset.link;
     
-    // Hiệu ứng chờ
     modTitle.textContent = 'ĐANG XỬ LÝ FILE';
     modStatus.textContent = 'Đang khởi tạo...';
     modCancel.style.display = 'block';
@@ -417,7 +417,6 @@
     }
     guideContent.innerHTML = guideHTML;
     
-    // Reset trạng thái
     popupKeyInput.value = '';
     popupKeyError.textContent = '';
     unlockDownloadArea.style.display = 'block';
@@ -430,7 +429,6 @@
     guideOverlay.classList.add('show');
   }
 
-  // HÀM HIỂN THỊ TIN NHẮN BOT
   function appendBotMessage(text) {
     const div = document.createElement('div');
     div.className = 'bot-msg';
@@ -439,7 +437,6 @@
     botChatArea.scrollTop = botChatArea.scrollHeight;
   }
 
-  // HÀM HIỂN THỊ TIN NHẮN NGƯỜI DÙNG
   function appendUserMessage(text) {
     const div = document.createElement('div');
     div.className = 'user-msg';
@@ -448,20 +445,17 @@
     botChatArea.scrollTop = botChatArea.scrollHeight;
   }
 
-  // XỬ LÝ NHẬP KEY (CẬP NHẬT LOGIC BOT GIỚI HẠN 3 LẦN/NGÀY)
   btnUnlockLink.onclick = () => {
     const inputVal = popupKeyInput.value.trim().toUpperCase();
     
     if(!inputVal) { popupKeyError.textContent = 'Vui lòng nhập Key hoặc lệnh!'; return; }
     
-    // XỬ LÝ LỆNH /KEY
     if (inputVal === '/KEY') {
-      unlockDownloadArea.style.display = 'none'; // Ẩn ô nhập
+      unlockDownloadArea.style.display = 'none'; 
       botChatArea.classList.remove('hidden');
       appendUserMessage('/key');
       
-      // --- KIỂM TRA GIỚI HẠN 3 LẦN / NGÀY ---
-      const today = new Date().toISOString().split('T')[0]; // Lấy ngày YYYY-MM-DD
+      const today = new Date().toISOString().split('T')[0]; 
       const limitRef = db.ref(`bot_limits/${deviceId}/${today}`);
       
       limitRef.once('value').then(snap => {
@@ -469,23 +463,20 @@
         
         if (count >= 3) {
           botTyping.style.display = 'none';
-          appendBotMessage('❌ <b style="color:#ff3366;">Từ chối:</b> Bạn đã sử dụng lệnh /key quá 3 lần trong ngày hôm nay. Vui lòng quay lại vào ngày mai hoặc liên hệ Admin Zalo <b>0355757211</b> để xin Key trực tiếp!');
+          appendBotMessage(`❌ <b style="color:#ff3366;">Từ chối:</b> Bạn đã sử dụng lệnh /key quá 3 lần trong ngày hôm nay. Vui lòng quay lại vào ngày mai hoặc liên hệ Admin để xin Key trực tiếp!<br><br><a href="https://zalo.me/0355757211" target="_blank" class="btn-zalo"><i class="fas fa-comment-dots"></i> ẤN VÀO ĐÂY ĐỂ LIÊN HỆ ZALO ADMIN</a>`);
           setTimeout(() => { unlockDownloadArea.style.display = 'block'; }, 2000);
           return;
         }
         
-        // Tăng số lần đếm
         limitRef.set(count + 1);
         
-        // Chạy Bot
         botTyping.style.display = 'block';
         setTimeout(() => {
           botTyping.style.display = 'none';
           appendBotMessage('Xin chào! Tôi là Bot hỗ trợ và quản lý shop. Đang tiến hành quét thiết bị của bạn...');
           
           setTimeout(() => {
-            // Ngẫu nhiên tạo Key (1 hoặc 2 lượt tải)
-            const randomUses = Math.random() < 0.7 ? 1 : 2; // 70% ra 1 lượt, 30% ra 2 lượt
+            const randomUses = Math.random() < 0.7 ? 1 : 2; 
             const randomKey = generateCode();
             
             db.ref('codes/' + randomKey).set({ 
@@ -506,7 +497,6 @@
       return;
     }
 
-    // XỬ LÝ NHẬP KEY BÌNH THƯỜNG
     btnUnlockLink.textContent = 'ĐANG KIỂM TRA...';
     btnUnlockLink.disabled = true;
 
@@ -540,8 +530,8 @@
         setTimeout(() => {
           botTyping.style.display = 'none';
           appendBotMessage(`Xin chào! Tôi là Bot hỗ trợ và quản lý shop. Hệ thống báo cáo mã Key <b>${inputVal}</b> của bạn ${reason}.`);
-          appendBotMessage(`Vui lòng nhập số <b>Zalo 0355757211</b> để tìm kiếm Admin nếu muốn xin Key trực tiếp.`);
-          appendBotMessage(`Nếu không muốn làm phiền Admin, hãy nhập lệnh <b style="color:#00d4ff;">/key</b> vào ô bên dưới. Đợi tầm 1-3 phút Bot sẽ gửi Key cho bạn. <i>(Lưu ý: Key gửi sẽ ngẫu nhiên nên có người không nhận được nha).</i>`);
+          appendBotMessage(`Nếu muốn xin Key trực tiếp từ Admin, vui lòng bấm vào nút bên dưới:<br><br><a href="https://zalo.me/0355757211" target="_blank" class="btn-zalo"><i class="fas fa-comment-dots"></i> ẤN VÀO ĐÂY ĐỂ LIÊN HỆ ZALO ADMIN</a>`);
+          appendBotMessage(`Hoặc nếu không muốn làm phiền Admin, hãy nhập lệnh <b style="color:#00d4ff;">/key</b> vào ô bên dưới. Đợi tầm 1-3 phút Bot sẽ gửi Key cho bạn. <i>(Lưu ý: Key gửi sẽ ngẫu nhiên nên có người không nhận được nha).</i>`);
           
           setTimeout(() => { unlockDownloadArea.style.display = 'block'; popupKeyInput.value = ''; popupKeyInput.placeholder = "Nhập /key tại đây..."; }, 2000);
           btnUnlockLink.textContent = 'XÁC NHẬN'; btnUnlockLink.disabled = false;
@@ -550,7 +540,6 @@
         return;
       }
 
-      // HỢP LỆ
       db.ref('codes/' + inputVal + '/usedCount').set(usedCount + 1).then(() => {
         popupKeyError.textContent = '';
         unlockDownloadArea.style.display = 'none';
