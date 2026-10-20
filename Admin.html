@@ -99,19 +99,6 @@
   .device-info code{color:#00d4ff;font-size:.75rem;font-weight:700; background:rgba(0,212,255,0.1); padding:2px 6px; border-radius:4px;}
   .device-info small{color:#8a8ab0;font-size:.75rem;display:block; margin-top:4px;}
 
-  /* CSS CHO MÃ CODE */
-  .code-row{background:rgba(20,20,40,.6);border:1px solid rgba(0,255,136,.3);border-radius:14px;padding:1rem;display:flex;flex-direction:column;gap:10px;}
-  .code-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;border-bottom:1px dashed rgba(255,255,255,0.1); padding-bottom:10px;}
-  .code-text{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:#00ff88;font-weight:900;letter-spacing:1px;}
-  
-  .btn-copy-code {background:rgba(0,212,255,.15); color:#00d4ff; border:1px solid rgba(0,212,255,.4); padding:5px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:5px; transition:0.2s;}
-  .btn-copy-code:active {transform: scale(0.95); background:rgba(0,212,255,.3);}
-  
-  .code-info{display:grid; grid-template-columns: 1fr 1fr; gap:8px; font-size:0.75rem; color:#aaa;}
-  .code-info span { display: flex; align-items: center; gap: 6px; }
-  .code-info i { color: #00d4ff; font-size: 0.8rem;}
-  .btn-del-code{background:rgba(255,51,102,.2);color:#ff99aa;border:1px solid rgba(255,51,102,.4);padding:6px 12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.7rem; margin-top: 5px; align-self: flex-start;}
-
   .empty{text-align:center;padding:2rem 1rem;color:#555;background:rgba(20,20,40,.4);border-radius:14px;border:1px dashed rgba(255,255,255,.1)}
   .empty i{font-size:2rem;display:block;margin-bottom:.8rem;color:#333}
   .loading{text-align:center;padding:2rem;color:#8a8ab0}
@@ -123,10 +110,6 @@
   @media(min-width:600px){
     .header-actions{width: auto;}
     .btn-export, .btn-reset {flex: none;}
-    .code-row {flex-direction: row; align-items: center;}
-    .code-header {border: none; padding-bottom: 0; flex: 1;}
-    .code-info {grid-template-columns: 1fr; flex: 1; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 15px;}
-    .btn-del-code {margin-top: 0;}
     .form-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
   }
 </style>
@@ -147,7 +130,7 @@
 <main>
   <div class="title-bar">
     <h2>BẢNG ĐIỀU KHIỂN ADMIN</h2>
-    <p>Quản lý file · Thiết bị · Tạo mã tải</p>
+    <p>Quản lý file · Thiết bị</p>
   </div>
   <div class="sync-info">
     <span class="sync-dot" id="syncDot"></span>
@@ -157,7 +140,6 @@
   <div class="main-tabs">
     <div class="main-tab active" data-main="files"><i class="fas fa-folder"></i> QUẢN LÝ FILE</div>
     <div class="main-tab" data-main="devices"><i class="fas fa-mobile-alt"></i> THIẾT BỊ <span class="badge" id="deviceCount">0</span></div>
-    <div class="main-tab" data-main="codes"><i class="fas fa-key" style="color:#00ff88"></i> MÃ CODE <span class="badge" id="codeCount">0</span></div>
   </div>
 
   <!-- TAB FILE -->
@@ -206,34 +188,6 @@
   <div class="tab-content" id="tab-devices">
     <div class="list-header"><h3><i class="fas fa-users"></i> Tất cả thiết bị</h3></div>
     <div class="items" id="devicesList"><div class="loading">Đang tải...</div></div>
-  </div>
-
-  <!-- TAB CODES -->
-  <div class="tab-content" id="tab-codes">
-    <div class="form-card">
-      <h3><i class="fas fa-key" style="color:#00ff88"></i> Tạo mã tải file mới</h3>
-      
-      <div class="form-grid" style="margin-bottom: 15px;">
-        <div class="field">
-          <label>Thời hạn (Số ngày)</label>
-          <input type="number" id="keyDays" placeholder="Bỏ trống = Vĩnh viễn" min="1">
-        </div>
-        <div class="field">
-          <label>Số lượt tải được dùng</label>
-          <input type="number" id="keyUses" placeholder="VD: 1, 3, 5..." min="1" value="1">
-        </div>
-        <div class="field">
-          <label>Số thiết bị được dùng</label>
-          <input type="number" id="keyDevices" placeholder="VD: 1, 2... (Bỏ trống = Vô hạn)" min="1">
-        </div>
-      </div>
-
-      <button class="btn-primary" id="btnGenCode" style="background:linear-gradient(135deg,#00ff88,#00d4ff); color:#05050f; font-weight:800; font-size:0.9rem; padding:14px 20px; width:100%; justify-content:center; border-radius:15px;">
-        <i class="fas fa-plus"></i> TẠO MÃ CODE MỚI
-      </button>
-    </div>
-    <div class="list-header"><h3><i class="fas fa-list"></i> Danh sách mã Code</h3></div>
-    <div class="items" id="codesList"><div class="loading">Đang tải...</div></div>
   </div>
 </main>
 
@@ -297,7 +251,7 @@
     renderFiles();
   });
 
-  // LẤY DỮ LIỆU THIẾT BỊ (MỚI THÊM)
+  // LẤY DỮ LIỆU THIẾT BỊ
   db.ref('online').on('value', (snapshot) => {
     const val = snapshot.val();
     const box = document.getElementById('devicesList');
@@ -310,12 +264,10 @@
     const entries = Object.entries(val);
     document.getElementById('deviceCount').innerText = entries.length;
     
-    // Sắp xếp thiết bị mới truy cập lên đầu
     entries.sort((a, b) => (b[1].time || 0) - (a[1].time || 0));
 
     box.innerHTML = entries.map(([id, data]) => {
       const timeStr = data.time ? new Date(data.time).toLocaleString('vi-VN') : 'Không rõ';
-      // Lấy chữ cái đầu tiên của tên user làm avatar
       const firstLetter = data.user ? data.user.charAt(0).toUpperCase() : '?';
       
       return `
@@ -510,127 +462,11 @@
     };
   });
 
-  // ==========================================
-  // PHẦN MÃ CODE
-  // ==========================================
-  
-  function generateCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let code = 'SAMM';
-    for(let i=0; i<3; i++) {
-      code += '-';
-      for(let j=0; j<4; j++) { code += chars.charAt(Math.floor(Math.random() * chars.length)); }
-    }
-    return code;
-  }
-
-  document.getElementById('btnGenCode').onclick = () => {
-    const newCode = generateCode();
-    
-    const daysInput = document.getElementById('keyDays').value;
-    const usesInput = document.getElementById('keyUses').value;
-    const devicesInput = document.getElementById('keyDevices').value;
-    
-    const uses = parseInt(usesInput) || 1; 
-    const maxDevices = parseInt(devicesInput) || 999999; 
-    let expiresAt = 0; 
-    
-    if (daysInput && parseInt(daysInput) > 0) {
-      expiresAt = Date.now() + (parseInt(daysInput) * 24 * 60 * 60 * 1000);
-    }
-
-    db.ref('codes/' + newCode).set({ 
-      status: 'active', 
-      createdAt: Date.now(),
-      expiresAt: expiresAt, 
-      maxUses: uses,
-      usedCount: 0,
-      maxDevices: maxDevices, 
-      usedDevices: {} 
-    }).then(() => {
-      showToast('Đã tạo mã: ' + newCode, true);
-      document.getElementById('keyDays').value = '';
-      document.getElementById('keyUses').value = '1';
-      document.getElementById('keyDevices').value = '';
-    });
-  };
-
-  window.copyCode = (code) => {
-    navigator.clipboard.writeText(code).then(() => {
-      showToast('Đã sao chép: ' + code, true);
-    }).catch(() => {
-      const textArea = document.createElement("textarea");
-      textArea.value = code;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      showToast('Đã sao chép: ' + code, true);
-    });
-  };
-
-  db.ref('codes').on('value', (snapshot) => {
-    const val = snapshot.val();
-    const box = document.getElementById('codesList');
-    if(!val) {
-      box.innerHTML = '<div class="empty"><i class="fas fa-key"></i>Chưa có mã code nào</div>';
-      document.getElementById('codeCount').innerText = 0;
-      return;
-    }
-    const entries = Object.entries(val);
-    document.getElementById('codeCount').innerText = entries.length;
-    
-    entries.sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0));
-
-    box.innerHTML = entries.map(([code, data]) => {
-      let timeText = 'Vĩnh viễn';
-      if (data.expiresAt && data.expiresAt > 0) {
-        const date = new Date(data.expiresAt);
-        timeText = date.toLocaleString('vi-VN');
-      }
-      
-      let useText = `${data.usedCount || 0} / ${data.maxUses || 1} lượt`;
-      if (data.maxUses >= 999999) useText = `${data.usedCount || 0} / Vô hạn`;
-      
-      const usedDeviceCount = data.usedDevices ? Object.keys(data.usedDevices).length : 0;
-      let deviceText = `${usedDeviceCount} / ${data.maxDevices >= 999999 ? 'Vô hạn' : data.maxDevices} TB`;
-      
-      const isExpired = data.expiresAt > 0 && Date.now() > data.expiresAt;
-      const isOutOfUses = (data.usedCount || 0) >= data.maxUses;
-      
-      let statusText = '<span style="color:#00ff88">Hoạt động</span>';
-      if (isExpired) statusText = '<span style="color:#ff3366">Hết hạn</span>';
-      else if (isOutOfUses) statusText = '<span style="color:#ff3366">Hết lượt</span>';
-
-      return `
-        <div class="code-row" style="border-color: ${isExpired || isOutOfUses ? 'rgba(255,51,102,.3)' : 'rgba(0,255,136,.3)'}">
-          <div class="code-header">
-            <div class="code-text" style="color: ${isExpired || isOutOfUses ? '#ff3366' : '#00ff88'}">${code}</div>
-            <button class="btn-copy-code" onclick="copyCode('${code}')"><i class="far fa-copy"></i> Copy</button>
-          </div>
-          
-          <div class="code-info">
-            <span><i class="far fa-clock"></i> HSD: ${timeText}</span>
-            <span><i class="fas fa-download"></i> Lượt tải: ${useText}</span>
-            <span><i class="fas fa-mobile-alt"></i> Thiết bị: ${deviceText}</span>
-            <span><i class="fas fa-info-circle"></i> Trạng thái: ${statusText}</span>
-          </div>
-
-          <button class="btn-del-code" onclick="deleteCode('${code}')"><i class="fas fa-trash"></i> Xóa</button>
-        </div>
-      `;
-    }).join('');
-  });
-
-  window.deleteCode = (code) => {
-    if(!confirm('Xóa mã ' + code + '?')) return;
-    db.ref('codes/' + code).remove().then(() => showToast('Đã xóa mã!', true));
-  };
-
+  // NÚT RESET (Xóa file)
   document.getElementById('btnReset').onclick = () => {
-    if(confirm('XÓA TOÀN BỘ FILE VÀ MÃ CODE? Không thể hoàn tác!')) {
+    if(confirm('XÓA TOÀN BỘ FILE? Không thể hoàn tác!')) {
       db.ref('shopData').set({ ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } });
-      db.ref('codes').remove().then(() => showToast('Đã xóa toàn bộ!', true));
+      showToast('Đã xóa toàn bộ file!', true);
     }
   };
 </script>
