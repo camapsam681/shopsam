@@ -7,377 +7,500 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-  body { background: #05050a; color: #fff; min-height: 100vh; padding-bottom: 80px; overflow-x: hidden; position: relative; }
-  .bg-overlay { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle at 10% 20%, rgba(255,51,102,0.18) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(0,212,255,0.18) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(168,85,247,0.1) 0%, transparent 50%); pointer-events: none; animation: bgPulse 8s ease-in-out infinite; }
-  @keyframes bgPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
-  .bg-grid { position: fixed; inset: 0; z-index: -3; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; animation: gridMove 20s linear infinite; }
-  @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
-  .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
-  .particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #ff3366; box-shadow: 0 0 10px #ff3366; animation: float linear infinite; }
-  @keyframes float { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
-  header { background: rgba(10,10,18,0.75); backdrop-filter: blur(25px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,51,102,0.3); position: sticky; top: 0; z-index: 100; }
-  .logo { display: flex; align-items: center; gap: 10px; }
-  .logo-icon { color: #ff3366; font-size: 1.6rem; filter: drop-shadow(0 0 10px #ff3366); animation: glow 2s ease-in-out infinite; }
-  @keyframes glow { 0%,100% { filter: drop-shadow(0 0 10px #ff3366); } 50% { filter: drop-shadow(0 0 20px #ff3366); } }
-  .logo h1 { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; background: linear-gradient(90deg, #fff, #ff3366, #a855f7); background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; animation: gradientShift 3s ease infinite; }
-  @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-  .header-right { display: flex; align-items: center; gap: 10px; }
-  .bell-wrap { position: relative; cursor: pointer; padding: 8px 12px; border-radius: 12px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); display: flex; align-items: center; gap: 6px; transition: 0.3s; }
-  .bell-wrap:hover { background: rgba(255,215,0,0.2); transform: scale(1.05); }
-  .bell-wrap i { color: #ffd700; font-size: 1.1rem; }
-  .bell-badge { position: absolute; top: -6px; right: -6px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: #ff3366; color: #fff; font-size: 0.65rem; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px #ff3366; animation: badgePulse 1.5s infinite; }
-  @keyframes badgePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-  .bell-badge.hide { display: none; }
-  .user-badge { display: flex; align-items: center; gap: 8px; background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.4); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; }
-  .user-badge i, .user-badge span { color: #00ff88; font-weight: 700; }
-  .btn-logout { background: transparent; border: none; color: #ff3366; cursor: pointer; font-size: 0.9rem; margin-left: 5px; }
-  main { max-width: 800px; margin: 0 auto; padding: 20px 15px; }
-  .page { display: none; animation: fadeIn 0.5s ease forwards; }
-  .page.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  .hero-banner { position: relative; border-radius: 24px; padding: 35px 25px; margin-bottom: 25px; overflow: hidden; background: linear-gradient(135deg, rgba(255,51,102,0.15), rgba(168,85,247,0.15), rgba(0,212,255,0.15)); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.5); text-align: center; }
-  .hero-banner::before { content: ''; position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent, rgba(255,51,102,0.3), transparent, rgba(0,212,255,0.3), transparent); animation: rotate 6s linear infinite; z-index: -1; }
-  @keyframes rotate { 100% { transform: rotate(360deg); } }
-  .hero-banner::after { content: ''; position: absolute; inset: 2px; background: rgba(10,10,18,0.95); border-radius: 22px; z-index: -1; }
-  .hero-avatar { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, #ff3366, #a855f7); display: flex; align-items: center; justify-content: center; font-size: 2.8rem; font-weight: 900; margin: 0 auto 15px; border: 3px solid #fff; box-shadow: 0 0 40px rgba(255,51,102,0.6); position: relative; }
-  .hero-avatar::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid rgba(255,51,102,0.5); animation: ringPulse 2s ease-in-out infinite; }
-  @keyframes ringPulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.3; } }
-  .hero-name { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 900; color: #fff; margin-bottom: 8px; }
-  .hero-tiktok { font-size: 0.85rem; color: #00d4ff; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: rgba(0,212,255,0.15); padding: 6px 14px; border-radius: 15px; border: 1px solid rgba(0,212,255,0.4); transition: 0.3s; }
-  .hero-tiktok:hover { background: rgba(0,212,255,0.25); transform: translateY(-2px); }
-  .quick-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
-  .stat-box { background: linear-gradient(145deg, rgba(30,30,45,0.8), rgba(15,15,25,0.8)); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 15px; position: relative; overflow: hidden; transition: 0.3s; }
-  .stat-box::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, #ff3366, #a855f7); }
-  .stat-box:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.25); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-  .stat-box .stat-icon { font-size: 1.5rem; margin-bottom: 5px; }
-  .stat-box .stat-label { font-size: 0.7rem; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; }
-  .stat-box .stat-value { font-size: 1.1rem; font-weight: 900; font-family: 'Orbitron', sans-serif; }
-  .stat-box.balance .stat-value { color: #00ff88; }
-  .stat-box.balance .stat-icon { color: #00ff88; }
-  .stat-box.rank .stat-value { color: #ffd700; }
-  .stat-box.rank .stat-icon { color: #ffd700; }
-  .section-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; color: #ffd700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 15px rgba(255,215,0,0.4); }
-  .quick-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 20px; }
-  .quick-card { position: relative; background: linear-gradient(145deg, rgba(30,30,45,0.9), rgba(15,15,25,0.9)); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 22px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: 0.4s cubic-bezier(0.4,0,0.2,1); overflow: hidden; text-decoration: none; color: #fff; }
-  .quick-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent, rgba(255,255,255,0.05), transparent); transform: translateX(-100%); transition: 0.6s; }
-  .quick-card:hover::before { transform: translateX(100%); }
-  .quick-card:hover { transform: translateY(-6px) scale(1.02); border-color: rgba(255,255,255,0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
-  .quick-card .qc-icon { width: 55px; height: 55px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 5px; }
-  .quick-card .qc-title { font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 800; text-align: center; }
-  .quick-card .qc-sub { font-size: 0.7rem; color: #888; text-align: center; }
-  .qc-contact .qc-icon { background: linear-gradient(135deg, rgba(255,51,102,0.25), rgba(168,85,247,0.25)); color: #ff3366; box-shadow: 0 0 20px rgba(255,51,102,0.3); }
-  .qc-community .qc-icon { background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(0,212,255,0.25)); color: #a855f7; box-shadow: 0 0 20px rgba(168,85,247,0.3); }
-  .qc-ios .qc-icon { background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(200,200,200,0.15)); color: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
-  .qc-android .qc-icon { background: linear-gradient(135deg, rgba(0,255,136,0.25), rgba(0,212,255,0.25)); color: #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.3); }
-  .shop-card { background: linear-gradient(145deg, rgba(30,30,45,0.8), rgba(15,15,25,0.8)); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; position: relative; overflow: hidden; transition: 0.3s; }
-  .shop-card:hover { border-color: rgba(255,51,102,0.5); transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
-  .shop-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, #ff3366, #a855f7); }
-  .shop-img { width: 100%; height: 160px; border-radius: 14px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
-  .shop-info h4 { font-size: 1.1rem; color: #fff; margin-bottom: 5px; }
-  .shop-info p { font-size: 0.8rem; color: #aaa; margin-bottom: 10px; }
-  .shop-price { font-size: 1.2rem; font-weight: 900; color: #00ff88; text-shadow: 0 0 15px rgba(0,255,136,0.4); }
-  .btn-buy { background: linear-gradient(135deg, #00d4ff, #00ff88); color: #000; border: none; padding: 13px; border-radius: 14px; font-weight: 900; font-size: 0.9rem; cursor: pointer; text-align: center; text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; position: relative; overflow: hidden; transition: 0.3s; }
-  .btn-buy::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: translateX(-100%); animation: shimmer 2.5s infinite; }
-  @keyframes shimmer { 100% { transform: translateX(100%); } }
-  .btn-buy:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(0,255,136,0.6); }
-  .btn-buy:disabled { opacity: 0.6; cursor: not-allowed; }
-  .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10,10,18,0.95); backdrop-filter: blur(25px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; align-items: center; padding: 8px 0; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
-  .nav-item { display: flex; flex-direction: column; align-items: center; color: #666; font-size: 0.6rem; font-weight: 600; cursor: pointer; transition: 0.3s; gap: 4px; width: 20%; padding: 6px 0; position: relative; }
-  .nav-item i { font-size: 1.2rem; transition: 0.3s; }
-  .nav-item.active { color: #ff3366; }
-  .nav-item.active i { transform: scale(1.2); filter: drop-shadow(0 0 10px #ff3366); }
-  .nav-item.active::after { content: ''; position: absolute; top: 0; width: 30%; height: 3px; background: #ff3366; border-radius: 2px; box-shadow: 0 0 15px #ff3366; }
-  .qr-box { background: #fff; padding: 20px; border-radius: 22px; text-align: center; margin-bottom: 20px; box-shadow: 0 15px 40px rgba(255,255,255,0.1); }
-  .qr-box img { width: 100%; max-width: 280px; border-radius: 12px; }
-  .qr-box h3 { color: #000; margin-bottom: 10px; font-weight: 800; font-family: 'Orbitron', sans-serif; }
-  .bank-info { background: rgba(0,0,0,0.05); padding: 12px; border-radius: 12px; margin-top: 10px; text-align: left; }
-  .bank-info p { margin: 4px 0; font-size: 0.85rem; color: #000; }
-  .bank-info b { color: #ff3366; }
-  .amount-suggestions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-  .amount-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px 5px; border-radius: 14px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.3s; text-align: center; }
-  .amount-btn:hover { border-color: rgba(0,255,136,0.5); transform: translateY(-2px); }
-  .amount-btn.selected { background: rgba(0,255,136,0.2); border-color: #00ff88; color: #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.4); transform: scale(1.05); }
-  .custom-amount { width: 100%; padding: 14px 18px; margin-bottom: 15px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.5); color: #fff; outline: none; font-size: 0.95rem; font-weight: 700; }
-  .custom-amount:focus { border-color: #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.3); }
-  .card-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 20px; margin-bottom: 15px; }
-  .card-panel h3 { font-size: 1rem; color: #00d4ff; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-family: 'Orbitron', sans-serif; }
-  .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .list-item:last-child { border-bottom: none; }
-  .list-item .name { font-weight: 600; font-size: 0.9rem; color: #fff; }
-  .list-item .amount { color: #00ff88; font-weight: 800; font-size: 0.95rem; }
-  .file-card { background: linear-gradient(145deg, rgba(30,30,45,0.7), rgba(15,15,25,0.7)); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; transition: 0.3s; }
-  .file-card:hover { border-color: rgba(255,51,102,0.3); transform: translateY(-2px); }
-  .file-img { width: 60px; height: 60px; border-radius: 14px; background: #1a1a2e; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #ff3366; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
-  .file-img img { width: 100%; height: 100%; object-fit: cover; }
-  .file-data { flex: 1; }
-  .file-data h4 { font-size: 1rem; margin-bottom: 4px; }
-  .v-tag { background: rgba(255,51,102,0.2); color: #ff3366; border: 1px solid #ff3366; font-size: 0.65rem; padding: 1px 6px; border-radius: 6px; font-weight: 800; margin-left: 6px; }
-  .file-data p { font-size: 0.75rem; color: #aaa; }
-  .btn-dl { background: linear-gradient(135deg, #ff3366, #a855f7); color: #fff; border: none; padding: 10px 20px; border-radius: 14px; font-weight: 800; font-size: 0.85rem; cursor: pointer; margin-left: auto; transition: 0.3s; }
-  .btn-dl:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,51,102,0.5); }
-  .btn-dl:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-back { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 20px; border-radius: 14px; font-size: 0.85rem; cursor: pointer; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
-  .btn-back:hover { background: rgba(255,255,255,0.2); }
-  .auth-box { max-width: 400px; margin: 40px auto; background: rgba(20,20,30,0.85); padding: 35px 28px; border-radius: 26px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 60px rgba(0,0,0,0.6); position: relative; overflow: hidden; }
-  .auth-box::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(from 0deg, transparent, rgba(255,51,102,0.15), transparent 30%); animation: rotate 8s linear infinite; z-index: 0; }
-  .auth-box > * { position: relative; z-index: 1; }
-  .auth-box h2 { text-align: center; color: #fff; margin-bottom: 25px; font-family: 'Orbitron', sans-serif; background: linear-gradient(90deg, #ff3366, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .auth-box input { width: 100%; padding: 15px 18px; margin-bottom: 15px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; outline: none; font-size: 0.95rem; transition: 0.3s; }
-  .auth-box input:focus { border-color: #ff3366; box-shadow: 0 0 20px rgba(255,51,102,0.3); }
-  .auth-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #ff3366, #a855f7); color: #fff; border: none; border-radius: 14px; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
-  .auth-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transform: translateX(-100%); animation: shimmer 2.5s infinite; }
-  .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,51,102,0.5); }
-  .auth-err { color: #ff3366; font-size: 0.85rem; text-align: center; margin-top: 12px; min-height: 20px; }
-  .auth-toggle { text-align: center; margin-top: 18px; font-size: 0.85rem; color: #aaa; cursor: pointer; transition: 0.3s; }
-  .auth-toggle:hover { color: #fff; }
-  .popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px; }
-  .popup-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
-  .popup-box { background: linear-gradient(145deg, #151520, #0a0a10); border: 1px solid rgba(255,255,255,0.15); border-radius: 26px; padding: 28px 22px; max-width: 420px; width: 100%; text-align: center; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
-  .btn-close-pop { position: absolute; top: 15px; right: 15px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.05); border: none; color: #aaa; cursor: pointer; font-size: 1rem; transition: 0.3s; }
-  .btn-close-pop:hover { background: #ff3366; color: #fff; transform: rotate(90deg); }
-  .popup-title { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-bottom: 18px; color: #00d4ff; }
-  .loader-icon { font-size: 2.5rem; color: #ff3366; margin-bottom: 15px; animation: spin 2s linear infinite; }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
-  .guide-box { background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.2); border-radius: 16px; padding: 16px; margin-bottom: 20px; text-align: left; }
-  .guide-box h4 { color: #00d4ff; font-size: 0.95rem; margin-bottom: 8px; font-family: 'Orbitron', sans-serif; }
-  .guide-box p { color: #ccc; font-size: 0.85rem; line-height: 1.6; margin-bottom: 5px; }
-  .guide-box b { color: #ffd700; }
-  .btn-submit { width: 100%; background: linear-gradient(135deg, #00d4ff, #a855f7); color: #fff; border: none; padding: 15px; border-radius: 16px; font-weight: 900; font-size: 1rem; cursor: pointer; text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.3s; }
-  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.4); }
-  .notif-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; text-align: left; position: relative; transition: 0.3s; }
-  .notif-item:hover { transform: translateX(3px); }
-  .notif-item.unread { border-color: #ffd700; background: rgba(255,215,0,0.05); }
-  .notif-item.deposit { border-color: #00ff88; background: rgba(0,255,136,0.06); }
-  .notif-item.deposit_reject { border-color: #ff3366; background: rgba(255,51,102,0.06); }
-  .notif-item.order { border-color: #00d4ff; background: rgba(0,212,255,0.06); }
-  .notif-item.order_reject { border-color: #ff3366; background: rgba(255,51,102,0.06); }
-  .notif-item .notif-time { font-size: 0.7rem; color: #888; margin-top: 6px; }
-  .notif-item .notif-msg { font-size: 0.85rem; color: #fff; line-height: 1.5; }
-  .notif-item .notif-dot { position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; border-radius: 50%; background: #ffd700; box-shadow: 0 0 10px #ffd700; animation: badgePulse 1.5s infinite; }
-  .notif-empty { text-align: center; padding: 30px 10px; color: #666; font-size: 0.85rem; }
-  .notif-actions { text-align: center; margin-top: 15px; }
-  .notif-actions button { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 20px; border-radius: 12px; font-size: 0.85rem; cursor: pointer; font-weight: 700; transition: 0.3s; }
-  .notif-actions button:hover { background: rgba(255,255,255,0.2); }
-  .toast-notif { position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-200px); background: linear-gradient(135deg, #00ff88, #00d4ff); color: #000; padding: 16px 24px; border-radius: 16px; font-weight: 800; font-size: 0.9rem; z-index: 99999; max-width: 90%; box-shadow: 0 15px 40px rgba(0,255,136,0.5); transition: 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; align-items: center; gap: 12px; }
-  .toast-notif.show { transform: translateX(-50%) translateY(0); }
-  .toast-notif i { font-size: 1.4rem; }
-  .toast-notif.error { background: linear-gradient(135deg, #ff3366, #a855f7); color: #fff; box-shadow: 0 15px 40px rgba(255,51,102,0.5); }
-  .top-item { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-  .top-item:hover { transform: translateX(5px); }
-  .top-item:last-child { border-bottom: none; }
-  .top-rank { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-family: 'Orbitron', sans-serif; font-size: 1rem; flex-shrink: 0; }
-  .top-rank.r1 { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; box-shadow: 0 0 20px rgba(255,215,0,0.6); }
-  .top-rank.r2 { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); color: #000; }
-  .top-rank.r3 { background: linear-gradient(135deg, #cd7f32, #a0522d); color: #fff; }
-  .top-rank.rn { background: rgba(255,255,255,0.08); color: #fff; }
-  .top-info { flex: 1; }
-  .top-info .top-name { font-weight: 700; font-size: 0.95rem; color: #fff; }
-  .top-info .top-amount { font-weight: 900; font-size: 0.85rem; color: #00ff88; margin-top: 2px; }
-  .skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; border-radius: 8px; }
-  @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-  @media(max-width: 600px) {
-    .file-card { flex-wrap: wrap; }
-    .file-data { width: 100%; }
-    .btn-dl { margin-left: 0; margin-top: 10px; width: 100%; }
-    .hero-banner { padding: 28px 18px; }
-    .quick-stats { gap: 10px; }
+  :root {
+    --bg-dark: #09090b;
+    --bg-card: rgba(20, 20, 30, 0.7);
+    --primary: #d946ef; /* Hồng Neon */
+    --secondary: #8b5cf6; /* Tím Neon */
+    --accent: #06b6d4; /* Xanh Cyan */
+    --success: #10b981;
+    --danger: #ef4444;
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
   }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+  
+  body { 
+    background-color: var(--bg-dark); 
+    color: var(--text-main); 
+    min-height: 100vh; 
+    padding-bottom: 80px;
+    background-image: 
+      radial-gradient(circle at 0% 0%, rgba(217, 70, 239, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  /* HEADER */
+  header { 
+    background: rgba(9, 9, 11, 0.8); 
+    backdrop-filter: blur(20px);
+    padding: 16px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid rgba(217, 70, 239, 0.3); 
+    position: sticky; 
+    top: 0; 
+    z-index: 100; 
+    box-shadow: 0 5px 20px rgba(217, 70, 239, 0.1);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo i { 
+    font-size: 1.6rem; 
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px var(--primary));
+  }
+  .logo h1 { 
+    font-family: 'Orbitron', sans-serif; 
+    font-size: 1.3rem; 
+    font-weight: 900; 
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #fff, var(--primary), var(--accent), #fff);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 4s linear infinite;
+  }
+  @keyframes shine { to { background-position: 300% center; } }
+  
+  .user-badge { 
+    background: rgba(217, 70, 239, 0.1); 
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 10px rgba(217, 70, 239, 0.3);
+    padding: 6px 14px; 
+    border-radius: 20px; 
+    font-size: 0.8rem; 
+    font-weight: 700;
+    cursor: pointer; 
+    display: flex; align-items: center; gap: 6px;
+    transition: 0.3s;
+  }
+  .user-badge:hover { background: rgba(217, 70, 239, 0.2); box-shadow: 0 0 20px var(--primary); }
+  .user-badge i { color: var(--primary); }
+  .btn-logout { background: transparent; border: none; color: var(--danger); cursor: pointer; margin-left: 5px; font-size: 0.9rem; }
+
+  main { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+  .page { display: none; animation: slideUp 0.4s ease forwards; }
+  .page.active { display: block; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* PROFILE */
+  .profile-section { 
+    display: flex; flex-direction: column; align-items: center; 
+    padding: 20px 0 30px; 
+  }
+  .avatar { 
+    width: 80px; height: 80px; border-radius: 50%; 
+    background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+    display: flex; align-items: center; justify-content: center; 
+    font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 15px;
+    box-shadow: 0 0 30px rgba(217, 70, 239, 0.6);
+    border: 3px solid rgba(255,255,255,0.2);
+  }
+  .username { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700; text-shadow: 0 0 15px rgba(255,255,255,0.3); }
+
+  /* STATS */
+  .stats-row { display: flex; gap: 15px; margin-bottom: 30px; }
+  .stat-item { 
+    flex: 1; background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 18px; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  .stat-item span { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+  .stat-item strong { font-size: 1.4rem; font-weight: 900; font-family: 'Orbitron', sans-serif; }
+  .stat-item.balance { border-bottom: 3px solid var(--success); }
+  .stat-item.balance strong { color: var(--success); text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+  .stat-item.rank { border-bottom: 3px solid #f59e0b; }
+  .stat-item.rank strong { color: #f59e0b; text-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
+
+  /* TITLES */
+  .title { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .title i { color: var(--primary); filter: drop-shadow(0 0 8px var(--primary)); }
+
+  /* GRID MENU */
+  .menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
+  .menu-box { 
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 24px 15px; 
+    border-radius: 20px; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; 
+    text-decoration: none; color: var(--text-main); cursor: pointer; 
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .menu-box::before {
+    content: ''; position: absolute; inset: 0; opacity: 0; transition: 0.3s; z-index: 0;
+  }
+  .menu-box > * { position: relative; z-index: 1; }
+  .menu-box:hover { transform: translateY(-5px) scale(1.02); }
+  
+  /* Hiệu ứng phát sáng riêng cho từng thẻ */
+  .menu-box:hover.box-contact { border-color: var(--danger); box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); }
+  .menu-box:hover.box-chat { border-color: var(--accent); box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); }
+  .menu-box:hover.box-ios { border-color: #fff; box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
+  .menu-box:hover.box-adr { border-color: var(--success); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+  .menu-box:hover.box-lq-ios { border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+  .menu-box:hover.box-lq-adr { border-color: var(--secondary); box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+
+  .menu-box i { font-size: 2rem; }
+  .menu-box span { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 700; text-align: center; }
+  
+  .icon-contact { color: var(--danger); }
+  .icon-chat { color: var(--accent); }
+  .icon-ios { color: #fff; }
+  .icon-android { color: var(--success); }
+  .icon-lq-ios { color: #f59e0b; }
+  .icon-lq-adr { color: var(--secondary); }
+
+  /* ABOUT */
+  .about-box { 
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px 24px; text-align: center; margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-box::after {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+  }
+  .about-box h3 { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 12px; letter-spacing: 1px; }
+  .about-box p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+  .socials { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+  .socials a { 
+    width: 45px; height: 45px; border-radius: 12px; background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; transition: 0.3s; font-size: 1.2rem;
+  }
+  .socials a:hover { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px var(--primary); transform: scale(1.1); }
+  .copyright { font-size: 0.75rem; color: #666; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; line-height: 1.5; }
+
+  /* BOTTOM NAV */
+  .bottom-nav { 
+    position: fixed; bottom: 0; left: 0; width: 100%; 
+    background: rgba(9, 9, 11, 0.95); backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(217, 70, 239, 0.3); 
+    display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; 
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+  }
+  .nav-item { 
+    display: flex; flex-direction: column; align-items: center; 
+    color: var(--text-muted); font-size: 0.65rem; font-weight: 700; gap: 6px; cursor: pointer; 
+    transition: 0.3s;
+  }
+  .nav-item i { font-size: 1.3rem; }
+  .nav-item.active { color: var(--primary); }
+  .nav-item.active i { filter: drop-shadow(0 0 10px var(--primary)); transform: translateY(-3px); }
+
+  /* SHOP & FILE */
+  .card { 
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-radius: 20px; padding: 20px; margin-bottom: 16px; 
+    transition: 0.3s;
+  }
+  .card:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(217, 70, 239, 0.2); }
+  .img-wrap { width: 100%; height: 180px; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .card h4 { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 6px; }
+  .card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; }
+  .price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .price-old { font-size: 0.9rem; color: var(--text-muted); text-decoration: line-through; }
+  .price-new { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 900; color: var(--success); text-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
+  
+  .btn { 
+    width: 100%; padding: 14px; border-radius: 12px; border: none; font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 0.95rem; text-transform: uppercase;
+  }
+  .btn-primary { 
+    background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; 
+    box-shadow: 0 5px 15px rgba(217, 70, 239, 0.4);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(217, 70, 239, 0.6); }
+  .btn-success { background: var(--success); color: #fff; box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4); }
+  
+  .file-item { 
+    display: flex; align-items: center; gap: 15px; 
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08); 
+    padding: 15px; border-radius: 16px; margin-bottom: 12px; 
+    transition: 0.3s;
+  }
+  .file-item:hover { border-color: var(--accent); box-shadow: 0 0 15px rgba(6, 182, 212, 0.2); }
+  .file-icon { width: 50px; height: 50px; border-radius: 12px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; }
+  .file-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+  .file-info { flex: 1; }
+  .file-info h4 { font-size: 1rem; margin-bottom: 4px; font-weight: 600; }
+  .file-info p { font-size: 0.8rem; color: var(--text-muted); }
+  .btn-dl { 
+    background: rgba(6, 182, 212, 0.15); color: var(--accent); 
+    padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none; 
+    border: 1px solid rgba(6, 182, 212, 0.3); transition: 0.3s;
+  }
+  .btn-dl:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
+
+  /* TABS FILE */
+  .file-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; }
+  .file-tab { 
+    background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); 
+    padding: 10px 20px; border-radius: 12px; font-size: 0.9rem; font-weight: 700; cursor: pointer; white-space: nowrap; 
+    transition: 0.3s;
+  }
+  .file-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 0 15px rgba(217, 70, 239, 0.4); }
+
+  /* CHAT (Nếu vẫn dùng nội bộ) */
+  .chat-box { 
+    background: var(--bg-card); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-radius: 20px; height: 65vh; display: flex; flex-direction: column; 
+  }
+  .chat-msgs { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+  .msg { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.9rem; background: rgba(255,255,255,0.05); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .msg.mine { background: linear-gradient(135deg, var(--secondary), var(--primary)); align-self: flex-end; border-bottom-left-radius: 16px; border-bottom-right-radius: 4px; box-shadow: 0 5px 15px rgba(217, 70, 239, 0.3); }
+  .msg-user { font-size: 0.75rem; opacity: 0.7; margin-bottom: 6px; font-weight: 700; color: var(--accent); }
+  .msg.mine .msg-user { color: #fff; }
+  .chat-input { display: flex; padding: 15px; gap: 10px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .chat-input input { flex: 1; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px 16px; color: #fff; outline: none; transition: 0.3s; }
+  .chat-input input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(217, 70, 239, 0.3); }
+  .chat-input button { background: var(--primary); border: none; color: #fff; width: 48px; height: 48px; border-radius: 12px; cursor: pointer; box-shadow: 0 0 15px rgba(217, 70, 239, 0.4); }
+
+  /* NẠP TIỀN */
+  .amount-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .amount-btn { 
+    background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); color: #fff; 
+    padding: 14px; border-radius: 12px; font-family: 'Orbitron', sans-serif; font-weight: 700; cursor: pointer; text-align: center; font-size: 0.9rem; 
+    transition: 0.3s;
+  }
+  .amount-btn.active { border-color: var(--success); color: var(--success); background: rgba(16, 185, 129, 0.1); box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }
+  .input-custom { 
+    width: 100%; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); 
+    padding: 16px; border-radius: 12px; color: #fff; margin-bottom: 20px; outline: none; font-size: 1rem; font-weight: 600; 
+    transition: 0.3s;
+  }
+  .input-custom:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
+  
+  .qr-result { background: var(--bg-card); padding: 24px; border-radius: 20px; text-align: center; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1); }
+  .qr-result img { width: 100%; max-width: 260px; border-radius: 12px; margin-bottom: 20px; border: 2px solid rgba(255,255,255,0.1); }
+  .qr-info { text-align: left; font-size: 0.9rem; color: var(--text-muted); background: rgba(0,0,0,0.3); padding: 16px; border-radius: 12px; margin-bottom: 20px; }
+  .qr-info b { color: #fff; }
+
+  /* AUTH */
+  .auth-form { background: var(--bg-card); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 24px; margin-top: 40px; }
+  .auth-form h2 { text-align: center; margin-bottom: 25px; font-family: 'Orbitron', sans-serif; font-size: 1.5rem; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .auth-form input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; color: #fff; margin-bottom: 15px; outline: none; transition: 0.3s; }
+  .auth-form input:focus { border-color: var(--primary); }
+  .auth-err { color: var(--danger); font-size: 0.85rem; text-align: center; margin-top: 10px; }
+  .auth-toggle { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; }
+
+  /* NOTIF */
+  .global-notif { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .global-notif.show { display: flex; }
+  .notif-box { 
+    background: #111; border: 2px solid var(--danger); border-radius: 20px; padding: 30px; text-align: center; max-width: 400px; width: 100%; 
+    box-shadow: 0 0 50px rgba(239, 68, 68, 0.4); animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse { 0% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 50px rgba(239, 68, 68, 0.8); } 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); } }
+  .notif-box h2 { color: var(--danger); font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 15px; }
+  .notif-box p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 25px; font-weight: 600; }
+  .notif-box button { background: var(--danger); color: #fff; border: none; padding: 12px 30px; border-radius: 12px; font-weight: 700; font-family: 'Orbitron'; cursor: pointer; box-shadow: 0 0 15px rgba(239,68,68,0.4); }
 </style>
 </head>
 <body>
+
+<div class="global-notif" id="globalNotifPopup">
+  <div class="notif-box">
+    <h2><i class="fas fa-bullhorn"></i> THÔNG BÁO</h2>
+    <p id="globalNotifText">Nội dung...</p>
+    <button onclick="document.getElementById('globalNotifPopup').classList.remove('show')">ĐÓNG</button>
+  </div>
+</div>
 
 <audio id="bgMusic" loop>
   <source src="https://files.catbox.moe/b3jy5l.mp3" type="audio/mpeg">
 </audio>
 
-<div class="bg-overlay"></div>
-<div class="bg-grid"></div>
-<div class="particles" id="particles"></div>
-
 <header>
-  <div class="logo">
-    <i class="fas fa-eye logo-icon"></i>
+  <a href="#" class="logo" onclick="goTab('home')">
+    <i class="fas fa-cube"></i>
     <h1>SAMM X VIP</h1>
-  </div>
-  <div id="userStatus" class="header-right">
+  </a>
+  <div id="userStatus">
     <div class="user-badge" onclick="goTab('auth')"><i class="fas fa-user-astronaut"></i> <span>Đăng Nhập</span></div>
   </div>
 </header>
 
 <main>
+  <!-- TRANG CHỦ -->
   <div id="page-home" class="page active">
-    <div class="hero-banner">
-      <div class="hero-avatar" id="heroAvatar">S</div>
-      <div class="hero-name" id="profileName">SAMM</div>
-      <a href="https://www.tiktok.com/@samroblox10102011" target="_blank" class="hero-tiktok">
-        <i class="fab fa-tiktok"></i> @samroblox10102011
-      </a>
+    <div class="profile-section">
+      <div class="avatar" id="heroAvatar">S</div>
+      <div class="username" id="profileName">SAMM</div>
     </div>
 
-    <div class="quick-stats">
-      <div class="stat-box balance">
-        <div class="stat-icon"><i class="fas fa-wallet"></i></div>
-        <div class="stat-label">Số dư</div>
-        <div class="stat-value" id="quickBalance">0đ</div>
+    <div class="stats-row">
+      <div class="stat-item balance">
+        <span>Số dư</span>
+        <strong id="quickBalance">0đ</strong>
       </div>
-      <div class="stat-box rank">
-        <div class="stat-icon"><i class="fas fa-crown"></i></div>
-        <div class="stat-label">Hạng nạp</div>
-        <div class="stat-value" id="quickRank">#--</div>
+      <div class="stat-item rank">
+        <span>Hạng nạp</span>
+        <strong id="quickRank">#--</strong>
       </div>
     </div>
 
-    <div class="section-title"><i class="fas fa-bolt"></i> TRUY CẬP NHANH</div>
-
-    <div class="quick-grid">
-      <a href="https://zalo.me/0355757211" target="_blank" class="quick-card qc-contact">
-        <div class="qc-icon"><i class="fas fa-headset"></i></div>
-        <div class="qc-title">LIÊN HỆ</div>
-        <div class="qc-sub">Hỗ trợ 24/7</div>
+    <div class="title"><i class="fas fa-bolt"></i> Truy Cập Nhanh</div>
+    <div class="menu-grid">
+      <a href="https://zalo.me/0355757211" target="_blank" class="menu-box box-contact">
+        <i class="fas fa-headset icon-contact"></i>
+        <span>Liên Hệ</span>
       </a>
-      <a href="https://zalo.me/g/wqnmgz1abybxpub2p9w9" target="_blank" class="quick-card qc-community">
-        <div class="qc-icon"><i class="fas fa-users"></i></div>
-        <div class="qc-title">CỘNG ĐỒNG</div>
-        <div class="qc-sub">Tham gia nhóm</div>
+      
+      <!-- ĐÃ CẬP NHẬT LINK ZALO NHÓM CHAT CỘNG ĐỒNG -->
+      <a href="https://zalo.me/g/wqnmgz1abybxpub2p9w9" target="_blank" class="menu-box box-chat">
+        <i class="fas fa-comments icon-chat"></i>
+        <span>Chat Cộng Đồng</span>
       </a>
     </div>
 
-    <div class="section-title"><i class="fas fa-gift"></i> KHU VỰC FREE</div>
-
-    <div class="quick-grid">
-      <div class="quick-card qc-ios" onclick="showFreeArea('ios')">
-        <div class="qc-icon"><i class="fab fa-apple"></i></div>
-        <div class="qc-title">iOS</div>
-        <div class="qc-sub">File Hack / Mod</div>
+    <div class="title"><i class="fas fa-gift"></i> Khu Vực Free</div>
+    <div class="menu-grid">
+      <div class="menu-box box-ios" onclick="showFreeArea('ios')">
+        <i class="fab fa-apple icon-ios"></i>
+        <span>Hack FF iOS</span>
       </div>
-      <div class="quick-card qc-android" onclick="showFreeArea('adr')">
-        <div class="qc-icon"><i class="fab fa-android"></i></div>
-        <div class="qc-title">ANDROID</div>
-        <div class="qc-sub">File Hack / Mod</div>
+      <div class="menu-box box-adr" onclick="showFreeArea('adr')">
+        <i class="fab fa-android icon-android"></i>
+        <span>Hack FF Android</span>
+      </div>
+      <div class="menu-box box-lq-ios" onclick="showFreeArea('lq_ios')">
+        <i class="fas fa-shield-alt icon-lq-ios"></i>
+        <span>Hack LQ iOS</span>
+      </div>
+      <div class="menu-box box-lq-adr" onclick="showFreeArea('lq_adr')">
+        <i class="fas fa-shield-alt icon-lq-adr"></i>
+        <span>Hack LQ Android</span>
+      </div>
+    </div>
+
+    <div class="about-box">
+      <h3>SAMM X VIP</h3>
+      <p>Hệ thống cung cấp tài khoản game & tiện ích số an toàn, bảo mật, tự động 24/7.</p>
+      <div style="margin-top: 15px; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">
+        <p>Phát triển bởi: <b style="color: #fff;">SAMM</b></p>
+        <p>Hỗ trợ: <b style="color: #fff;">Zalo 0355.757.211</b></p>
+      </div>
+      <div class="socials">
+        <a href="https://zalo.me/0355757211" target="_blank"><i class="fas fa-phone-alt"></i></a>
+        <a href="https://www.tiktok.com/@samroblox10102011" target="_blank"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <div class="copyright">
+        Bản quyền thuộc về SAMM X VIP.<br>
+        Sản xuất tại Việt Nam &copy; 2024.
       </div>
     </div>
   </div>
 
+  <!-- CHAT (Dự phòng nếu dùng nội bộ) -->
+  <div id="page-chat" class="page">
+    <div class="title"><i class="fas fa-comments"></i> Chat Cộng Đồng</div>
+    <div class="chat-box">
+      <div class="chat-msgs" id="chatMessages"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." onkeypress="if(event.key === 'Enter') sendChat()">
+        <button onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOP -->
   <div id="page-shop" class="page">
-    <div class="section-title"><i class="fas fa-shopping-bag"></i> CỬA HÀNG VIP</div>
+    <div class="title"><i class="fas fa-shopping-bag"></i> Cửa Hàng VIP</div>
     <div id="shopList"></div>
   </div>
 
+  <!-- NẠP TIỀN -->
   <div id="page-nap" class="page">
-    <div class="section-title"><i class="fas fa-wallet"></i> NẠP TIỀN</div>
-
-    <div class="card-panel">
-      <h3><i class="fas fa-hand-holding-usd"></i> Chọn số tiền muốn nạp</h3>
-      <div class="amount-suggestions">
-        <div class="amount-btn" onclick="selectAmount(this, 20000)">20.000đ</div>
-        <div class="amount-btn" onclick="selectAmount(this, 50000)">50.000đ</div>
-        <div class="amount-btn" onclick="selectAmount(this, 100000)">100.000đ</div>
-        <div class="amount-btn" onclick="selectAmount(this, 200000)">200.000đ</div>
-        <div class="amount-btn" onclick="selectAmount(this, 500000)">500.000đ</div>
-        <div class="amount-btn" onclick="selectAmount(this, 1000000)">1.000.000đ</div>
-      </div>
-      <input type="number" id="customAmountInput" class="custom-amount" placeholder="Hoặc nhập số tiền tùy chỉnh (đ)..." oninput="onCustomAmountInput(this)">
-      <button class="btn-submit" onclick="showQR()"><i class="fas fa-qrcode"></i> NẠP TIỀN</button>
+    <div class="title"><i class="fas fa-wallet"></i> Nạp Tiền</div>
+    <div class="amount-grid">
+      <div class="amount-btn" onclick="selectAmount(this, 20000)">20.000đ</div>
+      <div class="amount-btn" onclick="selectAmount(this, 50000)">50.000đ</div>
+      <div class="amount-btn" onclick="selectAmount(this, 100000)">100.000đ</div>
+      <div class="amount-btn" onclick="selectAmount(this, 200000)">200.000đ</div>
+      <div class="amount-btn" onclick="selectAmount(this, 500000)">500.000đ</div>
+      <div class="amount-btn" onclick="selectAmount(this, 1000000)">1.000.000đ</div>
     </div>
+    <input type="number" id="customAmountInput" class="input-custom" placeholder="Nhập số tiền..." oninput="onCustomAmountInput(this)">
+    <button class="btn btn-primary" onclick="showQR()">Tạo Mã QR</button>
 
     <div id="qrSection" style="display:none;">
-      <div class="card-panel">
-        <h3><i class="fas fa-qrcode"></i> Quét mã QR để nạp</h3>
-        <div class="qr-box">
-          <h3 id="qrAmountLabel">0đ</h3>
-          <img id="qrImage" src="" alt="QR Nạp Tiền">
-          <div class="bank-info">
-            <p>Ngân hàng: <b>MB Bank</b></p>
-            <p>Số TK: <b>2333612345555</b></p>
-            <p>Chủ TK: <b>SAMM X VIP</b></p>
-            <p>Nội dung CK: <b id="qrContent">SAMM</b></p>
-            <p>Số tiền: <b id="qrAmountText">0đ</b></p>
-          </div>
+      <div class="qr-result">
+        <h3 id="qrAmountLabel" style="margin-bottom:15px; color:var(--success); font-family:'Orbitron'; font-size:1.5rem;">0đ</h3>
+        <img id="qrImage" src="">
+        <div class="qr-info">
+          <p>Ngân hàng: <b>MB Bank</b></p>
+          <p>Số TK: <b>2333612345555</b></p>
+          <p>Chủ TK: <b>SAMM X VIP</b></p>
+          <p>Nội dung: <b id="qrContent" style="color:var(--accent);">SAMM</b></p>
         </div>
-        <button class="btn-submit" style="background: linear-gradient(135deg, #00ff88, #00d4ff); color: #000;" onclick="confirmDeposit()">
-          <i class="fas fa-check"></i> TÔI ĐÃ CHUYỂN KHOẢN
-        </button>
+        <button class="btn btn-success" onclick="confirmDeposit()">Tôi Đã Chuyển Khoản</button>
       </div>
     </div>
   </div>
 
+  <!-- TOP NẠP -->
   <div id="page-top" class="page">
-    <div class="section-title"><i class="fas fa-crown"></i> TOP NẠP</div>
-    <div class="card-panel" id="topList">
-      <div style="text-align:center;padding:20px;color:#666;"><div class="skeleton" style="height:44px;margin-bottom:10px;"></div><div class="skeleton" style="height:44px;"></div></div>
-    </div>
+    <div class="title"><i class="fas fa-crown"></i> Top Nạp</div>
+    <div class="card" id="topList"></div>
   </div>
 
+  <!-- LỊCH SỬ -->
   <div id="page-history" class="page">
-    <div class="section-title"><i class="fas fa-receipt"></i> LỊCH SỬ MUA HÀNG</div>
-    <div id="historyList">
-      <div class="card-panel"><div class="list-item"><div class="name">Chưa có đơn hàng nào</div><div class="amount">---</div></div></div>
-    </div>
-    <div class="section-title" style="margin-top:20px;"><i class="fas fa-money-bill-wave"></i> LỊCH SỬ NẠP TIỀN</div>
-    <div id="depositHistory">
-      <div class="card-panel"><div class="list-item"><div class="name">Chưa có giao dịch nào</div><div class="amount">---</div></div></div>
-    </div>
+    <div class="title"><i class="fas fa-receipt"></i> Lịch Sử Mua</div>
+    <div id="historyList"></div>
+    <div class="title" style="margin-top:20px;"><i class="fas fa-money-bill"></i> Lịch Sử Nạp</div>
+    <div id="depositHistory"></div>
   </div>
 
+  <!-- FILES -->
   <div id="page-files" class="page">
-    <button class="btn-back" onclick="goTab('home')"><i class="fas fa-arrow-left"></i> Quay lại</button>
-    <div class="section-title" id="fileTitle">Danh sách file</div>
+    <button class="btn" style="margin-bottom:20px; background:rgba(255,255,255,0.05); color:#fff; border:1px solid rgba(255,255,255,0.1);" onclick="goTab('home')"><i class="fas fa-arrow-left"></i> Quay lại</button>
+    <div class="title" id="fileTitle">Danh sách file</div>
+    
+    <div class="file-tabs" id="fileTabs">
+      <div class="file-tab active" onclick="switchFileTab('hack', this)">Hack</div>
+      <div class="file-tab" onclick="switchFileTab('mod', this)">Mod</div>
+      <div class="file-tab" onclick="switchFileTab('aim', this)">Aim</div>
+    </div>
+
     <div id="fileList"></div>
   </div>
 
+  <!-- AUTH -->
   <div id="page-auth" class="page">
-    <div class="auth-box">
-      <h2 id="authTitle">ĐĂNG NHẬP</h2>
+    <div class="auth-form">
+      <h2 id="authTitle">Đăng Nhập</h2>
       <input type="text" id="authUser" placeholder="Tài khoản...">
       <input type="password" id="authPass" placeholder="Mật khẩu...">
-      <button class="auth-btn" id="authSubmitBtn" onclick="doAuth()">ĐĂNG NHẬP</button>
+      <button class="btn btn-primary" id="authSubmitBtn" onclick="doAuth()">Đăng Nhập</button>
       <p class="auth-err" id="authErr"></p>
-      <p class="auth-toggle" id="authToggle" onclick="toggleAuth()">Chưa có tài khoản? Đăng ký ngay</p>
+      <p class="auth-toggle" id="authToggle" onclick="toggleAuth()">Chưa có tài khoản? Đăng ký</p>
     </div>
   </div>
 </main>
 
 <nav class="bottom-nav" id="bottomNav" style="display: none;">
-  <div class="nav-item active" data-tab="home" onclick="goTab('home')"><i class="fas fa-home"></i> TRANG CHỦ</div>
-  <div class="nav-item" data-tab="shop" onclick="goTab('shop')"><i class="fas fa-shopping-bag"></i> CỬA HÀNG</div>
-  <div class="nav-item" data-tab="nap" onclick="goTab('nap')"><i class="fas fa-wallet"></i> NẠP TIỀN</div>
-  <div class="nav-item" data-tab="top" onclick="goTab('top')"><i class="fas fa-crown"></i> TOP NẠP</div>
-  <div class="nav-item" data-tab="history" onclick="goTab('history')"><i class="fas fa-history"></i> LỊCH SỬ</div>
+  <div class="nav-item active" data-tab="home" onclick="goTab('home')"><i class="fas fa-home"></i> Trang Chủ</div>
+  <div class="nav-item" data-tab="chat" onclick="goTab('chat')"><i class="fas fa-comments"></i> Chat</div>
+  <div class="nav-item" data-tab="shop" onclick="goTab('shop')"><i class="fas fa-shopping-bag"></i> Shop</div>
+  <div class="nav-item" data-tab="nap" onclick="goTab('nap')"><i class="fas fa-wallet"></i> Nạp</div>
+  <div class="nav-item" data-tab="history" onclick="goTab('history')"><i class="fas fa-history"></i> Lịch Sử</div>
 </nav>
-
-<div class="popup-overlay" id="loadPopup">
-  <div class="popup-box">
-    <i class="fas fa-cog loader-icon"></i>
-    <h3 class="popup-title" id="loadTitle">ĐANG XỬ LÝ</h3>
-    <p id="loadStatus" style="color:#aaa;">Vui lòng chờ...</p>
-  </div>
-</div>
-
-<div class="popup-overlay" id="guidePopup">
-  <div class="popup-box">
-    <button class="btn-close-pop" onclick="closePopup('guidePopup')"><i class="fas fa-times"></i></button>
-    <h3 class="popup-title">TRỢ LÝ HƯỚNG DẪN</h3>
-    <div class="guide-box" id="guideText"></div>
-    <a id="finalDlBtn" href="#" target="_blank" class="btn-submit"><i class="fas fa-download"></i> TẢI XUỐNG NGAY</a>
-  </div>
-</div>
-
-<div class="popup-overlay" id="notifPopup">
-  <div class="popup-box">
-    <button class="btn-close-pop" onclick="closePopup('notifPopup')"><i class="fas fa-times"></i></button>
-    <h3 class="popup-title"><i class="fas fa-bell"></i> THÔNG BÁO</h3>
-    <div id="notifList"></div>
-    <div class="notif-actions">
-      <button onclick="markAllRead()"><i class="fas fa-check-double"></i> Đánh dấu đã đọc tất cả</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast-notif" id="toastNotif">
-  <i class="fas fa-check-circle"></i>
-  <span id="toastNotifMsg"></span>
-</div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -394,62 +517,29 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var db = firebase.database();
 
-var BANK_ID = "MB";
-var BANK_ACCOUNT = "2333612345555";
-var BANK_NAME = "SAMM X VIP";
-
-var allData = { ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } };
-var shopData = [];
-var currentUser = null;
-var deviceId = "";
-var currentOS = "";
-var currentCat = "";
-var pendingLink = "";
-var authMode = "login";
-var selectedAmount = 0;
-var userBalance = 0;
-var notifListener = null;
-var knownNotifIds = {};
-
-(function createParticles() {
-  var container = document.getElementById("particles");
-  if (!container) return;
-  for (var i = 0; i < 20; i++) {
-    var p = document.createElement("div");
-    p.className = "particle";
-    p.style.left = Math.random() * 100 + "%";
-    p.style.animationDuration = (Math.random() * 10 + 8) + "s";
-    p.style.animationDelay = Math.random() * 10 + "s";
-    p.style.background = ["#ff3366", "#00d4ff", "#a855f7", "#00ff88"][Math.floor(Math.random() * 4)];
-    p.style.boxShadow = "0 0 10px " + p.style.background;
-    container.appendChild(p);
-  }
-})();
-
-document.body.addEventListener("click", function () {
-  var audioEl = document.getElementById("bgMusic");
-  if (audioEl && audioEl.paused) audioEl.play().catch(function () {});
-}, { once: true });
+var BANK_ID = "MB", BANK_ACCOUNT = "2333612345555", BANK_NAME = "SAMM X VIP";
+var allData = { 
+  ios: { hack: [], mod: [], aim: [] }, 
+  adr: { hack: [], mod: [], aim: [] }, 
+  lq_ios: { hack: [], mod: [], aim: [] }, 
+  lq_adr: { hack: [], mod: [], aim: [] } 
+};
+var shopData = [], promotions = [];
+var currentUser = null, deviceId = "", currentOS = "", currentCat = "hack";
+var authMode = "login", selectedAmount = 0, userBalance = 0;
 
 function getDeviceId() {
   var id = localStorage.getItem("samm_device");
-  if (!id) {
-    id = "DEV-" + Math.random().toString(36).substring(2, 10).toUpperCase();
-    localStorage.setItem("samm_device", id);
-  }
+  if (!id) { id = "DEV-" + Math.random().toString(36).substring(2, 10).toUpperCase(); localStorage.setItem("samm_device", id); }
   return id;
 }
 deviceId = getDeviceId();
 
 function goTab(name) {
-  var pages = document.querySelectorAll(".page");
-  var i;
-  for (i = 0; i < pages.length; i++) pages[i].classList.remove("active");
-  var navs = document.querySelectorAll(".nav-item");
-  for (i = 0; i < navs.length; i++) navs[i].classList.remove("active");
-  if (name === "auth") {
-    document.getElementById("page-auth").classList.add("active");
-  } else {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+  if (name === "auth") { document.getElementById("page-auth").classList.add("active"); }
+  else {
     document.getElementById("page-" + name).classList.add("active");
     var nav = document.querySelector('.nav-item[data-tab="' + name + '"]');
     if (nav) nav.classList.add("active");
@@ -459,18 +549,9 @@ function goTab(name) {
 
 function toggleAuth() {
   authMode = (authMode === "login") ? "register" : "login";
-  var btn = document.getElementById("authSubmitBtn");
-  var title = document.getElementById("authTitle");
-  var toggle = document.getElementById("authToggle");
-  if (authMode === "login") {
-    btn.innerText = "ĐĂNG NHẬP";
-    title.innerText = "ĐĂNG NHẬP";
-    toggle.innerText = "Chưa có tài khoản? Đăng ký ngay";
-  } else {
-    btn.innerText = "ĐĂNG KÝ";
-    title.innerText = "ĐĂNG KÝ";
-    toggle.innerText = "Đã có tài khoản? Đăng nhập";
-  }
+  document.getElementById("authSubmitBtn").innerText = authMode === "login" ? "Đăng Nhập" : "Đăng Ký";
+  document.getElementById("authTitle").innerText = authMode === "login" ? "Đăng Nhập" : "Đăng Ký";
+  document.getElementById("authToggle").innerText = authMode === "login" ? "Chưa có tài khoản? Đăng ký" : "Đã có tài khoản? Đăng nhập";
   document.getElementById("authErr").innerText = "";
 }
 
@@ -478,7 +559,7 @@ function doAuth() {
   var user = document.getElementById("authUser").value.trim();
   var pass = document.getElementById("authPass").value.trim();
   var err = document.getElementById("authErr");
-  if (!user || !pass) { err.innerText = "Vui lòng nhập đủ thông tin!"; return; }
+  if (!user || !pass) { err.innerText = "Nhập đủ thông tin!"; return; }
   err.innerText = "Đang xử lý...";
   db.ref("users/" + user).once("value").then(function (snap) {
     if (authMode === "login") {
@@ -487,9 +568,7 @@ function doAuth() {
       else loginSuccess(user);
     } else {
       if (snap.exists()) err.innerText = "Tên đã tồn tại!";
-      else {
-        db.ref("users/" + user).set({ password: pass, device: deviceId, balance: 0 }).then(function () { loginSuccess(user); });
-      }
+      else db.ref("users/" + user).set({ password: pass, device: deviceId, balance: 0 }).then(() => loginSuccess(user));
     }
   });
 }
@@ -497,9 +576,7 @@ function doAuth() {
 function loginSuccess(user) {
   currentUser = user;
   localStorage.setItem("samm_user", user);
-  document.getElementById("userStatus").innerHTML =
-    '<div class="bell-wrap" onclick="openNotif()"><i class="fas fa-bell"></i><span class="bell-badge hide" id="bellBadge">0</span></div>' +
-    '<div class="user-badge"><i class="fas fa-user-astronaut"></i> <span>' + user + '</span><button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button></div>';
+  document.getElementById("userStatus").innerHTML = '<div class="user-badge"><i class="fas fa-user-astronaut"></i> <span>' + user + '</span><button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button></div>';
   document.getElementById("profileName").innerText = user;
   document.getElementById("heroAvatar").innerText = user.charAt(0).toUpperCase();
   document.getElementById("bottomNav").style.display = "flex";
@@ -507,414 +584,272 @@ function loginSuccess(user) {
   db.ref("online/" + deviceId).set({ user: user, time: Date.now() });
   loadShopData();
   loadUserBalance();
-  startNotificationListener(user);
   loadUserHistory();
   loadTopNap();
+  startChat(user);
+  startGlobalNotif();
 }
 
 function logout() { localStorage.removeItem("samm_user"); location.reload(); }
 
 function loadUserBalance() {
-  if (!currentUser) return;
-  db.ref("users/" + currentUser + "/balance").on("value", function (snap) {
+  db.ref("users/" + currentUser + "/balance").on("value", snap => {
     userBalance = Number(snap.val()) || 0;
     document.getElementById("quickBalance").innerText = userBalance.toLocaleString("vi-VN") + "đ";
   });
 }
 
-function loadUserHistory() {
-  if (!currentUser) return;
-
-  db.ref("deposits").on("value", function (snap) {
-    var val = snap.val() || {}, list = [];
-    for (var k in val) if (val[k].user === currentUser) { val[k]._key = k; list.push(val[k]); }
-    list.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
-    var box = document.getElementById("depositHistory");
-    if (list.length === 0) {
-      box.innerHTML = '<div class="card-panel"><div class="list-item"><div class="name">Chưa có giao dịch nào</div><div class="amount">---</div></div></div>';
-      return;
-    }
-    var html = '<div class="card-panel">';
-    for (var i = 0; i < list.length; i++) {
-      var d = list[i];
-      var status = d.status || "pending";
-      var color = status === "approved" ? "#00ff88" : (status === "rejected" ? "#ff3366" : "#ffd700");
-      var label = status === "approved" ? "Nạp thành công" : (status === "rejected" ? "Đã từ chối" : "Đang xác thực");
-      var timeStr = d.time ? new Date(d.time).toLocaleString("vi-VN") : "-";
-      html += '<div class="list-item"><div><div class="name">' + (d.amount || "") + '</div><div style="font-size:0.7rem;color:#888;">' + timeStr + '</div></div><div class="amount" style="color:' + color + ';">' + label + '</div></div>';
-    }
-    html += '</div>';
-    box.innerHTML = html;
-  });
-
-  db.ref("orders").on("value", function (snap) {
-    var val = snap.val() || {}, list = [];
-    for (var k in val) if (val[k].user === currentUser) { val[k]._key = k; list.push(val[k]); }
-    list.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
-    var box = document.getElementById("historyList");
-    if (list.length === 0) {
-      box.innerHTML = '<div class="card-panel"><div class="list-item"><div class="name">Chưa có đơn hàng nào</div><div class="amount">---</div></div></div>';
-      return;
-    }
-    var html = '<div class="card-panel">';
-    for (var i = 0; i < list.length; i++) {
-      var o = list[i];
-      var timeStr = o.time ? new Date(o.time).toLocaleString("vi-VN") : "-";
-      html += '<div class="list-item"><div><div class="name">' + (o.productName || "-") + '</div><div style="font-size:0.7rem;color:#888;">' + timeStr + ' — ' + (o.price || "") + '</div></div><div class="amount" style="color:#00ff88;">Đã mua</div></div>';
-    }
-    html += '</div>';
-    box.innerHTML = html;
-  });
-}
-
 function loadShopData() {
-  db.ref("shopData").on("value", function (snap) {
+  db.ref("shopData").on("value", snap => {
     var val = snap.val();
     if (val) {
       allData = {
         ios: { hack: (val.ios && val.ios.hack) ? val.ios.hack : [], mod: (val.ios && val.ios.mod) ? val.ios.mod : [], aim: (val.ios && val.ios.aim) ? val.ios.aim : [] },
-        adr: { hack: (val.adr && val.adr.hack) ? val.adr.hack : [], mod: (val.adr && val.adr.mod) ? val.adr.mod : [], aim: (val.adr && val.adr.aim) ? val.adr.aim : [] }
+        adr: { hack: (val.adr && val.adr.hack) ? val.adr.hack : [], mod: (val.adr && val.adr.mod) ? val.adr.mod : [], aim: (val.adr && val.adr.aim) ? val.adr.aim : [] },
+        lq_ios: { hack: (val.lq_ios && val.lq_ios.hack) ? val.lq_ios.hack : [], mod: [], aim: [] },
+        lq_adr: { hack: (val.lq_adr && val.lq_adr.hack) ? val.lq_adr.hack : [], mod: [], aim: [] }
       };
     }
   });
-  db.ref("storeProducts").on("value", function (snap) {
+  
+  db.ref("storeProducts").on("value", snap => {
     var val = snap.val();
-    if (val) shopData = Array.isArray(val) ? val : Object.values(val);
-    else shopData = [];
+    shopData = val ? (Array.isArray(val) ? val : Object.values(val)) : [];
+    renderShop();
+  });
+  db.ref("promotions").on("value", snap => {
+    var val = snap.val() || {};
+    promotions = Object.values(val);
     renderShop();
   });
 }
 
-function loadTopNap() {
-  db.ref("deposits").on("value", function (snap) {
-    var val = snap.val() || {};
-    var totals = {};
-    for (var k in val) {
-      var d = val[k];
-      if (d.status !== "approved") continue;
-      if (!d.user) continue;
-      var amount = Number(d.amountNum) || 0;
-      if (!totals[d.user]) totals[d.user] = 0;
-      totals[d.user] += amount;
-    }
-    var arr = [];
-    for (var u in totals) arr.push({ user: u, total: totals[u] });
-    arr.sort(function (a, b) { return b.total - a.total; });
-    arr = arr.slice(0, 10);
-
-    var myRank = "#--";
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].user === currentUser) { myRank = "#" + (i + 1); break; }
-    }
-    var rankEl = document.getElementById("quickRank");
-    if (rankEl) rankEl.innerText = myRank;
-
-    var box = document.getElementById("topList");
-    if (arr.length === 0) {
-      box.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">Chưa có ai nạp tiền</div>';
-      return;
-    }
-    var html = "";
-    for (var j = 0; j < arr.length; j++) {
-      var it = arr[j];
-      var rankCls = j === 0 ? "r1" : (j === 1 ? "r2" : (j === 2 ? "r3" : "rn"));
-      var medal = j === 0 ? "🥇" : (j === 1 ? "🥈" : (j === 2 ? "🥉" : (j + 1)));
-      html += '<div class="top-item"><div class="top-rank ' + rankCls + '">' + medal + '</div>';
-      html += '<div class="top-info"><div class="top-name">' + it.user + '</div><div class="top-amount">' + it.total.toLocaleString("vi-VN") + 'đ</div></div></div>';
-    }
-    box.innerHTML = html;
-  });
-}
-
-function startNotificationListener(user) {
-  if (notifListener) notifListener.off();
-  notifListener = db.ref("notifications/" + user);
-  notifListener.on("value", function (snap) {
-    var val = snap.val() || {}, unread = 0;
-    for (var k in val) {
-      if (!val[k].read) {
-        unread++;
-        if (!knownNotifIds[k]) {
-          if (val[k].type === "deposit") showDepositToast(val[k].message, false);
-          else if (val[k].type === "deposit_reject") showDepositToast(val[k].message, true);
-        }
-      }
-      knownNotifIds[k] = true;
-    }
-    var badge = document.getElementById("bellBadge");
-    if (badge) {
-      if (unread > 0) { badge.classList.remove("hide"); badge.innerText = unread > 9 ? "9+" : unread; }
-      else badge.classList.add("hide");
-    }
-  });
-}
-
-function showDepositToast(msg, isError) {
-  var t = document.getElementById("toastNotif");
-  document.getElementById("toastNotifMsg").innerText = msg;
-  t.className = "toast-notif show" + (isError ? " error" : "");
-  t.querySelector("i").className = isError ? "fas fa-exclamation-circle" : "fas fa-check-circle";
-  setTimeout(function () { t.classList.remove("show"); }, 4500);
-}
-
-function openNotif() {
-  var box = document.getElementById("notifList");
-  box.innerHTML = '<div class="notif-empty">Đang tải...</div>';
-  document.getElementById("notifPopup").classList.add("show");
-  db.ref("notifications/" + currentUser).once("value").then(function (snap) {
-    var val = snap.val() || {}, list = [];
-    for (var k in val) { val[k]._key = k; list.push(val[k]); }
-    list.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
-    if (list.length === 0) {
-      box.innerHTML = '<div class="notif-empty"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>Chưa có thông báo nào</div>';
-      return;
-    }
-    var html = "";
-    for (var i = 0; i < list.length; i++) {
-      var n = list[i];
-      var cls = "notif-item ";
-      if (n.type === "deposit") cls += "deposit ";
-      else if (n.type === "deposit_reject") cls += "deposit_reject ";
-      if (!n.read) cls += "unread";
-      var timeStr = n.time ? new Date(n.time).toLocaleString("vi-VN") : "";
-      html += '<div class="' + cls + '">';
-      if (!n.read) html += '<div class="notif-dot"></div>';
-      html += '<div class="notif-msg">' + (n.message || "") + '</div>';
-      html += '<div class="notif-time">' + timeStr + '</div></div>';
-    }
-    box.innerHTML = html;
-  });
-}
-
-function markAllRead() {
-  if (!currentUser) return;
-  db.ref("notifications/" + currentUser).once("value").then(function (snap) {
-    var val = snap.val() || {}, updates = {};
-    for (var k in val) if (!val[k].read) updates[k + "/read"] = true;
-    if (Object.keys(updates).length > 0) db.ref("notifications/" + currentUser).update(updates).then(function () { closePopup("notifPopup"); });
-    else closePopup("notifPopup");
-  });
-}
-
-function showFreeArea(os) {
-  currentOS = os;
-  goTab("files");
-  document.getElementById("fileTitle").innerText = "CHỌN LOẠI FILE (" + (os === "ios" ? "iOS" : "ANDROID") + ")";
-  var html = "";
-  html += '<div class="file-card" onclick="showFiles(\'hack\')" style="cursor:pointer;"><div class="file-img" style="color:#ff3366;"><i class="fas fa-skull"></i></div><div class="file-data"><h4>HACK FREE FIRE</h4><p>Menu, ESP, Aimbot...</p></div><button class="btn-dl">XEM</button></div>';
-  html += '<div class="file-card" onclick="showFiles(\'mod\')" style="cursor:pointer;"><div class="file-img" style="color:#a855f7;"><i class="fas fa-fire"></i></div><div class="file-data"><h4>MOD FREE FIRE</h4><p>Skin, Nhân vật, Đồ...</p></div><button class="btn-dl">XEM</button></div>';
-  html += '<div class="file-card" onclick="showFiles(\'aim\')" style="cursor:pointer;"><div class="file-img" style="color:#00d4ff;"><i class="fas fa-crosshairs"></i></div><div class="file-data"><h4>FILE AIM</h4><p>File kéo tâm...</p></div><button class="btn-dl">XEM</button></div>';
-  document.getElementById("fileList").innerHTML = html;
-}
-
-function showFiles(cat) {
-  currentCat = cat;
-  var titles = { hack: "HACK FREE FIRE", mod: "MOD FREE FIRE", aim: "FILE AIM FREE FIRE" };
-  document.getElementById("fileTitle").innerText = titles[cat] + " (" + (currentOS === "ios" ? "iOS" : "Android") + ")";
-  var list = allData[currentOS][cat];
-  var html = "";
-  if (!list || list.length === 0) {
-    html = '<div style="text-align:center;padding:30px;color:#666;">Chưa có file nào</div>';
-  } else {
-    for (var i = 0; i < list.length; i++) {
-      var f = list[i];
-      var img = f.image ? '<img src="' + f.image + '">' : '<i class="fas fa-file"></i>';
-      var stock = f.stock > 0 ? "Còn: " + f.stock : "Hết hàng";
-      var stockColor = f.stock > 0 ? "#ffd700" : "#ff3366";
-      var dis = f.stock <= 0 ? "disabled" : "";
-      html += '<div class="file-card"><div class="file-img">' + img + '</div>';
-      html += '<div class="file-data"><h4>' + (f.name || "Không tên") + '<span class="v-tag">' + (f.ver || "v?") + '</span></h4><p>' + (f.desc || "") + '</p><p style="color:' + stockColor + ';font-weight:700;margin-top:5px;">' + stock + '</p></div>';
-      html += '<button class="btn-dl" onclick="startDownload(\'' + (f.link || "") + '\')" ' + dis + '>Tải</button></div>';
-    }
-  }
-  document.getElementById("fileList").innerHTML = html;
-}
-
 function renderShop() {
   var box = document.getElementById("shopList");
-  if (!shopData || shopData.length === 0) {
-    box.innerHTML = '<div style="text-align:center;padding:30px;color:#666;">Chưa có sản phẩm nào</div>';
-    return;
-  }
+  if (!shopData || shopData.length === 0) { box.innerHTML = '<div style="text-align:center;padding:30px;color:#666;">Chưa có sản phẩm nào</div>'; return; }
   var html = "";
+  var now = Date.now();
+
   for (var i = 0; i < shopData.length; i++) {
     var s = shopData[i];
-    var img = s.image ? '<img src="' + s.image + '" class="shop-img">' : "";
-    html += '<div class="shop-card">' + img;
-    html += '<div class="shop-info"><h4>' + (s.name || "") + '</h4><p>' + (s.desc || "") + '</p><div class="shop-price">' + (s.price || "") + '</div></div>';
-    html += '<button class="btn-buy" onclick="buyProduct(' + i + ')"><i class="fas fa-shopping-cart"></i> MUA NGAY (' + (s.price || "0đ") + ')</button>';
+    var priceNum = parseInt(String(s.price).replace(/[^\d]/g, ""), 10) || 0;
+    var finalPrice = priceNum;
+    var hasPromo = false;
+    var promoValStr = "";
+
+    for (var j = 0; j < promotions.length; j++) {
+      var p = promotions[j];
+      if (p.active && now >= p.startTime && now <= p.endTime) {
+        if (p.applyTo === "all" || (p.applyTo === "one" && Number(p.targetIndex) === i)) {
+          hasPromo = true;
+          if (p.type === "percent") {
+            finalPrice = priceNum - (priceNum * p.value / 100);
+            promoValStr = "-" + p.value + "%";
+          } else {
+            finalPrice = Math.max(0, priceNum - p.value);
+            promoValStr = "-" + p.value.toLocaleString("vi-VN") + "đ";
+          }
+          break;
+        }
+      }
+    }
+
+    var img = s.image ? '<div class="img-wrap"><img src="' + s.image + '"></div>' : "";
+    html += '<div class="card">';
+    if (hasPromo) html += '<div style="background:var(--danger);color:#fff;padding:3px 10px;border-radius:6px;font-size:0.75rem;font-weight:800;display:inline-block;margin-bottom:10px;box-shadow:0 0 10px rgba(239,68,68,0.5);">SALE ' + promoValStr + '</div>';
+    html += img;
+    html += '<h4>' + (s.name || "") + '</h4><p>' + (s.desc || "") + '</p>';
+    html += '<div class="price-row">';
+    if (hasPromo) html += '<span class="price-old">' + priceNum.toLocaleString("vi-VN") + 'đ</span>';
+    html += '<span class="price-new">' + Math.round(finalPrice).toLocaleString("vi-VN") + 'đ</span>';
+    html += '</div>';
+    html += '<button class="btn btn-primary" onclick="buyProduct(' + i + ', ' + finalPrice + ')">Mua Ngay</button>';
     html += '</div>';
   }
   box.innerHTML = html;
 }
 
-function parsePrice(priceStr) {
-  if (!priceStr) return 0;
-  var clean = String(priceStr).replace(/[^\d]/g, "");
-  return parseInt(clean, 10) || 0;
-}
-
-function buyProduct(index) {
+function buyProduct(index, finalPrice) {
   if (!currentUser) { alert("Vui lòng đăng nhập!"); goTab("auth"); return; }
   var s = shopData[index];
-  if (!s) return;
+  if (userBalance < finalPrice) { alert("Số dư không đủ! Cần " + finalPrice.toLocaleString("vi-VN") + "đ."); goTab("nap"); return; }
+  if (!confirm("Mua " + s.name + " với giá " + finalPrice.toLocaleString("vi-VN") + "đ?")) return;
 
-  var priceNum = parsePrice(s.price);
-  if (priceNum <= 0) { alert("Sản phẩm chưa có giá hợp lệ!"); return; }
-
-  if (userBalance < priceNum) {
-    alert("❌ Số dư không đủ!\n\nSố dư hiện tại: " + userBalance.toLocaleString("vi-VN") + "đ\nCần: " + priceNum.toLocaleString("vi-VN") + "đ\n\nVui lòng nạp thêm tiền!");
-    goTab("nap");
-    return;
-  }
-
-  if (!confirm("Xác nhận mua sản phẩm:\n\n" + s.name + "\nGiá: " + s.price + "\n\nSố dư sau khi mua: " + (userBalance - priceNum).toLocaleString("vi-VN") + "đ")) return;
-
-  var newBalance = userBalance - priceNum;
-  db.ref("users/" + currentUser + "/balance").set(newBalance).then(function () {
-    return db.ref("orders").push({
-      user: currentUser,
-      productName: s.name || "",
-      price: s.price || "",
-      priceNum: priceNum,
-      downloadLink: s.link || "",
-      time: Date.now(),
-      status: "done"
-    });
-  }).then(function () {
-    var dlLink = s.link || "";
-    var msg = "✅ MUA THÀNH CÔNG!\n\nSản phẩm: " + s.name + "\nĐã trừ: " + priceNum.toLocaleString("vi-VN") + "đ\nSố dư còn: " + newBalance.toLocaleString("vi-VN") + "đ\n\n";
-    if (dlLink) {
-      msg += "📥 Link tải sản phẩm:\n" + dlLink + "\n\nBấm OK để mở link tải ngay!";
-      if (confirm(msg)) {
-        window.open(dlLink, "_blank");
-      }
-    } else {
-      msg += "⚠️ Sản phẩm chưa có link tải. Vui lòng liên hệ Admin!";
-      alert(msg);
-    }
-  }).catch(function (e) {
-    alert("Lỗi mua hàng: " + e.message);
+  var newBalance = userBalance - finalPrice;
+  db.ref("users/" + currentUser + "/balance").set(newBalance).then(() => {
+    return db.ref("orders").push({ user: currentUser, productName: s.name, price: finalPrice, link: s.link, time: Date.now() });
+  }).then(() => {
+    if (s.link) window.open(s.link, "_blank");
+    alert("Mua thành công! Số dư còn: " + newBalance.toLocaleString("vi-VN") + "đ");
   });
 }
 
-function startDownload(link) {
-  if (!currentUser) { alert("Vui lòng đăng nhập!"); goTab("auth"); return; }
-  pendingLink = link;
-  var popup = document.getElementById("loadPopup");
-  popup.classList.add("show");
-  document.getElementById("loadTitle").innerText = "ĐANG XỬ LÝ FILE";
-  document.getElementById("loadStatus").innerText = "Đang khởi tạo...";
-  var p = 0;
-  var timer = setInterval(function () {
-    p += Math.random() * 10;
-    if (p >= 100) {
-      p = 100;
-      clearInterval(timer);
-      popup.classList.remove("show");
-      showGuide();
+// Hàm chat nội bộ vẫn giữ nguyên (nếu cần)
+function startChat(user) {
+  db.ref("community_chat").on("value", snap => {
+    var val = snap.val() || {};
+    var msgs = Object.values(val).sort((a,b) => a.time - b.time);
+    var box = document.getElementById("chatMessages");
+    if(!box) return;
+    var html = "";
+    msgs.forEach(m => {
+      var cls = m.user === user ? "mine" : "";
+      html += '<div class="msg ' + cls + '">';
+      html += '<div class="msg-user">' + m.user + '</div>';
+      html += '<div>' + m.text + '</div>';
+      html += '</div>';
+    });
+    box.innerHTML = html;
+    box.scrollTop = box.scrollHeight;
+  });
+}
+
+function sendChat() {
+  var input = document.getElementById("chatInput");
+  var text = input.value.trim();
+  if (!text) return;
+  if (!currentUser) { alert("Vui lòng đăng nhập để chat!"); return; }
+  db.ref("community_chat").push({ user: currentUser, text: text, time: Date.now() });
+  input.value = "";
+}
+
+function startGlobalNotif() {
+  var lastNotifId = localStorage.getItem("last_global_notif") || "";
+  db.ref("global_notification").on("value", snap => {
+    var val = snap.val();
+    if (val && val.time && val.time.toString() !== lastNotifId) {
+      document.getElementById("globalNotifText").innerText = val.message;
+      document.getElementById("globalNotifPopup").classList.add("show");
+      localStorage.setItem("last_global_notif", val.time.toString());
     }
-    document.getElementById("loadStatus").innerText = "Đang tải... " + Math.floor(p) + "%";
-  }, 150);
+  });
 }
 
-function showGuide() {
-  var guide = document.getElementById("guidePopup");
-  var text = document.getElementById("guideText");
-  var btn = document.getElementById("finalDlBtn");
-  var content = "";
-  if (currentOS === "ios") {
-    if (currentCat === "mod") content = "<h4>MOD iOS</h4><p>Xin chào! Bạn đã tải File MOD bên SAMM.</p><p>1. Tải file mod trước.</p><p>2. Vào Filza hoặc App 3105 để dán file mod.</p><p>3. Hướng dẫn chi tiết trong file ZIP.</p>";
-    else if (currentCat === "hack") content = "<h4>HACK iOS</h4><p>Hello! Mình là trợ lý SAMM.</p><p>Tải file hack rồi tải app ESign để cài đặt.</p>";
-    else content = "<h4>AIM iOS</h4><p>Chào bạn! Bạn đang tải file Aim cho iOS. Làm theo hướng dẫn trong file ZIP.</p>";
-  } else {
-    if (currentCat === "mod") content = "<h4>MOD ANDROID</h4><p>Tải file vào ZArchiver, sao chép file vào Data.</p>";
-    else if (currentCat === "hack") content = "<h4>HACK ANDROID</h4><p>Tải file xong, vào ZArchiver để cài đặt.</p>";
-    else content = "<h4>AIM ANDROID</h4><p>Vào ZArchiver để giải nén và cài đặt.</p>";
+function showFreeArea(os) {
+  currentOS = os;
+  currentCat = "hack";
+  goTab("files");
+  var title = os === "ios" ? "HACK FF iOS" : (os === "adr" ? "HACK FF ANDROID" : (os === "lq_ios" ? "HACK LQ iOS" : "HACK LQ ANDROID"));
+  document.getElementById("fileTitle").innerText = title;
+  
+  document.querySelectorAll("#fileTabs .file-tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll("#fileTabs .file-tab")[0].classList.add("active");
+  
+  showFiles(currentCat);
+}
+
+function switchFileTab(cat, el) {
+  currentCat = cat;
+  document.querySelectorAll("#fileTabs .file-tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+  showFiles(cat);
+}
+
+function showFiles(cat) {
+  var list = allData[currentOS][cat] || [];
+  var html = "";
+  if (list.length === 0) html = '<div style="text-align:center;padding:30px;color:#666;">Chưa có file nào trong mục này</div>';
+  else {
+    list.forEach(f => {
+      var img = f.image ? '<img src="' + f.image + '">' : '<i class="fas fa-file" style="color:#fff; font-size:1.2rem;"></i>';
+      html += '<div class="file-item"><div class="file-icon">' + img + '</div>';
+      html += '<div class="file-info"><h4>' + (f.name || "") + '</h4><p>' + (f.desc || "") + '</p></div>';
+      html += '<a href="' + f.link + '" target="_blank" class="btn-dl">Tải</a></div>';
+    });
   }
-  text.innerHTML = content;
-  btn.href = pendingLink || "#";
-  if (!pendingLink || pendingLink === "undefined") btn.onclick = function (e) { e.preventDefault(); alert("File này chưa có link tải!"); };
-  else btn.onclick = null;
-  guide.classList.add("show");
+  document.getElementById("fileList").innerHTML = html;
 }
 
-function closePopup(id) { document.getElementById(id).classList.remove("show"); }
+function loadTopNap() {
+  db.ref("deposits").on("value", snap => {
+    var val = snap.val() || {}, totals = {};
+    for (var k in val) if (val[k].status === "approved") totals[val[k].user] = (totals[val[k].user] || 0) + (Number(val[k].amountNum) || 0);
+    var arr = Object.keys(totals).map(u => ({ user: u, total: totals[u] })).sort((a,b) => b.total - a.total).slice(0, 10);
+    var box = document.getElementById("topList");
+    if (arr.length === 0) box.innerHTML = '<div style="text-align:center;padding:20px;color:#666;">Chưa có ai nạp</div>';
+    else {
+      var html = "";
+      arr.forEach((it, i) => {
+        var medal = i === 0 ? "🥇" : (i === 1 ? "🥈" : (i === 2 ? "🥉" : (i+1)));
+        html += '<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);">';
+        html += '<span style="font-weight:600;">' + medal + ' ' + it.user + '</span><span style="color:var(--success);font-weight:800;font-family:Orbitron;">' + it.total.toLocaleString("vi-VN") + 'đ</span></div>';
+      });
+      box.innerHTML = html;
+    }
+    var myRank = "#--";
+    arr.forEach((it, i) => { if (it.user === currentUser) myRank = "#" + (i+1); });
+    document.getElementById("quickRank").innerText = myRank;
+  });
+}
+
+function loadUserHistory() {
+  db.ref("deposits").on("value", snap => {
+    var val = snap.val() || {}, list = [];
+    for (var k in val) if (val[k].user === currentUser) list.push(val[k]);
+    list.sort((a,b) => b.time - a.time);
+    var box = document.getElementById("depositHistory");
+    if (list.length === 0) box.innerHTML = '<div class="card" style="color:#666;text-align:center;">Chưa có giao dịch</div>';
+    else {
+      var html = '<div class="card">';
+      list.forEach(d => {
+        var color = d.status === "approved" ? "var(--success)" : (d.status === "rejected" ? "var(--danger)" : "#f59e0b");
+        var label = d.status === "approved" ? "Thành công" : (d.status === "rejected" ? "Từ chối" : "Đang xác thực");
+        html += '<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><span style="font-weight:600;">' + d.amount + '</span><span style="color:' + color + ';font-weight:700;font-size:0.9rem;">' + label + '</span></div>';
+      });
+      box.innerHTML = html + '</div>';
+    }
+  });
+  db.ref("orders").on("value", snap => {
+    var val = snap.val() || {}, list = [];
+    for (var k in val) if (val[k].user === currentUser) list.push(val[k]);
+    list.sort((a,b) => b.time - a.time);
+    var box = document.getElementById("historyList");
+    if (list.length === 0) box.innerHTML = '<div class="card" style="color:#666;text-align:center;">Chưa mua hàng</div>';
+    else {
+      var html = '<div class="card">';
+      list.forEach(o => {
+        html += '<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);"><span style="font-weight:600;">' + o.productName + '</span><span style="color:var(--success);font-weight:800;">' + o.price.toLocaleString("vi-VN") + 'đ</span></div>';
+      });
+      box.innerHTML = html + '</div>';
+    }
+  });
+}
 
 function selectAmount(el, amount) {
-  var btns = document.querySelectorAll(".amount-btn");
-  var i;
-  for (i = 0; i < btns.length; i++) btns[i].classList.remove("selected");
-  el.classList.add("selected");
+  document.querySelectorAll(".amount-btn").forEach(b => b.classList.remove("active"));
+  el.classList.add("active");
   selectedAmount = amount;
   document.getElementById("customAmountInput").value = "";
   document.getElementById("qrSection").style.display = "none";
 }
-
 function onCustomAmountInput(el) {
   var v = parseInt(el.value, 10) || 0;
   if (v > 0) {
     selectedAmount = v;
-    var btns = document.querySelectorAll(".amount-btn");
-    var i;
-    for (i = 0; i < btns.length; i++) btns[i].classList.remove("selected");
+    document.querySelectorAll(".amount-btn").forEach(b => b.classList.remove("active"));
     document.getElementById("qrSection").style.display = "none";
   }
 }
-
-function formatVND(n) {
-  return Number(n).toLocaleString("vi-VN") + "đ";
-}
-
 function showQR() {
-  if (!currentUser) { alert("Vui lòng đăng nhập!"); goTab("auth"); return; }
-  if (selectedAmount <= 0) { alert("Vui lòng chọn số tiền hoặc nhập số tiền muốn nạp!"); return; }
-  if (selectedAmount < 1000) { alert("Số tiền nạp tối thiểu là 1.000đ!"); return; }
-
-  var amountStr = formatVND(selectedAmount);
+  if (selectedAmount < 1000) { alert("Tối thiểu 1.000đ"); return; }
+  var amountStr = selectedAmount.toLocaleString("vi-VN") + "đ";
   var content = "SAMM " + currentUser;
-  var qrUrl = "https://img.vietqr.io/image/" + BANK_ID + "-" + BANK_ACCOUNT + "-compact2.png"
-    + "?amount=" + selectedAmount
-    + "&addInfo=" + encodeURIComponent(content)
-    + "&accountName=" + encodeURIComponent(BANK_NAME);
-
+  var qrUrl = "https://img.vietqr.io/image/" + BANK_ID + "-" + BANK_ACCOUNT + "-compact2.png?amount=" + selectedAmount + "&addInfo=" + encodeURIComponent(content) + "&accountName=" + encodeURIComponent(BANK_NAME);
   document.getElementById("qrImage").src = qrUrl;
   document.getElementById("qrAmountLabel").innerText = amountStr;
-  document.getElementById("qrAmountText").innerText = amountStr;
   document.getElementById("qrContent").innerText = content;
   document.getElementById("qrSection").style.display = "block";
-  document.getElementById("qrSection").scrollIntoView({ behavior: "smooth", block: "start" });
 }
-
 function confirmDeposit() {
-  if (!currentUser || selectedAmount <= 0) return;
-  var amountStr = formatVND(selectedAmount);
-
-  // Đã xóa câu thông báo dài dòng ở đây
-  if (!confirm("Xác nhận bạn ĐÃ CHUYỂN KHOẢN " + amountStr + " ?")) return;
-
-  db.ref("deposits").push({
-    user: currentUser,
-    amount: amountStr,
-    amountNum: selectedAmount,
-    time: Date.now(),
-    status: "pending"
-  }).then(function () {
-    alert("✅ Đã gửi yêu cầu nạp " + amountStr + "!\n\n⏳ Vui lòng chờ 5-10 phút là sẽ thấy thành công.");
+  if (!confirm("Xác nhận đã chuyển " + selectedAmount.toLocaleString("vi-VN") + "đ?")) return;
+  db.ref("deposits").push({ user: currentUser, amount: selectedAmount.toLocaleString("vi-VN") + "đ", amountNum: selectedAmount, time: Date.now(), status: "pending" }).then(() => {
+    alert("Đã gửi yêu cầu nạp! Vui lòng chờ 5-10 phút.");
     document.getElementById("qrSection").style.display = "none";
-    var btns = document.querySelectorAll(".amount-btn");
-    var i;
-    for (i = 0; i < btns.length; i++) btns[i].classList.remove("selected");
-    document.getElementById("customAmountInput").value = "";
-    selectedAmount = 0;
-  }).catch(function (error) {
-    alert("Lỗi: " + error.message);
   });
 }
 
 var savedUser = localStorage.getItem("samm_user");
-if (savedUser) loginSuccess(savedUser);
-else goTab("auth");
+if (savedUser) loginSuccess(savedUser); else goTab("auth");
 </script>
 </body>
 </html>
