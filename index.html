@@ -9,22 +9,13 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
   body { background: #05050a; color: #fff; min-height: 100vh; padding-bottom: 80px; overflow-x: hidden; position: relative; }
-
-  /* BACKGROUND ĐỘNG */
   .bg-overlay { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle at 10% 20%, rgba(255,51,102,0.18) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(0,212,255,0.18) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(168,85,247,0.1) 0%, transparent 50%); pointer-events: none; animation: bgPulse 8s ease-in-out infinite; }
   @keyframes bgPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
   .bg-grid { position: fixed; inset: 0; z-index: -3; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; animation: gridMove 20s linear infinite; }
   @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
   .particles { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
   .particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #ff3366; box-shadow: 0 0 10px #ff3366; animation: float linear infinite; }
-  @keyframes float {
-    0% { transform: translateY(100vh) scale(0); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-  }
-
-  /* HEADER */
+  @keyframes float { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
   header { background: rgba(10,10,18,0.75); backdrop-filter: blur(25px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,51,102,0.3); position: sticky; top: 0; z-index: 100; }
   .logo { display: flex; align-items: center; gap: 10px; }
   .logo-icon { color: #ff3366; font-size: 1.6rem; filter: drop-shadow(0 0 10px #ff3366); animation: glow 2s ease-in-out infinite; }
@@ -41,13 +32,10 @@
   .user-badge { display: flex; align-items: center; gap: 8px; background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.4); padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; }
   .user-badge i, .user-badge span { color: #00ff88; font-weight: 700; }
   .btn-logout { background: transparent; border: none; color: #ff3366; cursor: pointer; font-size: 0.9rem; margin-left: 5px; }
-
   main { max-width: 800px; margin: 0 auto; padding: 20px 15px; }
   .page { display: none; animation: fadeIn 0.5s ease forwards; }
   .page.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-  /* HERO BANNER */
   .hero-banner { position: relative; border-radius: 24px; padding: 35px 25px; margin-bottom: 25px; overflow: hidden; background: linear-gradient(135deg, rgba(255,51,102,0.15), rgba(168,85,247,0.15), rgba(0,212,255,0.15)); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.5); text-align: center; }
   .hero-banner::before { content: ''; position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent, rgba(255,51,102,0.3), transparent, rgba(0,212,255,0.3), transparent); animation: rotate 6s linear infinite; z-index: -1; }
   @keyframes rotate { 100% { transform: rotate(360deg); } }
@@ -58,8 +46,6 @@
   .hero-name { font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 900; color: #fff; margin-bottom: 8px; }
   .hero-tiktok { font-size: 0.85rem; color: #00d4ff; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: rgba(0,212,255,0.15); padding: 6px 14px; border-radius: 15px; border: 1px solid rgba(0,212,255,0.4); transition: 0.3s; }
   .hero-tiktok:hover { background: rgba(0,212,255,0.25); transform: translateY(-2px); }
-
-  /* QUICK STATS */
   .quick-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
   .stat-box { background: linear-gradient(145deg, rgba(30,30,45,0.8), rgba(15,15,25,0.8)); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 15px; position: relative; overflow: hidden; transition: 0.3s; }
   .stat-box::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, #ff3366, #a855f7); }
@@ -71,10 +57,7 @@
   .stat-box.balance .stat-icon { color: #00ff88; }
   .stat-box.rank .stat-value { color: #ffd700; }
   .stat-box.rank .stat-icon { color: #ffd700; }
-
   .section-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; color: #ffd700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 15px rgba(255,215,0,0.4); }
-
-  /* GRID ICONS MỚI */
   .quick-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 20px; }
   .quick-card { position: relative; background: linear-gradient(145deg, rgba(30,30,45,0.9), rgba(15,15,25,0.9)); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 22px 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer; transition: 0.4s cubic-bezier(0.4,0,0.2,1); overflow: hidden; text-decoration: none; color: #fff; }
   .quick-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, transparent, rgba(255,255,255,0.05), transparent); transform: translateX(-100%); transition: 0.6s; }
@@ -87,8 +70,6 @@
   .qc-community .qc-icon { background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(0,212,255,0.25)); color: #a855f7; box-shadow: 0 0 20px rgba(168,85,247,0.3); }
   .qc-ios .qc-icon { background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(200,200,200,0.15)); color: #fff; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
   .qc-android .qc-icon { background: linear-gradient(135deg, rgba(0,255,136,0.25), rgba(0,212,255,0.25)); color: #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.3); }
-
-  /* SHOP CARD */
   .shop-card { background: linear-gradient(145deg, rgba(30,30,45,0.8), rgba(15,15,25,0.8)); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; position: relative; overflow: hidden; transition: 0.3s; }
   .shop-card:hover { border-color: rgba(255,51,102,0.5); transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
   .shop-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(to bottom, #ff3366, #a855f7); }
@@ -100,16 +81,13 @@
   .btn-buy::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: translateX(-100%); animation: shimmer 2.5s infinite; }
   @keyframes shimmer { 100% { transform: translateX(100%); } }
   .btn-buy:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(0,255,136,0.6); }
-
-  /* BOTTOM NAV */
+  .btn-buy:disabled { opacity: 0.6; cursor: not-allowed; }
   .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(10,10,18,0.95); backdrop-filter: blur(25px); border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-around; align-items: center; padding: 8px 0; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
   .nav-item { display: flex; flex-direction: column; align-items: center; color: #666; font-size: 0.6rem; font-weight: 600; cursor: pointer; transition: 0.3s; gap: 4px; width: 20%; padding: 6px 0; position: relative; }
   .nav-item i { font-size: 1.2rem; transition: 0.3s; }
   .nav-item.active { color: #ff3366; }
   .nav-item.active i { transform: scale(1.2); filter: drop-shadow(0 0 10px #ff3366); }
   .nav-item.active::after { content: ''; position: absolute; top: 0; width: 30%; height: 3px; background: #ff3366; border-radius: 2px; box-shadow: 0 0 15px #ff3366; }
-
-  /* NẠP TIỀN */
   .qr-box { background: #fff; padding: 20px; border-radius: 22px; text-align: center; margin-bottom: 20px; box-shadow: 0 15px 40px rgba(255,255,255,0.1); }
   .qr-box img { width: 100%; max-width: 280px; border-radius: 12px; }
   .qr-box h3 { color: #000; margin-bottom: 10px; font-weight: 800; font-family: 'Orbitron', sans-serif; }
@@ -120,14 +98,14 @@
   .amount-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px 5px; border-radius: 14px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.3s; text-align: center; }
   .amount-btn:hover { border-color: rgba(0,255,136,0.5); transform: translateY(-2px); }
   .amount-btn.selected { background: rgba(0,255,136,0.2); border-color: #00ff88; color: #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.4); transform: scale(1.05); }
+  .custom-amount { width: 100%; padding: 14px 18px; margin-bottom: 15px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.5); color: #fff; outline: none; font-size: 0.95rem; font-weight: 700; }
+  .custom-amount:focus { border-color: #00ff88; box-shadow: 0 0 20px rgba(0,255,136,0.3); }
   .card-panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 20px; margin-bottom: 15px; }
   .card-panel h3 { font-size: 1rem; color: #00d4ff; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-family: 'Orbitron', sans-serif; }
   .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
   .list-item:last-child { border-bottom: none; }
   .list-item .name { font-weight: 600; font-size: 0.9rem; color: #fff; }
   .list-item .amount { color: #00ff88; font-weight: 800; font-size: 0.95rem; }
-
-  /* FILES */
   .file-card { background: linear-gradient(145deg, rgba(30,30,45,0.7), rgba(15,15,25,0.7)); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-bottom: 12px; transition: 0.3s; }
   .file-card:hover { border-color: rgba(255,51,102,0.3); transform: translateY(-2px); }
   .file-img { width: 60px; height: 60px; border-radius: 14px; background: #1a1a2e; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #ff3366; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
@@ -141,8 +119,6 @@
   .btn-dl:disabled { opacity: 0.5; cursor: not-allowed; }
   .btn-back { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 20px; border-radius: 14px; font-size: 0.85rem; cursor: pointer; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; }
   .btn-back:hover { background: rgba(255,255,255,0.2); }
-
-  /* AUTH */
   .auth-box { max-width: 400px; margin: 40px auto; background: rgba(20,20,30,0.85); padding: 35px 28px; border-radius: 26px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 60px rgba(0,0,0,0.6); position: relative; overflow: hidden; }
   .auth-box::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(from 0deg, transparent, rgba(255,51,102,0.15), transparent 30%); animation: rotate 8s linear infinite; z-index: 0; }
   .auth-box > * { position: relative; z-index: 1; }
@@ -155,8 +131,6 @@
   .auth-err { color: #ff3366; font-size: 0.85rem; text-align: center; margin-top: 12px; min-height: 20px; }
   .auth-toggle { text-align: center; margin-top: 18px; font-size: 0.85rem; color: #aaa; cursor: pointer; transition: 0.3s; }
   .auth-toggle:hover { color: #fff; }
-
-  /* POPUP */
   .popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px; }
   .popup-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
   .popup-box { background: linear-gradient(145deg, #151520, #0a0a10); border: 1px solid rgba(255,255,255,0.15); border-radius: 26px; padding: 28px 22px; max-width: 420px; width: 100%; text-align: center; position: relative; max-height: 85vh; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
@@ -171,8 +145,6 @@
   .guide-box b { color: #ffd700; }
   .btn-submit { width: 100%; background: linear-gradient(135deg, #00d4ff, #a855f7); color: #fff; border: none; padding: 15px; border-radius: 16px; font-weight: 900; font-size: 1rem; cursor: pointer; text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.3s; }
   .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,212,255,0.4); }
-
-  /* NOTIFICATION */
   .notif-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 14px 16px; margin-bottom: 10px; text-align: left; position: relative; transition: 0.3s; }
   .notif-item:hover { transform: translateX(3px); }
   .notif-item.unread { border-color: #ffd700; background: rgba(255,215,0,0.05); }
@@ -191,8 +163,6 @@
   .toast-notif.show { transform: translateX(-50%) translateY(0); }
   .toast-notif i { font-size: 1.4rem; }
   .toast-notif.error { background: linear-gradient(135deg, #ff3366, #a855f7); color: #fff; box-shadow: 0 15px 40px rgba(255,51,102,0.5); }
-
-  /* TOP */
   .top-item { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
   .top-item:hover { transform: translateX(5px); }
   .top-item:last-child { border-bottom: none; }
@@ -204,11 +174,8 @@
   .top-info { flex: 1; }
   .top-info .top-name { font-weight: 700; font-size: 0.95rem; color: #fff; }
   .top-info .top-amount { font-weight: 900; font-size: 0.85rem; color: #00ff88; margin-top: 2px; }
-
-  /* LOADING SKELETON */
   .skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: skeleton 1.5s infinite; border-radius: 8px; }
   @keyframes skeleton { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
   @media(max-width: 600px) {
     .file-card { flex-wrap: wrap; }
     .file-data { width: 100%; }
@@ -299,16 +266,6 @@
 
   <div id="page-nap" class="page">
     <div class="section-title"><i class="fas fa-wallet"></i> NẠP TIỀN</div>
-    <div class="qr-box">
-      <h3>MÃ QR NẠP TIỀN</h3>
-      <img src="https://files.catbox.moe/7lmna0.jpeg" alt="QR">
-      <div class="bank-info">
-        <p>Ngân hàng: <b>MB Bank</b></p>
-        <p>Số TK: <b>2333612345555</b></p>
-        <p>Chủ TK: <b>SAMM X VIP</b></p>
-        <p style="color:#ff3366;font-size:0.75rem;margin-top:5px;">Nội dung CK: SAMM-<i>tên đăng nhập</i></p>
-      </div>
-    </div>
 
     <div class="card-panel">
       <h3><i class="fas fa-hand-holding-usd"></i> Chọn số tiền muốn nạp</h3>
@@ -318,8 +275,30 @@
         <div class="amount-btn" onclick="selectAmount(this, 100000)">100.000đ</div>
         <div class="amount-btn" onclick="selectAmount(this, 200000)">200.000đ</div>
         <div class="amount-btn" onclick="selectAmount(this, 500000)">500.000đ</div>
+        <div class="amount-btn" onclick="selectAmount(this, 1000000)">1.000.000đ</div>
       </div>
-      <button class="btn-submit" onclick="submitDeposit()"><i class="fas fa-wallet"></i> XÁC NHẬN ĐÃ CHUYỂN KHOẢN</button>
+      <input type="number" id="customAmountInput" class="custom-amount" placeholder="Hoặc nhập số tiền tùy chỉnh (đ)..." oninput="onCustomAmountInput(this)">
+      <button class="btn-submit" onclick="showQR()"><i class="fas fa-qrcode"></i> NẠP TIỀN</button>
+    </div>
+
+    <div id="qrSection" style="display:none;">
+      <div class="card-panel">
+        <h3><i class="fas fa-qrcode"></i> Quét mã QR để nạp</h3>
+        <div class="qr-box">
+          <h3 id="qrAmountLabel">0đ</h3>
+          <img id="qrImage" src="" alt="QR Nạp Tiền">
+          <div class="bank-info">
+            <p>Ngân hàng: <b>MB Bank</b></p>
+            <p>Số TK: <b>2333612345555</b></p>
+            <p>Chủ TK: <b>SAMM X VIP</b></p>
+            <p>Nội dung CK: <b id="qrContent">SAMM</b></p>
+            <p>Số tiền: <b id="qrAmountText">0đ</b></p>
+          </div>
+        </div>
+        <button class="btn-submit" style="background: linear-gradient(135deg, #00ff88, #00d4ff); color: #000;" onclick="confirmDeposit()">
+          <i class="fas fa-check"></i> TÔI ĐÃ CHUYỂN KHOẢN
+        </button>
+      </div>
     </div>
   </div>
 
@@ -415,6 +394,11 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var db = firebase.database();
 
+// THÔNG TIN NGÂN HÀNG ĐỂ TẠO QR
+var BANK_ID = "MB"; // MB Bank
+var BANK_ACCOUNT = "2333612345555";
+var BANK_NAME = "SAMM X VIP";
+
 var allData = { ios: { hack: [], mod: [], aim: [] }, adr: { hack: [], mod: [], aim: [] } };
 var shopData = [];
 var currentUser = null;
@@ -424,10 +408,10 @@ var currentCat = "";
 var pendingLink = "";
 var authMode = "login";
 var selectedAmount = 0;
+var userBalance = 0;
 var notifListener = null;
 var knownNotifIds = {};
 
-// PARTICLES
 (function createParticles() {
   var container = document.getElementById("particles");
   if (!container) return;
@@ -461,21 +445,15 @@ deviceId = getDeviceId();
 function goTab(name) {
   var pages = document.querySelectorAll(".page");
   var i;
-  for (i = 0; i < pages.length; i++) {
-    pages[i].classList.remove("active");
-  }
+  for (i = 0; i < pages.length; i++) pages[i].classList.remove("active");
   var navs = document.querySelectorAll(".nav-item");
-  for (i = 0; i < navs.length; i++) {
-    navs[i].classList.remove("active");
-  }
+  for (i = 0; i < navs.length; i++) navs[i].classList.remove("active");
   if (name === "auth") {
     document.getElementById("page-auth").classList.add("active");
   } else {
     document.getElementById("page-" + name).classList.add("active");
     var nav = document.querySelector('.nav-item[data-tab="' + name + '"]');
-    if (nav) {
-      nav.classList.add("active");
-    }
+    if (nav) nav.classList.add("active");
   }
   window.scrollTo(0, 0);
 }
@@ -501,27 +479,17 @@ function doAuth() {
   var user = document.getElementById("authUser").value.trim();
   var pass = document.getElementById("authPass").value.trim();
   var err = document.getElementById("authErr");
-  if (!user || !pass) {
-    err.innerText = "Vui lòng nhập đủ thông tin!";
-    return;
-  }
+  if (!user || !pass) { err.innerText = "Vui lòng nhập đủ thông tin!"; return; }
   err.innerText = "Đang xử lý...";
   db.ref("users/" + user).once("value").then(function (snap) {
     if (authMode === "login") {
-      if (!snap.exists()) {
-        err.innerText = "Tài khoản không tồn tại!";
-      } else if (snap.val().password !== pass) {
-        err.innerText = "Sai mật khẩu!";
-      } else {
-        loginSuccess(user);
-      }
+      if (!snap.exists()) err.innerText = "Tài khoản không tồn tại!";
+      else if (snap.val().password !== pass) err.innerText = "Sai mật khẩu!";
+      else loginSuccess(user);
     } else {
-      if (snap.exists()) {
-        err.innerText = "Tên đã tồn tại!";
-      } else {
-        db.ref("users/" + user).set({ password: pass, device: deviceId, balance: 0 }).then(function () {
-          loginSuccess(user);
-        });
+      if (snap.exists()) err.innerText = "Tên đã tồn tại!";
+      else {
+        db.ref("users/" + user).set({ password: pass, device: deviceId, balance: 0 }).then(function () { loginSuccess(user); });
       }
     }
   });
@@ -545,16 +513,13 @@ function loginSuccess(user) {
   loadTopNap();
 }
 
-function logout() {
-  localStorage.removeItem("samm_user");
-  location.reload();
-}
+function logout() { localStorage.removeItem("samm_user"); location.reload(); }
 
 function loadUserBalance() {
   if (!currentUser) return;
   db.ref("users/" + currentUser + "/balance").on("value", function (snap) {
-    var bal = Number(snap.val()) || 0;
-    document.getElementById("quickBalance").innerText = bal.toLocaleString("vi-VN") + "đ";
+    userBalance = Number(snap.val()) || 0;
+    document.getElementById("quickBalance").innerText = userBalance.toLocaleString("vi-VN") + "đ";
   });
 }
 
@@ -562,14 +527,8 @@ function loadUserHistory() {
   if (!currentUser) return;
 
   db.ref("deposits").on("value", function (snap) {
-    var val = snap.val() || {};
-    var list = [];
-    for (var k in val) {
-      if (val[k].user === currentUser) {
-        val[k]._key = k;
-        list.push(val[k]);
-      }
-    }
+    var val = snap.val() || {}, list = [];
+    for (var k in val) if (val[k].user === currentUser) { val[k]._key = k; list.push(val[k]); }
     list.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
     var box = document.getElementById("depositHistory");
     if (list.length === 0) {
@@ -590,14 +549,8 @@ function loadUserHistory() {
   });
 
   db.ref("orders").on("value", function (snap) {
-    var val = snap.val() || {};
-    var list = [];
-    for (var k in val) {
-      if (val[k].user === currentUser) {
-        val[k]._key = k;
-        list.push(val[k]);
-      }
-    }
+    var val = snap.val() || {}, list = [];
+    for (var k in val) if (val[k].user === currentUser) { val[k]._key = k; list.push(val[k]); }
     list.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
     var box = document.getElementById("historyList");
     if (list.length === 0) {
@@ -607,11 +560,8 @@ function loadUserHistory() {
     var html = '<div class="card-panel">';
     for (var i = 0; i < list.length; i++) {
       var o = list[i];
-      var status = o.status || "pending";
-      var color = status === "done" ? "#00ff88" : (status === "canceled" ? "#ff3366" : "#ffd700");
-      var label = status === "done" ? "Hoàn thành" : (status === "canceled" ? "Đã hủy" : "Chờ xử lý");
       var timeStr = o.time ? new Date(o.time).toLocaleString("vi-VN") : "-";
-      html += '<div class="list-item"><div><div class="name">' + (o.productName || "-") + '</div><div style="font-size:0.7rem;color:#888;">' + timeStr + ' — ' + (o.price || "") + '</div></div><div class="amount" style="color:' + color + ';">' + label + '</div></div>';
+      html += '<div class="list-item"><div><div class="name">' + (o.productName || "-") + '</div><div style="font-size:0.7rem;color:#888;">' + timeStr + ' — ' + (o.price || "") + '</div></div><div class="amount" style="color:#00ff88;">Đã mua</div></div>';
     }
     html += '</div>';
     box.innerHTML = html;
@@ -623,26 +573,15 @@ function loadShopData() {
     var val = snap.val();
     if (val) {
       allData = {
-        ios: {
-          hack: (val.ios && val.ios.hack) ? val.ios.hack : [],
-          mod: (val.ios && val.ios.mod) ? val.ios.mod : [],
-          aim: (val.ios && val.ios.aim) ? val.ios.aim : []
-        },
-        adr: {
-          hack: (val.adr && val.adr.hack) ? val.adr.hack : [],
-          mod: (val.adr && val.adr.mod) ? val.adr.mod : [],
-          aim: (val.adr && val.adr.aim) ? val.adr.aim : []
-        }
+        ios: { hack: (val.ios && val.ios.hack) ? val.ios.hack : [], mod: (val.ios && val.ios.mod) ? val.ios.mod : [], aim: (val.ios && val.ios.aim) ? val.ios.aim : [] },
+        adr: { hack: (val.adr && val.adr.hack) ? val.adr.hack : [], mod: (val.adr && val.adr.mod) ? val.adr.mod : [], aim: (val.adr && val.adr.aim) ? val.adr.aim : [] }
       };
     }
   });
   db.ref("storeProducts").on("value", function (snap) {
     var val = snap.val();
-    if (val) {
-      shopData = Array.isArray(val) ? val : Object.values(val);
-    } else {
-      shopData = [];
-    }
+    if (val) shopData = Array.isArray(val) ? val : Object.values(val);
+    else shopData = [];
     renderShop();
   });
 }
@@ -660,19 +599,13 @@ function loadTopNap() {
       totals[d.user] += amount;
     }
     var arr = [];
-    for (var u in totals) {
-      arr.push({ user: u, total: totals[u] });
-    }
+    for (var u in totals) arr.push({ user: u, total: totals[u] });
     arr.sort(function (a, b) { return b.total - a.total; });
     arr = arr.slice(0, 10);
 
-    // Cập nhật hạng của user hiện tại
     var myRank = "#--";
     for (var i = 0; i < arr.length; i++) {
-      if (arr[i].user === currentUser) {
-        myRank = "#" + (i + 1);
-        break;
-      }
+      if (arr[i].user === currentUser) { myRank = "#" + (i + 1); break; }
     }
     var rankEl = document.getElementById("quickRank");
     if (rankEl) rankEl.innerText = myRank;
@@ -687,10 +620,8 @@ function loadTopNap() {
       var it = arr[j];
       var rankCls = j === 0 ? "r1" : (j === 1 ? "r2" : (j === 2 ? "r3" : "rn"));
       var medal = j === 0 ? "🥇" : (j === 1 ? "🥈" : (j === 2 ? "🥉" : (j + 1)));
-      html += '<div class="top-item">';
-      html += '<div class="top-rank ' + rankCls + '">' + medal + '</div>';
-      html += '<div class="top-info"><div class="top-name">' + it.user + '</div><div class="top-amount">' + it.total.toLocaleString("vi-VN") + 'đ</div></div>';
-      html += '</div>';
+      html += '<div class="top-item"><div class="top-rank ' + rankCls + '">' + medal + '</div>';
+      html += '<div class="top-info"><div class="top-name">' + it.user + '</div><div class="top-amount">' + it.total.toLocaleString("vi-VN") + 'đ</div></div></div>';
     }
     box.innerHTML = html;
   });
@@ -700,28 +631,21 @@ function startNotificationListener(user) {
   if (notifListener) notifListener.off();
   notifListener = db.ref("notifications/" + user);
   notifListener.on("value", function (snap) {
-    var val = snap.val() || {};
-    var unread = 0;
+    var val = snap.val() || {}, unread = 0;
     for (var k in val) {
       if (!val[k].read) {
         unread++;
         if (!knownNotifIds[k]) {
           if (val[k].type === "deposit") showDepositToast(val[k].message, false);
           else if (val[k].type === "deposit_reject") showDepositToast(val[k].message, true);
-          else if (val[k].type === "order") showDepositToast(val[k].message, false);
-          else if (val[k].type === "order_reject") showDepositToast(val[k].message, true);
         }
       }
       knownNotifIds[k] = true;
     }
     var badge = document.getElementById("bellBadge");
     if (badge) {
-      if (unread > 0) {
-        badge.classList.remove("hide");
-        badge.innerText = unread > 9 ? "9+" : unread;
-      } else {
-        badge.classList.add("hide");
-      }
+      if (unread > 0) { badge.classList.remove("hide"); badge.innerText = unread > 9 ? "9+" : unread; }
+      else badge.classList.add("hide");
     }
   });
 }
@@ -739,12 +663,8 @@ function openNotif() {
   box.innerHTML = '<div class="notif-empty">Đang tải...</div>';
   document.getElementById("notifPopup").classList.add("show");
   db.ref("notifications/" + currentUser).once("value").then(function (snap) {
-    var val = snap.val() || {};
-    var list = [];
-    for (var k in val) {
-      val[k]._key = k;
-      list.push(val[k]);
-    }
+    var val = snap.val() || {}, list = [];
+    for (var k in val) { val[k]._key = k; list.push(val[k]); }
     list.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
     if (list.length === 0) {
       box.innerHTML = '<div class="notif-empty"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:10px;"></i>Chưa có thông báo nào</div>';
@@ -756,8 +676,6 @@ function openNotif() {
       var cls = "notif-item ";
       if (n.type === "deposit") cls += "deposit ";
       else if (n.type === "deposit_reject") cls += "deposit_reject ";
-      else if (n.type === "order") cls += "order ";
-      else if (n.type === "order_reject") cls += "order_reject ";
       if (!n.read) cls += "unread";
       var timeStr = n.time ? new Date(n.time).toLocaleString("vi-VN") : "";
       html += '<div class="' + cls + '">';
@@ -772,18 +690,10 @@ function openNotif() {
 function markAllRead() {
   if (!currentUser) return;
   db.ref("notifications/" + currentUser).once("value").then(function (snap) {
-    var val = snap.val() || {};
-    var updates = {};
-    for (var k in val) {
-      if (!val[k].read) updates[k + "/read"] = true;
-    }
-    if (Object.keys(updates).length > 0) {
-      db.ref("notifications/" + currentUser).update(updates).then(function () {
-        closePopup("notifPopup");
-      });
-    } else {
-      closePopup("notifPopup");
-    }
+    var val = snap.val() || {}, updates = {};
+    for (var k in val) if (!val[k].read) updates[k + "/read"] = true;
+    if (Object.keys(updates).length > 0) db.ref("notifications/" + currentUser).update(updates).then(function () { closePopup("notifPopup"); });
+    else closePopup("notifPopup");
   });
 }
 
@@ -831,53 +741,70 @@ function renderShop() {
   for (var i = 0; i < shopData.length; i++) {
     var s = shopData[i];
     var img = s.image ? '<img src="' + s.image + '" class="shop-img">' : "";
+    var priceNum = parsePrice(s.price);
     html += '<div class="shop-card">' + img;
     html += '<div class="shop-info"><h4>' + (s.name || "") + '</h4><p>' + (s.desc || "") + '</p><div class="shop-price">' + (s.price || "") + '</div></div>';
-    html += '<button class="btn-buy" onclick="buyProduct(' + i + ')"><i class="fas fa-shopping-cart"></i> MUA NGAY</button></div>';
+    html += '<button class="btn-buy" onclick="buyProduct(' + i + ')"><i class="fas fa-shopping-cart"></i> MUA NGAY (' + (s.price || "0đ") + ')</button>';
+    html += '</div>';
   }
   box.innerHTML = html;
 }
 
+function parsePrice(priceStr) {
+  if (!priceStr) return 0;
+  var clean = String(priceStr).replace(/[^\d]/g, "");
+  return parseInt(clean, 10) || 0;
+}
+
 function buyProduct(index) {
-  if (!currentUser) {
-    alert("Vui lòng đăng nhập!");
-    goTab("auth");
-    return;
-  }
+  if (!currentUser) { alert("Vui lòng đăng nhập!"); goTab("auth"); return; }
   var s = shopData[index];
   if (!s) return;
-  if (!confirm("Xác nhận mua sản phẩm:\n\n" + s.name + "\nGiá: " + s.price + "\n\nBạn sẽ được chuyển đến Zalo để thanh toán.")) return;
 
-  db.ref("orders").push({
-    user: currentUser,
-    productName: s.name || "",
-    price: s.price || "",
-    link: s.link || "",
-    time: Date.now(),
-    status: "pending"
-  }).then(function () {
-    db.ref("notifications/" + currentUser).push({
-      message: "Đã tạo đơn hàng [" + s.name + "] giá " + s.price + ". Vui lòng thanh toán qua Zalo để hoàn tất.",
-      type: "order",
+  var priceNum = parsePrice(s.price);
+  if (priceNum <= 0) { alert("Sản phẩm chưa có giá hợp lệ!"); return; }
+
+  if (userBalance < priceNum) {
+    alert("❌ Số dư không đủ!\n\nSố dư hiện tại: " + userBalance.toLocaleString("vi-VN") + "đ\nCần: " + priceNum.toLocaleString("vi-VN") + "đ\n\nVui lòng nạp thêm tiền!");
+    goTab("nap");
+    return;
+  }
+
+  if (!confirm("Xác nhận mua sản phẩm:\n\n" + s.name + "\nGiá: " + s.price + "\n\nSố dư sau khi mua: " + (userBalance - priceNum).toLocaleString("vi-VN") + "đ")) return;
+
+  // Trừ tiền
+  var newBalance = userBalance - priceNum;
+  db.ref("users/" + currentUser + "/balance").set(newBalance).then(function () {
+    // Ghi đơn hàng
+    return db.ref("orders").push({
+      user: currentUser,
+      productName: s.name || "",
+      price: s.price || "",
+      priceNum: priceNum,
+      downloadLink: s.link || "",
       time: Date.now(),
-      read: false
+      status: "done"
     });
-    if (s.link) {
-      window.open(s.link, "_blank");
+  }).then(function () {
+    // Hiện thông báo mua thành công + link tải
+    var dlLink = s.link || "";
+    var msg = "✅ MUA THÀNH CÔNG!\n\nSản phẩm: " + s.name + "\nĐã trừ: " + priceNum.toLocaleString("vi-VN") + "đ\nSố dư còn: " + newBalance.toLocaleString("vi-VN") + "đ\n\n";
+    if (dlLink) {
+      msg += "📥 Link tải sản phẩm:\n" + dlLink + "\n\nBấm OK để mở link tải ngay!";
+      if (confirm(msg)) {
+        window.open(dlLink, "_blank");
+      }
     } else {
-      alert("Sản phẩm chưa có link Zalo. Vui lòng liên hệ Admin!");
+      msg += "⚠️ Sản phẩm chưa có link tải. Vui lòng liên hệ Admin!";
+      alert(msg);
     }
   }).catch(function (e) {
-    alert("Lỗi tạo đơn hàng: " + e.message);
+    alert("Lỗi mua hàng: " + e.message);
   });
 }
 
 function startDownload(link) {
-  if (!currentUser) {
-    alert("Vui lòng đăng nhập!");
-    goTab("auth");
-    return;
-  }
+  if (!currentUser) { alert("Vui lòng đăng nhập!"); goTab("auth"); return; }
   pendingLink = link;
   var popup = document.getElementById("loadPopup");
   popup.classList.add("show");
@@ -912,39 +839,67 @@ function showGuide() {
   }
   text.innerHTML = content;
   btn.href = pendingLink || "#";
-  if (!pendingLink || pendingLink === "undefined") {
-    btn.onclick = function (e) { e.preventDefault(); alert("File này chưa có link tải!"); };
-  } else {
-    btn.onclick = null;
-  }
+  if (!pendingLink || pendingLink === "undefined") btn.onclick = function (e) { e.preventDefault(); alert("File này chưa có link tải!"); };
+  else btn.onclick = null;
   guide.classList.add("show");
 }
 
-function closePopup(id) {
-  document.getElementById(id).classList.remove("show");
-}
+function closePopup(id) { document.getElementById(id).classList.remove("show"); }
 
+// ===== NẠP TIỀN VỚI QR ĐÚNG SỐ TIỀN =====
 function selectAmount(el, amount) {
   var btns = document.querySelectorAll(".amount-btn");
   var i;
-  for (i = 0; i < btns.length; i++) {
-    btns[i].classList.remove("selected");
-  }
+  for (i = 0; i < btns.length; i++) btns[i].classList.remove("selected");
   el.classList.add("selected");
   selectedAmount = amount;
+  document.getElementById("customAmountInput").value = "";
+  document.getElementById("qrSection").style.display = "none";
 }
 
-function submitDeposit() {
-  if (!currentUser) {
-    alert("Vui lòng đăng nhập!");
-    goTab("auth");
-    return;
+function onCustomAmountInput(el) {
+  var v = parseInt(el.value, 10) || 0;
+  if (v > 0) {
+    selectedAmount = v;
+    var btns = document.querySelectorAll(".amount-btn");
+    var i;
+    for (i = 0; i < btns.length; i++) btns[i].classList.remove("selected");
+    document.getElementById("qrSection").style.display = "none";
   }
-  if (selectedAmount <= 0) {
-    alert("Vui lòng chọn số tiền muốn nạp!");
-    return;
-  }
-  var amountStr = selectedAmount.toLocaleString("vi-VN") + "đ";
+}
+
+function formatVND(n) {
+  return Number(n).toLocaleString("vi-VN") + "đ";
+}
+
+function showQR() {
+  if (!currentUser) { alert("Vui lòng đăng nhập!"); goTab("auth"); return; }
+  if (selectedAmount <= 0) { alert("Vui lòng chọn số tiền hoặc nhập số tiền muốn nạp!"); return; }
+  if (selectedAmount < 1000) { alert("Số tiền nạp tối thiểu là 1.000đ!"); return; }
+
+  var amountStr = formatVND(selectedAmount);
+
+  // Tạo QR VietQR với đúng số tiền
+  // Format: https://img.vietqr.io/image/<BANK_ID>-<ACCOUNT>-compact2.png?amount=<AMOUNT>&addInfo=<CONTENT>&accountName=<NAME>
+  var content = "SAMM " + currentUser;
+  var qrUrl = "https://img.vietqr.io/image/" + BANK_ID + "-" + BANK_ACCOUNT + "-compact2.png"
+    + "?amount=" + selectedAmount
+    + "&addInfo=" + encodeURIComponent(content)
+    + "&accountName=" + encodeURIComponent(BANK_NAME);
+
+  document.getElementById("qrImage").src = qrUrl;
+  document.getElementById("qrAmountLabel").innerText = amountStr;
+  document.getElementById("qrAmountText").innerText = amountStr;
+  document.getElementById("qrContent").innerText = content;
+  document.getElementById("qrSection").style.display = "block";
+  document.getElementById("qrSection").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function confirmDeposit() {
+  if (!currentUser || selectedAmount <= 0) return;
+  var amountStr = formatVND(selectedAmount);
+
+  if (!confirm("Xác nhận bạn ĐÃ CHUYỂN KHOẢN " + amountStr + "?\n\nSau khi xác nhận, yêu cầu sẽ được gửi đến Admin để duyệt trong 5-10 phút.")) return;
 
   db.ref("deposits").push({
     user: currentUser,
@@ -953,19 +908,12 @@ function submitDeposit() {
     time: Date.now(),
     status: "pending"
   }).then(function () {
-    alert(
-      "📱 HƯỚNG DẪN NẠP TIỀN\n\n" +
-      "Bước 1: Mở app ngân hàng (MB Bank, Vietcombank, Momo...)\n" +
-      "Bước 2: Chọn 'Quét mã QR' và quét mã ở trên\n" +
-      "Bước 3: Nhập số tiền: " + amountStr + "\n" +
-      "Bước 4: Nội dung CK: SAMM-" + currentUser + "\n\n" +
-      "⏳ Vui lòng chờ 5-10 phút là sẽ thấy thành công!"
-    );
+    alert("✅ Đã gửi yêu cầu nạp " + amountStr + "!\n\n⏳ Vui lòng chờ 5-10 phút là sẽ thấy thành công.");
+    document.getElementById("qrSection").style.display = "none";
     var btns = document.querySelectorAll(".amount-btn");
     var i;
-    for (i = 0; i < btns.length; i++) {
-      btns[i].classList.remove("selected");
-    }
+    for (i = 0; i < btns.length; i++) btns[i].classList.remove("selected");
+    document.getElementById("customAmountInput").value = "";
     selectedAmount = 0;
   }).catch(function (error) {
     alert("Lỗi: " + error.message);
@@ -973,11 +921,8 @@ function submitDeposit() {
 }
 
 var savedUser = localStorage.getItem("samm_user");
-if (savedUser) {
-  loginSuccess(savedUser);
-} else {
-  goTab("auth");
-}
+if (savedUser) loginSuccess(savedUser);
+else goTab("auth");
 </script>
 </body>
 </html>
