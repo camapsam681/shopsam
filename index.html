@@ -394,8 +394,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var db = firebase.database();
 
-// THÔNG TIN NGÂN HÀNG ĐỂ TẠO QR
-var BANK_ID = "MB"; // MB Bank
+var BANK_ID = "MB";
 var BANK_ACCOUNT = "2333612345555";
 var BANK_NAME = "SAMM X VIP";
 
@@ -741,7 +740,6 @@ function renderShop() {
   for (var i = 0; i < shopData.length; i++) {
     var s = shopData[i];
     var img = s.image ? '<img src="' + s.image + '" class="shop-img">' : "";
-    var priceNum = parsePrice(s.price);
     html += '<div class="shop-card">' + img;
     html += '<div class="shop-info"><h4>' + (s.name || "") + '</h4><p>' + (s.desc || "") + '</p><div class="shop-price">' + (s.price || "") + '</div></div>';
     html += '<button class="btn-buy" onclick="buyProduct(' + i + ')"><i class="fas fa-shopping-cart"></i> MUA NGAY (' + (s.price || "0đ") + ')</button>';
@@ -772,10 +770,8 @@ function buyProduct(index) {
 
   if (!confirm("Xác nhận mua sản phẩm:\n\n" + s.name + "\nGiá: " + s.price + "\n\nSố dư sau khi mua: " + (userBalance - priceNum).toLocaleString("vi-VN") + "đ")) return;
 
-  // Trừ tiền
   var newBalance = userBalance - priceNum;
   db.ref("users/" + currentUser + "/balance").set(newBalance).then(function () {
-    // Ghi đơn hàng
     return db.ref("orders").push({
       user: currentUser,
       productName: s.name || "",
@@ -786,7 +782,6 @@ function buyProduct(index) {
       status: "done"
     });
   }).then(function () {
-    // Hiện thông báo mua thành công + link tải
     var dlLink = s.link || "";
     var msg = "✅ MUA THÀNH CÔNG!\n\nSản phẩm: " + s.name + "\nĐã trừ: " + priceNum.toLocaleString("vi-VN") + "đ\nSố dư còn: " + newBalance.toLocaleString("vi-VN") + "đ\n\n";
     if (dlLink) {
@@ -846,7 +841,6 @@ function showGuide() {
 
 function closePopup(id) { document.getElementById(id).classList.remove("show"); }
 
-// ===== NẠP TIỀN VỚI QR ĐÚNG SỐ TIỀN =====
 function selectAmount(el, amount) {
   var btns = document.querySelectorAll(".amount-btn");
   var i;
@@ -878,9 +872,6 @@ function showQR() {
   if (selectedAmount < 1000) { alert("Số tiền nạp tối thiểu là 1.000đ!"); return; }
 
   var amountStr = formatVND(selectedAmount);
-
-  // Tạo QR VietQR với đúng số tiền
-  // Format: https://img.vietqr.io/image/<BANK_ID>-<ACCOUNT>-compact2.png?amount=<AMOUNT>&addInfo=<CONTENT>&accountName=<NAME>
   var content = "SAMM " + currentUser;
   var qrUrl = "https://img.vietqr.io/image/" + BANK_ID + "-" + BANK_ACCOUNT + "-compact2.png"
     + "?amount=" + selectedAmount
@@ -899,7 +890,8 @@ function confirmDeposit() {
   if (!currentUser || selectedAmount <= 0) return;
   var amountStr = formatVND(selectedAmount);
 
-  if (!confirm("Xác nhận bạn ĐÃ CHUYỂN KHOẢN " + amountStr + "?\n\nSau khi xác nhận, yêu cầu sẽ được gửi đến Admin để duyệt trong 5-10 phút.")) return;
+  // Đã xóa câu thông báo dài dòng ở đây
+  if (!confirm("Xác nhận bạn ĐÃ CHUYỂN KHOẢN " + amountStr + " ?")) return;
 
   db.ref("deposits").push({
     user: currentUser,
