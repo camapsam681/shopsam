@@ -44,6 +44,16 @@
   .form-grid input:focus, .form-grid select:focus, .form-grid textarea:focus { border-color: #00d4ff; }
   .form-grid .full { grid-column: 1 / -1; }
   .form-grid label { font-size: 0.75rem; color: #aaa; margin-bottom: 4px; display: block; }
+
+  .img-upload-box { grid-column: 1 / -1; background: rgba(0,212,255,0.03); border: 1px dashed rgba(0,212,255,0.3); border-radius: 14px; padding: 15px; text-align: center; }
+  .img-upload-box .upload-label { font-size: 0.8rem; color: #00d4ff; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .upload-btn { background: linear-gradient(135deg, #00d4ff, #a855f7); color: #fff; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; width: 100%; justify-content: center; margin-bottom: 10px; }
+  .upload-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,212,255,0.4); }
+  .upload-status { font-size: 0.75rem; margin-top: 8px; min-height: 18px; color: #ffd700; }
+  .img-preview { position: relative; display: inline-block; margin-top: 10px; }
+  .img-preview img { max-width: 150px; max-height: 150px; border-radius: 12px; border: 2px solid #00d4ff; object-fit: cover; box-shadow: 0 0 20px rgba(0,212,255,0.3); }
+  .img-preview .btn-remove-img { position: absolute; top: -8px; right: -8px; width: 28px; height: 28px; border-radius: 50%; background: #ff3366; color: #fff; border: 2px solid #fff; cursor: pointer; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(255,51,102,0.5); }
+
   .btn-primary { background: linear-gradient(135deg, #00d4ff, #a855f7); color: #fff; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 900; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
   .btn-danger { background: linear-gradient(135deg, #ff3366, #a855f7); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
   .btn-success { background: linear-gradient(135deg, #00ff88, #00d4ff); color: #000; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
@@ -63,7 +73,7 @@
   .badge-online { background: rgba(0,255,136,0.15); color: #00ff88; border: 1px solid #00ff88; }
   .empty-row td { text-align: center; color: #666; padding: 30px; }
   .file-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .file-item img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; }
+  .file-item img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; border: 1px solid #333; }
   .file-item .file-meta { flex: 1; min-width: 150px; }
   .file-item .file-meta h4 { font-size: 0.9rem; margin-bottom: 3px; }
   .file-item .file-meta p { font-size: 0.75rem; color: #888; }
@@ -197,8 +207,19 @@
           <div><label>Phiên bản</label><input type="text" id="fVer" placeholder="VD: v1.2.3"></div>
           <div><label>Link tải</label><input type="text" id="fLink" placeholder="https://..."></div>
           <div><label>Số lượng</label><input type="number" id="fStock" placeholder="100" value="100"></div>
-          <div><label>Link ảnh (URL)</label><input type="text" id="fImage" placeholder="https://..."></div>
-          <div><label>Mô tả</label><input type="text" id="fDesc" placeholder="Mô tả ngắn"></div>
+          <div class="full"><label>Mô tả</label><input type="text" id="fDesc" placeholder="Mô tả ngắn"></div>
+          
+          <div class="img-upload-box">
+            <div class="upload-label"><i class="fas fa-images"></i> ẢNH ĐẠI DIỆN (Tự động nén)</div>
+            <button class="upload-btn" onclick="document.getElementById('fImgFile').click()"><i class="fas fa-folder-open"></i> Chọn từ thư viện ảnh</button>
+            <input type="file" id="fImgFile" accept="image/*" style="display:none;" onchange="handleFileUpload(event, 'f')">
+            <div class="upload-status" id="fUploadStatus"></div>
+            <div class="img-preview" id="fPreview" style="display:none;">
+              <img id="fPreviewImg" src="">
+              <button class="btn-remove-img" onclick="removeImage('f')"><i class="fas fa-times"></i></button>
+            </div>
+            <input type="hidden" id="fImage" value="">
+          </div>
         </div>
         <button class="btn-primary" onclick="addFile()"><i class="fas fa-plus"></i> Thêm File</button>
       </div>
@@ -214,9 +235,20 @@
         <div class="form-grid">
           <div><label>Tên sản phẩm</label><input type="text" id="sName" placeholder="VD: Acc FF VIP"></div>
           <div><label>Giá (chỉ số)</label><input type="number" id="sPrice" placeholder="VD: 100000"></div>
-          <div><label>Link tải sản phẩm</label><input type="text" id="sLink" placeholder="https://..."></div>
-          <div><label>Link ảnh (URL)</label><input type="text" id="sImage" placeholder="https://..."></div>
+          <div class="full"><label>Link tải sản phẩm (sau khi mua)</label><input type="text" id="sLink" placeholder="https://..."></div>
           <div class="full"><label>Mô tả</label><input type="text" id="sDesc" placeholder="Mô tả sản phẩm"></div>
+          
+          <div class="img-upload-box">
+            <div class="upload-label"><i class="fas fa-images"></i> ẢNH SẢN PHẨM (Tự động nén)</div>
+            <button class="upload-btn" onclick="document.getElementById('sImgFile').click()"><i class="fas fa-folder-open"></i> Chọn từ thư viện ảnh</button>
+            <input type="file" id="sImgFile" accept="image/*" style="display:none;" onchange="handleFileUpload(event, 's')">
+            <div class="upload-status" id="sUploadStatus"></div>
+            <div class="img-preview" id="sPreview" style="display:none;">
+              <img id="sPreviewImg" src="">
+              <button class="btn-remove-img" onclick="removeImage('s')"><i class="fas fa-times"></i></button>
+            </div>
+            <input type="hidden" id="sImage" value="">
+          </div>
         </div>
         <button class="btn-primary" onclick="addShopProduct()"><i class="fas fa-plus"></i> Thêm Sản Phẩm</button>
       </div>
@@ -250,8 +282,19 @@
       <div><label>Phiên bản</label><input type="text" id="efVer"></div>
       <div><label>Link tải</label><input type="text" id="efLink"></div>
       <div><label>Số lượng</label><input type="number" id="efStock"></div>
-      <div class="full"><label>Link ảnh (URL)</label><input type="text" id="efImage"></div>
       <div class="full"><label>Mô tả</label><input type="text" id="efDesc"></div>
+      
+      <div class="img-upload-box">
+        <div class="upload-label"><i class="fas fa-images"></i> ẢNH ĐẠI DIỆN</div>
+        <button class="upload-btn" onclick="document.getElementById('efImgFile').click()"><i class="fas fa-folder-open"></i> Chọn từ thư viện ảnh</button>
+        <input type="file" id="efImgFile" accept="image/*" style="display:none;" onchange="handleFileUpload(event, 'ef')">
+        <div class="upload-status" id="efUploadStatus"></div>
+        <div class="img-preview" id="efPreview" style="display:none;">
+          <img id="efPreviewImg" src="">
+          <button class="btn-remove-img" onclick="removeImage('ef')"><i class="fas fa-times"></i></button>
+        </div>
+        <input type="hidden" id="efImage" value="">
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeEditModal()">HỦY</button>
@@ -265,6 +308,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
+// CẤU HÌNH FIREBASE
 var firebaseConfig = {
   apiKey: "AIzaSyAGvwWhk_CquwgTa578QCTgwx7lUM5Z4eM",
   authDomain: "samm-x-mod.firebaseapp.com",
@@ -316,13 +360,9 @@ if (sessionStorage.getItem("admin_logged") === "1") {
 function adminTab(name) {
   var pages = document.querySelectorAll(".admin-page");
   var i;
-  for (i = 0; i < pages.length; i++) {
-    pages[i].classList.remove("active");
-  }
+  for (i = 0; i < pages.length; i++) pages[i].classList.remove("active");
   var tabs = document.querySelectorAll(".admin-tab");
-  for (i = 0; i < tabs.length; i++) {
-    tabs[i].classList.remove("active");
-  }
+  for (i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
   document.getElementById("page-" + name).classList.add("active");
   document.querySelector('.admin-tab[data-page="' + name + '"]').classList.add("active");
 }
@@ -331,9 +371,7 @@ function filterDeposits(filter, el) {
   currentDepositFilter = filter;
   var tabs = document.querySelectorAll("#page-deposits .section-tab");
   var i;
-  for (i = 0; i < tabs.length; i++) {
-    tabs[i].classList.remove("active");
-  }
+  for (i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
   el.classList.add("active");
   renderDeposits();
 }
@@ -344,9 +382,7 @@ function filterFilesOS(os, el) {
   if (groups.length > 0) {
     var tabs = groups[0].querySelectorAll(".section-tab");
     var i;
-    for (i = 0; i < tabs.length; i++) {
-      tabs[i].classList.remove("active");
-    }
+    for (i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
   }
   el.classList.add("active");
   renderFiles();
@@ -358,9 +394,7 @@ function filterFilesCat(cat, el) {
   if (groups.length > 1) {
     var tabs = groups[1].querySelectorAll(".section-tab");
     var i;
-    for (i = 0; i < tabs.length; i++) {
-      tabs[i].classList.remove("active");
-    }
+    for (i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
   }
   el.classList.add("active");
   renderFiles();
@@ -370,50 +404,94 @@ function showToast(msg, isError) {
   var t = document.getElementById("toast");
   t.innerText = msg;
   t.className = "toast show" + (isError ? " error" : "");
-  setTimeout(function () {
-    t.classList.remove("show");
-  }, 2500);
+  setTimeout(function () { t.classList.remove("show"); }, 2500);
+}
+
+function handleFileUpload(event, target) {
+  var file = event.target.files[0];
+  if (!file) return;
+  
+  if (file.type.indexOf("image/") !== 0) {
+    setUploadStatus(target, "Chỉ chấp nhận file ảnh!", "error");
+    return;
+  }
+
+  setUploadStatus(target, "Đang xử lý ảnh...", "loading");
+  
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement("canvas");
+      var MAX_WIDTH = 600;
+      var width = img.width;
+      var height = img.height;
+
+      if (width > MAX_WIDTH) {
+        height = Math.round(height * (MAX_WIDTH / width));
+        width = MAX_WIDTH;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      var dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+      
+      var kb = Math.round((dataUrl.length * 3) / 4 / 1024);
+      setUploadStatus(target, "Xong! Kích thước ~" + kb + "KB", "success");
+      
+      var hiddenInput = document.getElementById(target + "Image");
+      if (hiddenInput) hiddenInput.value = dataUrl;
+      
+      var prevBox = document.getElementById(target + "Preview");
+      var prevImg = document.getElementById(target + "PreviewImg");
+      if (prevImg) prevImg.src = dataUrl;
+      if (prevBox) prevBox.style.display = "inline-block";
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function setUploadStatus(target, msg, type) {
+  var el = document.getElementById(target + "UploadStatus");
+  if (el) {
+    el.innerText = msg;
+    el.style.color = type === "error" ? "#ff3366" : (type === "success" ? "#00ff88" : "#ffd700");
+  }
+}
+
+function removeImage(target) {
+  var h = document.getElementById(target + "Image");
+  if (h) h.value = "";
+  var p = document.getElementById(target + "Preview");
+  if (p) p.style.display = "none";
+  var i = document.getElementById(target + "PreviewImg");
+  if (i) i.src = "";
+  var s = document.getElementById(target + "UploadStatus");
+  if (s) s.innerText = "";
+  var f = document.getElementById(target + "ImgFile");
+  if (f) f.value = "";
 }
 
 function initAdmin() {
-  db.ref("users").on("value", function (snap) {
-    allUsersCache = snap.val() || {};
-    renderUsers();
-    updateStats();
-  });
-  db.ref("deposits").on("value", function (snap) {
-    allDepositsCache = snap.val() || {};
-    renderDeposits();
-    updateStats();
-    renderRecentActivity();
-  });
-  db.ref("orders").on("value", function (snap) {
-    allOrdersCache = snap.val() || {};
-    renderOrders();
-    updateStats();
-  });
-  db.ref("online").on("value", function (snap) {
-    renderOnline(snap.val() || {});
-  });
-  db.ref("shopData").on("value", function () {
-    renderFiles();
-  });
-  db.ref("storeProducts").on("value", function () {
-    renderShopAdmin();
-  });
+  db.ref("users").on("value", function (snap) { allUsersCache = snap.val() || {}; renderUsers(); updateStats(); });
+  db.ref("deposits").on("value", function (snap) { allDepositsCache = snap.val() || {}; renderDeposits(); updateStats(); renderRecentActivity(); });
+  db.ref("orders").on("value", function (snap) { allOrdersCache = snap.val() || {}; renderOrders(); updateStats(); });
+  db.ref("online").on("value", function (snap) { renderOnline(snap.val() || {}); });
+  db.ref("shopData").on("value", function () { renderFiles(); });
+  db.ref("storeProducts").on("value", function () { renderShopAdmin(); });
 }
 
 function updateStats() {
   document.getElementById("statUsers").innerText = Object.keys(allUsersCache).length;
-  var total = 0;
-  var pending = 0;
+  var total = 0, pending = 0;
   for (var k in allDepositsCache) {
     var d = allDepositsCache[k];
-    if (d.status === "approved") {
-      total += Number(d.amountNum) || 0;
-    } else if (!d.status || d.status === "pending") {
-      pending++;
-    }
+    if (d.status === "approved") total += Number(d.amountNum) || 0;
+    else if (!d.status || d.status === "pending") pending++;
   }
   document.getElementById("statRevenue").innerText = total.toLocaleString("vi-VN") + "đ";
   document.getElementById("statPending").innerText = pending;
@@ -423,15 +501,10 @@ function updateStats() {
 function renderUsers() {
   var tbody = document.getElementById("usersTable");
   var keys = Object.keys(allUsersCache);
-  if (keys.length === 0) {
-    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Chưa có người dùng nào</td></tr>';
-    return;
-  }
+  if (keys.length === 0) { tbody.innerHTML = '<tr class="empty-row"><td colspan="5">Chưa có người dùng nào</td></tr>'; return; }
   var html = "";
   for (var i = 0; i < keys.length; i++) {
-    var u = keys[i];
-    var d = allUsersCache[u];
-    var balance = Number(d.balance) || 0;
+    var u = keys[i], d = allUsersCache[u], balance = Number(d.balance) || 0;
     html += "<tr>";
     html += "<td><b style='color:#00d4ff;'>" + u + "</b></td>";
     html += "<td style='font-family:monospace;color:#ffd700;'>" + (d.password || "****") + "</td>";
@@ -448,14 +521,9 @@ function renderUsers() {
 
 function changePassword(user) {
   var newPass = prompt("Nhập mật khẩu mới cho [" + user + "]:", "");
-  if (newPass === null) {
-    return;
-  }
+  if (newPass === null) return;
   newPass = newPass.trim();
-  if (newPass.length < 3) {
-    showToast("Mật khẩu ít nhất 3 ký tự!", true);
-    return;
-  }
+  if (newPass.length < 3) { showToast("Mật khẩu ít nhất 3 ký tự!", true); return; }
   db.ref("users/" + user + "/password").set(newPass).then(function () {
     showToast("Đã đổi MK cho " + user + " thành " + newPass);
     sendNotification(user, "Mật khẩu tài khoản đã được Admin thay đổi. Mật khẩu mới: " + newPass, "info");
@@ -465,14 +533,9 @@ function changePassword(user) {
 function editBalance(user) {
   var cur = Number(allUsersCache[user].balance) || 0;
   var val = prompt("Số dư mới cho " + user + " (đ):", cur);
-  if (val === null) {
-    return;
-  }
+  if (val === null) return;
   var num = Number(val);
-  if (isNaN(num) || num < 0) {
-    showToast("Số dư không hợp lệ!", true);
-    return;
-  }
+  if (isNaN(num) || num < 0) { showToast("Số dư không hợp lệ!", true); return; }
   var diff = num - cur;
   db.ref("users/" + user + "/balance").set(num).then(function () {
     showToast("Đã cập nhật số dư " + user + " = " + num.toLocaleString("vi-VN") + "đ");
@@ -484,48 +547,25 @@ function editBalance(user) {
 }
 
 function deleteUser(user) {
-  if (!confirm("Xóa người dùng " + user + "?")) {
-    return;
-  }
-  db.ref("users/" + user).remove().then(function () {
-    showToast("Đã xóa " + user);
-  });
+  if (!confirm("Xóa người dùng " + user + "?")) return;
+  db.ref("users/" + user).remove().then(function () { showToast("Đã xóa " + user); });
 }
 
 function sendNotification(user, message, type) {
-  db.ref("notifications/" + user).push({
-    message: message,
-    type: type || "info",
-    time: Date.now(),
-    read: false
-  });
+  db.ref("notifications/" + user).push({ message: message, type: type || "info", time: Date.now(), read: false });
 }
 
 function renderDeposits() {
   var tbody = document.getElementById("depositsTable");
-  var html = "";
-  var count = 0;
+  var html = "", count = 0;
   for (var k in allDepositsCache) {
     var d = allDepositsCache[k];
     var status = d.status || "pending";
-    if (status !== currentDepositFilter) {
-      continue;
-    }
+    if (status !== currentDepositFilter) continue;
     count++;
-    var badge = "";
-    if (status === "pending") {
-      badge = "<span class='badge badge-pending'>Chờ duyệt</span>";
-    } else if (status === "approved") {
-      badge = "<span class='badge badge-approved'>Đã duyệt</span>";
-    } else {
-      badge = "<span class='badge badge-rejected'>Từ chối</span>";
-    }
+    var badge = status === "pending" ? "<span class='badge badge-pending'>Chờ duyệt</span>" : (status === "approved" ? "<span class='badge badge-approved'>Đã duyệt</span>" : "<span class='badge badge-rejected'>Từ chối</span>");
     var timeStr = d.time ? new Date(d.time).toLocaleString("vi-VN") : "-";
-    var actions = "";
-    if (status === "pending") {
-      actions = "<button class='btn-success btn-small' onclick=\"approveDeposit('" + k + "')\"><i class='fas fa-check'></i> Duyệt</button>";
-      actions += "<button class='btn-danger btn-small' onclick=\"rejectDeposit('" + k + "')\"><i class='fas fa-times'></i> Từ chối</button>";
-    }
+    var actions = status === "pending" ? "<button class='btn-success btn-small' onclick=\"approveDeposit('" + k + "')\"><i class='fas fa-check'></i> Duyệt</button><button class='btn-danger btn-small' onclick=\"rejectDeposit('" + k + "')\"><i class='fas fa-times'></i> Từ chối</button>" : "";
     html += "<tr>";
     html += "<td><b style='color:#00d4ff;'>" + d.user + "</b></td>";
     html += "<td style='color:#00ff88;font-weight:800;'>" + (d.amount || "-") + "</td>";
@@ -533,17 +573,13 @@ function renderDeposits() {
     html += "<td>" + badge + "</td>";
     html += "<td>" + actions + "</td></tr>";
   }
-  if (count === 0) {
-    html = "<tr class='empty-row'><td colspan='5'>Không có yêu cầu nào</td></tr>";
-  }
+  if (count === 0) html = "<tr class='empty-row'><td colspan='5'>Không có yêu cầu nào</td></tr>";
   tbody.innerHTML = html;
 }
 
 function approveDeposit(key) {
   var d = allDepositsCache[key];
-  if (!d) {
-    return;
-  }
+  if (!d) return;
   var amount = Number(d.amountNum) || 0;
   var amountStr = d.amount || (amount.toLocaleString("vi-VN") + "đ");
   db.ref("users/" + d.user + "/balance").once("value").then(function (snap) {
@@ -559,14 +595,10 @@ function approveDeposit(key) {
 }
 
 function rejectDeposit(key) {
-  if (!confirm("Từ chối yêu cầu này?")) {
-    return;
-  }
+  if (!confirm("Từ chối yêu cầu này?")) return;
   var d = allDepositsCache[key];
   db.ref("deposits/" + key + "/status").set("rejected").then(function () {
-    if (d && d.user) {
-      sendNotification(d.user, "Yêu cầu nạp " + (d.amount || "") + " đã bị từ chối. Liên hệ Admin để biết thêm.", "deposit_reject");
-    }
+    if (d && d.user) sendNotification(d.user, "Yêu cầu nạp " + (d.amount || "") + " đã bị từ chối. Liên hệ Admin để biết thêm.", "deposit_reject");
     showToast("Đã từ chối yêu cầu");
   });
 }
@@ -574,17 +606,9 @@ function rejectDeposit(key) {
 function renderOrders() {
   var tbody = document.getElementById("ordersTable");
   var arr = [];
-  for (var k in allOrdersCache) {
-    allOrdersCache[k]._key = k;
-    arr.push(allOrdersCache[k]);
-  }
-  arr.sort(function (a, b) {
-    return (b.time || 0) - (a.time || 0);
-  });
-  if (arr.length === 0) {
-    tbody.innerHTML = "<tr class='empty-row'><td colspan='5'>Chưa có đơn hàng nào</td></tr>";
-    return;
-  }
+  for (var k in allOrdersCache) { allOrdersCache[k]._key = k; arr.push(allOrdersCache[k]); }
+  arr.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
+  if (arr.length === 0) { tbody.innerHTML = "<tr class='empty-row'><td colspan='5'>Chưa có đơn hàng nào</td></tr>"; return; }
   var html = "";
   for (var i = 0; i < arr.length; i++) {
     var o = arr[i];
@@ -602,30 +626,15 @@ function renderOrders() {
 function renderRecentActivity() {
   var tbody = document.getElementById("recentActivity");
   var arr = [];
-  for (var k in allDepositsCache) {
-    allDepositsCache[k]._key = k;
-    arr.push(allDepositsCache[k]);
-  }
-  arr.sort(function (a, b) {
-    return (b.time || 0) - (a.time || 0);
-  });
+  for (var k in allDepositsCache) { allDepositsCache[k]._key = k; arr.push(allDepositsCache[k]); }
+  arr.sort(function (a, b) { return (b.time || 0) - (a.time || 0); });
   arr = arr.slice(0, 10);
-  if (arr.length === 0) {
-    tbody.innerHTML = "<tr class='empty-row'><td colspan='4'>Chưa có hoạt động</td></tr>";
-    return;
-  }
+  if (arr.length === 0) { tbody.innerHTML = "<tr class='empty-row'><td colspan='4'>Chưa có hoạt động</td></tr>"; return; }
   var html = "";
   for (var i = 0; i < arr.length; i++) {
     var d = arr[i];
     var status = d.status || "pending";
-    var action = "";
-    if (status === "approved") {
-      action = "Nạp tiền (đã duyệt)";
-    } else if (status === "rejected") {
-      action = "Nạp tiền (từ chối)";
-    } else {
-      action = "Yêu cầu nạp tiền";
-    }
+    var action = status === "approved" ? "Nạp tiền (đã duyệt)" : (status === "rejected" ? "Nạp tiền (từ chối)" : "Yêu cầu nạp tiền");
     var timeStr = d.time ? new Date(d.time).toLocaleString("vi-VN") : "-";
     html += "<tr><td><b style='color:#00d4ff;'>" + d.user + "</b></td><td>" + action + "</td><td style='color:#00ff88;'>" + (d.amount || "-") + "</td><td style='font-size:0.75rem;'>" + timeStr + "</td></tr>";
   }
@@ -635,28 +644,13 @@ function renderRecentActivity() {
 function renderFiles() {
   var box = document.getElementById("filesList");
   db.ref("shopData/" + currentFilesOS + "/" + currentFilesCat).once("value").then(function (snap) {
-    var val = snap.val();
-    var list = [];
-    if (val) {
-      if (Array.isArray(val)) {
-        list = val;
-      } else {
-        list = Object.values(val);
-      }
-    }
-    if (list.length === 0) {
-      box.innerHTML = "<div style='color:#666;text-align:center;padding:20px;'>Chưa có file nào</div>";
-      return;
-    }
+    var val = snap.val(), list = [];
+    if (val) { list = Array.isArray(val) ? val : Object.values(val); }
+    if (list.length === 0) { box.innerHTML = "<div style='color:#666;text-align:center;padding:20px;'>Chưa có file nào</div>"; return; }
     var html = "";
     for (var i = 0; i < list.length; i++) {
       var f = list[i];
-      var img = "";
-      if (f.image) {
-        img = "<img src='" + f.image + "'>";
-      } else {
-        img = "<i class='fas fa-file' style='font-size:1.5rem;color:#ff3366;width:50px;text-align:center;'></i>";
-      }
+      var img = f.image ? "<img src='" + f.image + "'>" : "<i class='fas fa-file' style='font-size:1.5rem;color:#ff3366;width:50px;text-align:center;'></i>";
       html += "<div class='file-item'>" + img;
       html += "<div class='file-meta'><h4>" + (f.name || "") + " <span style='color:#ff3366;font-size:0.7rem;'>" + (f.ver || "") + "</span></h4>";
       html += "<p>" + (f.desc || "") + " — Còn: " + (f.stock || 0) + "</p></div>";
@@ -673,23 +667,13 @@ function addFile() {
   var name = document.getElementById("fName").value.trim();
   var ver = document.getElementById("fVer").value.trim();
   var link = document.getElementById("fLink").value.trim();
-  var image = document.getElementById("fImage").value.trim();
+  var image = document.getElementById("fImage").value;
   var stock = Number(document.getElementById("fStock").value) || 0;
   var desc = document.getElementById("fDesc").value.trim();
-  if (!name || !link) {
-    showToast("Nhập tên và link file!", true);
-    return;
-  }
+  if (!name || !link) { showToast("Nhập tên và link file!", true); return; }
   db.ref("shopData/" + currentFilesOS + "/" + currentFilesCat).once("value").then(function (snap) {
-    var val = snap.val();
-    var list = [];
-    if (val) {
-      if (Array.isArray(val)) {
-        list = val.slice();
-      } else {
-        list = Object.values(val);
-      }
-    }
+    var val = snap.val(), list = [];
+    if (val) { list = Array.isArray(val) ? val.slice() : Object.values(val); }
     list.push({ name: name, ver: ver, link: link, image: image, stock: stock, desc: desc });
     return db.ref("shopData/" + currentFilesOS + "/" + currentFilesCat).set(list);
   }).then(function () {
@@ -697,8 +681,8 @@ function addFile() {
     document.getElementById("fName").value = "";
     document.getElementById("fVer").value = "";
     document.getElementById("fLink").value = "";
-    document.getElementById("fImage").value = "";
     document.getElementById("fDesc").value = "";
+    removeImage("f");
     renderFiles();
   });
 }
@@ -706,25 +690,27 @@ function addFile() {
 function openEditFile(index) {
   editingFileIndex = index;
   db.ref("shopData/" + currentFilesOS + "/" + currentFilesCat).once("value").then(function (snap) {
-    var val = snap.val();
-    var list = [];
-    if (val) {
-      if (Array.isArray(val)) {
-        list = val;
-      } else {
-        list = Object.values(val);
-      }
-    }
+    var val = snap.val(), list = [];
+    if (val) { list = Array.isArray(val) ? val : Object.values(val); }
     var f = list[index];
-    if (!f) {
-      return;
-    }
+    if (!f) return;
     document.getElementById("efName").value = f.name || "";
     document.getElementById("efVer").value = f.ver || "";
     document.getElementById("efLink").value = f.link || "";
     document.getElementById("efStock").value = f.stock || 0;
-    document.getElementById("efImage").value = f.image || "";
     document.getElementById("efDesc").value = f.desc || "";
+    document.getElementById("efImage").value = f.image || "";
+    
+    var prevBox = document.getElementById("efPreview");
+    var prevImg = document.getElementById("efPreviewImg");
+    if (f.image) {
+      prevImg.src = f.image;
+      prevBox.style.display = "inline-block";
+    } else {
+      prevBox.style.display = "none";
+      prevImg.src = "";
+    }
+    document.getElementById("efUploadStatus").innerText = "";
     document.getElementById("editFileModal").classList.add("show");
   });
 }
@@ -732,32 +718,22 @@ function openEditFile(index) {
 function closeEditModal() {
   document.getElementById("editFileModal").classList.remove("show");
   editingFileIndex = -1;
+  removeImage("ef");
 }
 
 function saveEditedFile() {
-  if (editingFileIndex < 0) {
-    return;
-  }
+  if (editingFileIndex < 0) return;
   var name = document.getElementById("efName").value.trim();
   var ver = document.getElementById("efVer").value.trim();
   var link = document.getElementById("efLink").value.trim();
   var stock = Number(document.getElementById("efStock").value) || 0;
   var desc = document.getElementById("efDesc").value.trim();
-  var image = document.getElementById("efImage").value.trim();
-  if (!name || !link) {
-    showToast("Nhập tên và link file!", true);
-    return;
-  }
+  var image = document.getElementById("efImage").value;
+  if (!name || !link) { showToast("Nhập tên và link file!", true); return; }
+  
   db.ref("shopData/" + currentFilesOS + "/" + currentFilesCat).once("value").then(function (snap) {
-    var val = snap.val();
-    var list = [];
-    if (val) {
-      if (Array.isArray(val)) {
-        list = val.slice();
-      } else {
-        list = Object.values(val);
-      }
-    }
+    var val = snap.val(), list = [];
+    if (val) { list = Array.isArray(val) ? val.slice() : Object.values(val); }
     list[editingFileIndex] = { name: name, ver: ver, link: link, image: image, stock: stock, desc: desc };
     return db.ref("shopData/" + currentFilesOS + "/" + currentFilesCat).set(list);
   }).then(function () {
@@ -770,52 +746,25 @@ function saveEditedFile() {
 }
 
 function deleteFile(index) {
-  if (!confirm("Xóa file này?")) {
-    return;
-  }
+  if (!confirm("Xóa file này?")) return;
   db.ref("shopData/" + currentFilesOS + "/" + currentFilesCat).once("value").then(function (snap) {
-    var val = snap.val();
-    var list = [];
-    if (val) {
-      if (Array.isArray(val)) {
-        list = val.slice();
-      } else {
-        list = Object.values(val);
-      }
-    }
+    var val = snap.val(), list = [];
+    if (val) { list = Array.isArray(val) ? val.slice() : Object.values(val); }
     list.splice(index, 1);
     return db.ref("shopData/" + currentFilesOS + "/" + currentFilesCat).set(list);
-  }).then(function () {
-    showToast("Đã xóa file!");
-    renderFiles();
-  });
+  }).then(function () { showToast("Đã xóa file!"); renderFiles(); });
 }
 
 function renderShopAdmin() {
   var box = document.getElementById("shopListAdmin");
   db.ref("storeProducts").once("value").then(function (snap) {
-    var val = snap.val();
-    var list = [];
-    if (val) {
-      if (Array.isArray(val)) {
-        list = val;
-      } else {
-        list = Object.values(val);
-      }
-    }
-    if (list.length === 0) {
-      box.innerHTML = "<div style='color:#666;text-align:center;padding:20px;'>Chưa có sản phẩm nào</div>";
-      return;
-    }
+    var val = snap.val(), list = [];
+    if (val) { list = Array.isArray(val) ? val : Object.values(val); }
+    if (list.length === 0) { box.innerHTML = "<div style='color:#666;text-align:center;padding:20px;'>Chưa có sản phẩm nào</div>"; return; }
     var html = "";
     for (var i = 0; i < list.length; i++) {
       var s = list[i];
-      var img = "";
-      if (s.image) {
-        img = "<img src='" + s.image + "'>";
-      } else {
-        img = "<i class='fas fa-box' style='font-size:1.5rem;color:#a855f7;width:50px;text-align:center;'></i>";
-      }
+      var img = s.image ? "<img src='" + s.image + "'>" : "<i class='fas fa-box' style='font-size:1.5rem;color:#a855f7;width:50px;text-align:center;'></i>";
       html += "<div class='file-item'>" + img;
       html += "<div class='file-meta'><h4>" + (s.name || "") + "</h4>";
       html += "<p>" + (s.desc || "") + " — <b style='color:#00ff88;'>" + (s.price || "") + "đ</b></p></div>";
@@ -829,27 +778,15 @@ function renderShopAdmin() {
 function addShopProduct() {
   var name = document.getElementById("sName").value.trim();
   var price = document.getElementById("sPrice").value.trim();
-  var image = document.getElementById("sImage").value.trim();
+  var image = document.getElementById("sImage").value;
   var link = document.getElementById("sLink").value.trim();
   var desc = document.getElementById("sDesc").value.trim();
-  if (!name || !price) {
-    showToast("Nhập tên và giá!", true);
-    return;
-  }
-  if (isNaN(Number(price)) || Number(price) <= 0) {
-    showToast("Giá phải là số dương!", true);
-    return;
-  }
+  if (!name || !price) { showToast("Nhập tên và giá!", true); return; }
+  if (isNaN(Number(price)) || Number(price) <= 0) { showToast("Giá phải là số dương!", true); return; }
+  
   db.ref("storeProducts").once("value").then(function (snap) {
-    var val = snap.val();
-    var list = [];
-    if (val) {
-      if (Array.isArray(val)) {
-        list = val.slice();
-      } else {
-        list = Object.values(val);
-      }
-    }
+    var val = snap.val(), list = [];
+    if (val) { list = Array.isArray(val) ? val.slice() : Object.values(val); }
     list.push({ name: name, price: Number(price), image: image, link: link, desc: desc });
     return db.ref("storeProducts").set(list);
   }).then(function () {
@@ -857,47 +794,28 @@ function addShopProduct() {
     document.getElementById("sName").value = "";
     document.getElementById("sPrice").value = "";
     document.getElementById("sLink").value = "";
-    document.getElementById("sImage").value = "";
     document.getElementById("sDesc").value = "";
+    removeImage("s");
     renderShopAdmin();
   });
 }
 
 function deleteShopProduct(index) {
-  if (!confirm("Xóa sản phẩm này?")) {
-    return;
-  }
+  if (!confirm("Xóa sản phẩm này?")) return;
   db.ref("storeProducts").once("value").then(function (snap) {
-    var val = snap.val();
-    var list = [];
-    if (val) {
-      if (Array.isArray(val)) {
-        list = val.slice();
-      } else {
-        list = Object.values(val);
-      }
-    }
+    var val = snap.val(), list = [];
+    if (val) { list = Array.isArray(val) ? val.slice() : Object.values(val); }
     list.splice(index, 1);
     return db.ref("storeProducts").set(list);
-  }).then(function () {
-    showToast("Đã xóa sản phẩm!");
-    renderShopAdmin();
-  });
+  }).then(function () { showToast("Đã xóa sản phẩm!"); renderShopAdmin(); });
 }
 
 function renderOnline(val) {
   var tbody = document.getElementById("onlineTable");
-  var now = Date.now();
-  var html = "";
-  var count = 0;
+  var now = Date.now(), html = "", count = 0;
   for (var devId in val) {
     var o = val[devId];
-    if (!o.time) {
-      continue;
-    }
-    if ((now - o.time) > 5 * 60 * 1000) {
-      continue;
-    }
+    if (!o.time || (now - o.time) > 5 * 60 * 1000) continue;
     count++;
     var mins = Math.floor((now - o.time) / 60000);
     var label = mins === 0 ? "Vừa xong" : (mins + " phút trước");
@@ -906,9 +824,7 @@ function renderOnline(val) {
     html += "<td style='font-size:0.7rem;color:#888;'>" + devId + "</td>";
     html += "<td><span class='badge badge-online'>" + label + "</span></td></tr>";
   }
-  if (count === 0) {
-    html = "<tr class='empty-row'><td colspan='3'>Không có ai online</td></tr>";
-  }
+  if (count === 0) html = "<tr class='empty-row'><td colspan='3'>Không có ai online</td></tr>";
   tbody.innerHTML = html;
 }
 </script>
